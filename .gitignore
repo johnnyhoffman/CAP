@@ -12,4 +12,5 @@
 hs_err_pid*
 
 # eclipse
-bin/*
+*bin/*
+.metadata
