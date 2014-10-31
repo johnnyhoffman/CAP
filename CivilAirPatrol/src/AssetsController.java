@@ -1,7 +1,7 @@
-import javax.swing.JFrame;
+import java.awt.Component;
 
 /* Placeholder for demonstrating Session MVC */
-public class AssetsController {
+public class AssetsController implements Controller {
 
     private AssetsView view;
     private AssetsModel model;
@@ -11,7 +11,8 @@ public class AssetsController {
         this.model = new AssetsModel();
     }
 
-    public JFrame getFrame() {
+    @Override
+    public Component getViewComponent() {
         return view;
     }
 

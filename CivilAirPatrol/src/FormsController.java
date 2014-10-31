@@ -1,7 +1,7 @@
-import javax.swing.JFrame;
+import java.awt.Component;
 
 /* Placeholder for demonstrating Session MVC */
-public class FormsController {
+public class FormsController implements Controller {
 
     private FormsView view;
     private FormsModel model;
@@ -11,7 +11,8 @@ public class FormsController {
         this.model = new FormsModel();
     }
 
-    public JFrame getFrame() {
+    @Override
+    public Component getViewComponent() {
         return view;
     }
 
