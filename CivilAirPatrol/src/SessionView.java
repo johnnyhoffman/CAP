@@ -13,7 +13,7 @@ public class SessionView extends JFrame {
         this.add(hSplitPane);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 200);
-
+        
     }
 
     public void setFormsComponent(Component viewComponent) {
