@@ -1,13 +1,16 @@
-/* Placeholder for demonstrating Session MVC */
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.awt.Component;
 
-public class FormsView extends JPanel {
-    private static final long serialVersionUID = -6570963467593221692L;
+import javax.swing.JTabbedPane;
 
-    FormsView() {
-        this.setSize(300, 200);
-        this.add(new JLabel("THIZ IZ FORMZ"));
+public class FormsView extends JTabbedPane {
+
+    private static final long serialVersionUID = 6729721366331724456L;
+
+    public FormsView() {
+        
     }
 
+    public void addTab(Component component) {
+        add(component);
+    }
 }

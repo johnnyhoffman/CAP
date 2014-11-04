@@ -12,7 +12,7 @@
 hs_err_pid*
 
 # eclipse
-*bin/*
+*/bin/*
 .metadata
 /CivilAirPatrol/CivilAirPatrol/nbproject/private/
 /CivilAirPatrol/nbproject/private/

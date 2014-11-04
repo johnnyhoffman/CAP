@@ -7,8 +7,11 @@ public class FormsController implements Controller {
     private FormsModel model;
 
     public FormsController() {
-        this.view = new FormsView();
-        this.model = new FormsModel();
+        view = new FormsView();
+        model = new FormsModel();
+        view.addTab(new LocatingDataView());  // TODO: These forms should have a controller. Will have this FormsController reference the controllers for the objects, from which they will get the views
+        view.addTab(new CommLogView());       // TODO: These forms should have a controller. Will have this FormsController reference the controllers for the objects, from which they will get the views
+        view.addTab(new RadioMessageView());  // TODO: These forms should have a controller. Will have this FormsController reference the controllers for the objects, from which they will get the views
     }
 
     @Override
