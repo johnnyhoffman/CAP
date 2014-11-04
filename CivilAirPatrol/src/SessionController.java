@@ -12,7 +12,8 @@ public class SessionController {
 
         formsController = new FormsController();
         assetsController = new AssetsController();
-        this.view.setFormsComponent(formsController.getViewComponent());
+        this.view.setFormsComponent(new CommLogView()); //TODO I added this in to see my form to build
+        //this.view.setFormsComponent(formsController.getViewComponent());
         this.view.setAssetsComponent(assetsController.getViewComponent());
 
         // this.view.addChangeListener(new SaveListener());
