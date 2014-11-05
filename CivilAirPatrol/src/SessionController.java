@@ -1,11 +1,14 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class SessionController {
 
     private SessionView view;
     private SessionModel model;
 
-    private Controller formsController;
-    private Controller chatController;
-    private Controller assetsController;
+    private FormsController formsController;
+    private ChatController chatController;
+    private AssetsController assetsController;
 
     public SessionController() {
         view = new SessionView();
@@ -14,18 +17,32 @@ public class SessionController {
         formsController = new FormsController();
         assetsController = new AssetsController();
         chatController = new ChatController();
-        // view.setFormsComponent(new CommLogView()); //TODO I added this in to see my form to build
+        // view.setFormsComponent(new CommLogView()); //TODO I added this in to
+        // see my form to build
         view.setFormsComponent(formsController.getViewComponent());
         view.setAssetsComponent(assetsController.getViewComponent());
         view.setChatComponent(chatController.getViewComponent());
 
-        // this.view.addChangeListener(new SaveListener());
-    }
+        view.addNewComLogMenuItemActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                formsController.newComLog();
+            }
+        });
 
-    // class SaveListener implements ActionListener {
-    // @Override
-    // public void actionPerformed(ActionEvent arg0) {
-    // }
-    // }
+        view.addNewLocatingDataMenuItemActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                formsController.newLocatingData();;
+            }
+        });
+
+        view.addNewRadioMessageMenuItemActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                formsController.newRadioMessage();
+            }
+        });
+    }
 
 }

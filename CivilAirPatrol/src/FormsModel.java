@@ -6,21 +6,35 @@ import java.util.List;
 public class FormsModel {
 
     private List<Controller> formControllers;
-    
-    FormsModel(){
+
+    FormsModel() {
         formControllers = new ArrayList<Controller>();
-        
-        formControllers.add(new CommLogController());
-        formControllers.add(new RadioMessageController());
-        formControllers.add(new LocatingDataController());
     }
 
     public List<Component> getTabs() {
         List<Component> tabs = new ArrayList<Component>();
-        for (Controller c: formControllers) {
+        for (Controller c : formControllers) {
             tabs.add(c.getViewComponent());
         }
         return tabs;
+    }
+
+    public Component newComLog() {
+        CommLogController comCont = new CommLogController();
+        formControllers.add(comCont);
+        return comCont.getViewComponent();
+    }
+
+    public Component newLocatingData() {
+        LocatingDataController locDataCont = new LocatingDataController();
+        formControllers.add(locDataCont);
+        return locDataCont.getViewComponent();
+    }
+
+    public Component newRadioMessage() {
+        RadioMessageController radMesCont = new RadioMessageController();
+        formControllers.add(radMesCont);
+        return radMesCont.getViewComponent();
     }
 
 }

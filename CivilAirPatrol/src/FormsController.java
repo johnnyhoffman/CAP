@@ -19,4 +19,18 @@ public class FormsController implements Controller {
         return view;
     }
 
+    public void newComLog() {
+        view.addTab(model.newComLog());
+        view.setSelectedIndex(view.getTabCount() - 1);
+    }
+
+    public void newLocatingData() {
+        view.addTab(model.newLocatingData());
+        view.setSelectedIndex(view.getTabCount() - 1);
+    }
+
+    public void newRadioMessage() {
+        view.addTab(model.newRadioMessage());
+        view.setSelectedIndex(view.getTabCount() - 1);
+    }
 }
