@@ -16,4 +16,7 @@ public class LocatingDataController implements Controller {
         return view;
     }
 
+    public void setName(String name) {
+        view.setName(name);
+    }
 }
