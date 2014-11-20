@@ -8,6 +8,7 @@ public class FormsModel {
     private List<Controller> formControllers;
     private int comLogCount = 0;
     private int locatingDataCount = 0;
+    private int searchRescCount = 0;
     private int radioMessageCount = 0;
 
     FormsModel() {
@@ -36,6 +37,14 @@ public class FormsModel {
         locatingDataCount++;
         locDataCont.setName("Locating Data " + locatingDataCount);
         return locDataCont.getViewComponent();
+    }
+
+    public Component newSearchAndRescue() {
+        SearchAndRescueController searchRescCont = new SearchAndRescueController();
+        formControllers.add(searchRescCont);
+        searchRescCount++;
+        searchRescCont.setName("Radio Message " + radioMessageCount);
+        return searchRescCont.getViewComponent();
     }
 
     public Component newRadioMessage() {

@@ -64,6 +64,10 @@ public class FormsController implements Controller {
         addTab(model.newLocatingData());
     }
 
+    public void newSearchAndResue() {
+        addTab(model.newSearchAndRescue());
+    }
+    
     public void newRadioMessage() {
         addTab(model.newRadioMessage());
     }
