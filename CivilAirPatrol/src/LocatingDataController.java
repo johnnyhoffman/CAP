@@ -11,19 +11,16 @@ public class LocatingDataController implements Controller {
     private LocatingDataView view;
     private LocatingDataModel model;
 
-    public LocatingDataController() {
+    public LocatingDataController(String name) {
         this.view = new LocatingDataView();
-        this.model = new LocatingDataModel();
+        view.setName(name);
+        this.model = new LocatingDataModel(name);
         setListeners();
     }
 
     @Override
     public Component getViewComponent() {
         return view;
-    }
-
-    public void setName(String name) {
-        view.setName(name);
     }
 
     public void setListeners() {
@@ -46,7 +43,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateDeltaCoordinates(view.getDeltaCoordinatesText());
             }
-
         });
 
         view.addDeltaTimeObjectiveLocatedChangeListener(new CaretListener() {
@@ -54,7 +50,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateDeltaTimeObjectiveLocated(view.getDeltaTimeObjectiveLocatedText());
             }
-
         });
 
         view.addDeltaELTChangeListener(new CaretListener() {
@@ -62,7 +57,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateDeltaELT(view.getDeltaELTText());
             }
-
         });
 
         view.addDeltaBYChangeListener(new CaretListener() {
@@ -70,7 +64,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateDeltaBY(view.getDeltaBYText());
             }
-
         });
 
         view.addDeltaTerrainAndGroundCoverChangeListener(new CaretListener() {
@@ -78,7 +71,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateDeltaTerrainAndGroundCover(view.getDeltaTerrainAndGroundCoverText());
             }
-
         });
 
         view.addDeltaNumSubjectsInvolvedChangeListener(new CaretListener() {
@@ -86,7 +78,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateDeltaNumSubjectsInvolved(view.getDeltaNumSubjectsInvolvedText());
             }
-
         });
 
         view.addDeltaNumAliveChangeListener(new CaretListener() {
@@ -94,7 +85,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateDeltaNumAlive(view.getDeltaNumAliveText());
             }
-
         });
 
         view.addDeltaNumDeceasedChangeListener(new CaretListener() {
@@ -102,7 +92,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateDeltaNumDeceased(view.getDeltaNumDeceasedText());
             }
-
         });
 
         view.addDeltaNumMissingChangeListener(new CaretListener() {
@@ -110,7 +99,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateDeltaNumMissing(view.getDeltaNumMissingText());
             }
-
         });
 
         view.addEchoOrgMakingRecoveryChangeListener(new CaretListener() {
@@ -118,7 +106,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateEchoOrgMakingRecovery(view.getEchoOrgMakingRecoveryText());
             }
-
         });
 
         view.addEchoTimeRecoveryBeganChangeListener(new CaretListener() {
@@ -126,7 +113,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateEchoTimeRecoveryBegan(view.getEchoTimeRecoveryBeganText());
             }
-
         });
 
         view.addEchoSubjectsDeliveredToChangeListener(new CaretListener() {
@@ -134,7 +120,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateEchoSubjectsDeliveredTo(view.getEchoSubjectsDeliveredToText());
             }
-
         });
 
         view.addEchoTimeRecoveryCompletedChangeListener(new CaretListener() {
@@ -142,7 +127,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateEchoTimeRecoveryCompleted(view.getEchoTimeRecoveryCompletedText());
             }
-
         });
 
         view.addEchoRecoveryMethodsChangeListener(new CaretListener() {
@@ -150,7 +134,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateEchoRecoveryMethods(view.getEchoRecoveryMethodsText());
             }
-
         });
 
         view.addEchoNumRecoveredAliveChangeListener(new CaretListener() {
@@ -158,7 +141,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateEchoNumRecoveredAlive(view.getEchoNumRecoveredAliveText());
             }
-
         });
 
         view.addEchoNumRecoveredDeceasedChangeListener(new CaretListener() {
@@ -166,7 +148,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateEchoNumRecoveredDeceased(view.getEchoNumRecoveredDeceasedText());
             }
-
         });
 
         view.addEchoNumSelfRecoveredChangeListener(new CaretListener() {
@@ -174,7 +155,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateEchoNumSelfRecovered(view.getEchoNumSelfRecoveredText());
             }
-
         });
 
         view.addFoxtrotNumSubjectsSavedChangeListener(new CaretListener() {
@@ -182,7 +162,6 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateFoxtrotNumSubjectsSaved(view.getFoxtrotNumSubjectsSavedText());
             }
-
         });
 
         view.addFoxtrotNumSubjectsAssistedChangeListener(new CaretListener() {
@@ -196,14 +175,16 @@ public class LocatingDataController implements Controller {
         view.addFoxtrotMissionClosedActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                model.updateFoxtrotMissionClosed(true);
+                model.updateFoxtrotMissionClosedOrSuspended(view.getFoxtrotMissionClosed(),
+                        view.getFoxtrotMissionSuspended());
             }
         });
 
         view.addFoxtrotMissionSuspendedActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                model.updateFoxtrotMissionSuspended(false);
+                model.updateFoxtrotMissionClosedOrSuspended(view.getFoxtrotMissionClosed(),
+                        view.getFoxtrotMissionSuspended());
             }
         });
 
@@ -212,15 +193,20 @@ public class LocatingDataController implements Controller {
             public void caretUpdate(CaretEvent e) {
                 model.updateFoxtrotOrganizationSavesCreditedTo(view.getFoxtrotOrganizationSavesCreditedToText());
             }
+        });
 
+        view.addFoxtrotCloseOrSuspendTimeChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateFoxtrotCloseOrSuspendTime(view.getFoxtrotCloseOrSuspendTimeText());
+            }
         });
 
         view.addAdditionalRemarksChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateAdditionalRemarks(view.getAdditionalRemarksText());
+                model.updateGolfAdditionalRemarks(view.getAdditionalRemarksText());
             }
-
         });
     }
 }

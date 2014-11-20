@@ -32,10 +32,9 @@ public class FormsModel {
     }
 
     public Component newLocatingData() {
-        LocatingDataController locDataCont = new LocatingDataController();
-        formControllers.add(locDataCont);
         locatingDataCount++;
-        locDataCont.setName("Locating Data " + locatingDataCount);
+        LocatingDataController locDataCont = new LocatingDataController("Locating Data " + locatingDataCount);
+        formControllers.add(locDataCont);
         return locDataCont.getViewComponent();
     }
 
@@ -43,7 +42,7 @@ public class FormsModel {
         SearchAndRescueController searchRescCont = new SearchAndRescueController();
         formControllers.add(searchRescCont);
         searchRescCount++;
-        searchRescCont.setName("Radio Message " + radioMessageCount);
+        searchRescCont.setName("Search and Rescue " + searchRescCount);
         return searchRescCont.getViewComponent();
     }
 
