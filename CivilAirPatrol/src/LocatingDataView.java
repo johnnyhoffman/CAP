@@ -1,3 +1,5 @@
+import java.awt.event.ActionListener;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,6 +16,7 @@ public class LocatingDataView extends javax.swing.JPanel {
      */
     public LocatingDataView() {
         initComponents();
+        
     }
 
     /**
@@ -522,4 +525,9 @@ public class LocatingDataView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
-}
+    
+
+    private void setFieldAActionListener(ActionListener a) {
+        
+    }}
+
