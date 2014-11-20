@@ -1,8 +1,8 @@
 public class LocatingDataModel {
-    Delta delta;
-    Echo echo;
-    Foxtrot foxtrot;
-    String additionalRemarks;
+    private Delta delta;
+    private Echo echo;
+    private Foxtrot foxtrot;
+    private String additionalRemarks;
     public LocatingDataModel(){
         delta = new Delta();
         echo = new Echo();
@@ -67,8 +67,13 @@ public class LocatingDataModel {
     public void updateFoxtrotNumSubjectsSaved                   (String s) {foxtrot.numSubjectsSaved                = s;}
     public void updateFoxtrotNumSubjectsAssisted                (String s) {foxtrot.numSubjectsAssisted             = s;}
     public void updateFoxtrotOrganizationSavesCreditedTo        (String s) {foxtrot.organizationSavesCreditedTo     = s;}
-    public void updateFoxtrotMissionClosed                      (boolean b) {foxtrot.missionClosed                   = b;}
-    public void updateFoxtrotMissionSuspended                   (boolean b) {foxtrot.missionSuspended                = b;}
+    public void updateFoxtrotMissionClosed                      (boolean b) {foxtrot.missionClosed                   = b; foxtrot.missionSuspended = !b;}
+    public void updateFoxtrotMissionSuspended                   (boolean b) {foxtrot.missionSuspended                = b; foxtrot.missionClosed = !b;}
     public void updateFoxtrotCloseOrSuspendTime                 (String s) {foxtrot.closeOrSuspendTime              = s;}
-    public void setAdditionalRemarks(String s) {additionalRemarks = s;}
+    public void updateAdditionalRemarks                            (String s) {additionalRemarks = s;}
+    
+    
+    public void jsonSerialize() {
+        
+    }
 }
