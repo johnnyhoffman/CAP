@@ -488,6 +488,8 @@ public class LocatingDataView extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
 
+    /* The following are functions to be used by the controller to add listeners for changes in fields. */
+
     public void addDeltaNameOfOrgChangeListener(CaretListener l) {
         jTextField1.addCaretListener(l);
     }
@@ -591,6 +593,8 @@ public class LocatingDataView extends javax.swing.JPanel {
     public void addAdditionalRemarksChangeListener(CaretListener l) {
         jTextArea1.addCaretListener(l);
     }
+
+    /* The following are getters for the values of vields in the form. */
 
     public String getDeltaNameOfOrgText() {
         return jTextField1.getText();
@@ -696,4 +700,4 @@ public class LocatingDataView extends javax.swing.JPanel {
         return jTextArea1.getText();
     }
 
-}                                                  
+}

@@ -23,6 +23,10 @@ public class LocatingDataController implements Controller {
         return view;
     }
 
+    /*
+     * Set the listeners for all of the actions we want to keep track of in the
+     * view.
+     */
     public void setListeners() {
         view.addDeltaNameOfOrgChangeListener(new CaretListener() {
             @Override
