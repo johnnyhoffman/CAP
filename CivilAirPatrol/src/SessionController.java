@@ -37,6 +37,13 @@ public class SessionController {
             }
         });
 
+        view.addNewSearchAndRescueMenuItemActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                formsController.newSearchAndResue();
+            }
+        });
+
         view.addNewRadioMessageMenuItemActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

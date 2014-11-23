@@ -16,6 +16,7 @@ public class SessionView extends JFrame {
     private JMenuItem newComLogMenuItem;
     private JMenuItem newRadioMessageMenuItem;
     private JMenuItem newLocatingDataMenuItem;
+    private JMenuItem newSearchAndRescueMenuItem;
 
     SessionView() {
         // Make Menu
@@ -26,8 +27,10 @@ public class SessionView extends JFrame {
         newMenu.add(newComLogMenuItem);
         newRadioMessageMenuItem = new JMenuItem("Radio Message Form");
         newMenu.add(newRadioMessageMenuItem);
-        newLocatingDataMenuItem = new JMenuItem("LocatingDataForm");
+        newLocatingDataMenuItem = new JMenuItem("Locating Data Form");
         newMenu.add(newLocatingDataMenuItem);
+        newSearchAndRescueMenuItem = new JMenuItem("Search And Rescue Form");
+        newMenu.add(newSearchAndRescueMenuItem);
         setJMenuBar(menuBar);
 
         // Split window into sections
@@ -68,6 +71,10 @@ public class SessionView extends JFrame {
 
     public void addNewLocatingDataMenuItemActionListener(ActionListener actionListener) {
         newLocatingDataMenuItem.addActionListener(actionListener);
+    }
+
+    public void addNewSearchAndRescueMenuItemActionListener(ActionListener actionListener) {
+        newSearchAndRescueMenuItem.addActionListener(actionListener);
     }
 
 }

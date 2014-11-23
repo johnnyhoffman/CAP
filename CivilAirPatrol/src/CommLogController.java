@@ -16,4 +16,12 @@ public class CommLogController implements Controller {
         return view;
     }
 
+    public void setName(String name) {
+        view.setName(name);
+    }
+
+//    public String getName() {
+//        return view.getName();
+//    }
+
 }
