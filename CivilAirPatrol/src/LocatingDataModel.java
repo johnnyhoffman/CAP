@@ -4,20 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class LocatingDataModel {
-    private String name;
-    private Delta delta;
-    private Echo echo;
-    private Foxtrot foxtrot;
-    private Golf golf;
+    private DataContainers.LocatingData data;
     private Gson gson;
     private final ScheduledThreadPoolExecutor executor;
 
     public LocatingDataModel(String name) {
-        this.name = name;
-        delta = new Delta();
-        echo = new Echo();
-        foxtrot = new Foxtrot();
-        golf = new Golf();
+        data = new DataContainers.LocatingData(name);
         // gson = new Gson();
         // XXX: for debugging, revert to above creation method later
         gson = new GsonBuilder().setPrettyPrinting().create();
@@ -26,213 +18,131 @@ public class LocatingDataModel {
 
     /* These classes represent the sections of the form */
 
-    private class Delta {
-        // These all are used by gson.toJson, but eclipse does not recognize
-        // that because the class is private.
-        public String nameOfOrg;
-        public String actualLoc;
-        public String coordinates;
-        public String timeObjectiveLocated;
-        public String ELT;
-        public String BY;
-        public String terrainAndGroundCover;
-        public String numSubjectsInvolved;
-        public String numAlive;
-        public String numDeceased;
-        public String numMissing;
-
-        public Delta() {
-            nameOfOrg = "";
-            actualLoc = "";
-            coordinates = "";
-            timeObjectiveLocated = "";
-            ELT = "";
-            BY = "";
-            terrainAndGroundCover = "";
-            numSubjectsInvolved = "";
-            numAlive = "";
-            numDeceased = "";
-            numMissing = "";
-        }
-    }
-
-    private class Echo {
-        // These all are used by gson.toJson, but eclipse does not recognize
-        // that because the class is private.
-        public String orgMakingRecovery;
-        public String timeRecoveryBegan;
-        public String subjectsDeliveredTo;
-        public String timeRecoveryCompleted;
-        public String recoveryMethods;
-        public String numRecoveredAlive;
-        public String numRecoveredDeceased;
-        public String numSelfRecovered;
-
-        public Echo() {
-            orgMakingRecovery = "";
-            timeRecoveryBegan = "";
-            subjectsDeliveredTo = "";
-            timeRecoveryCompleted = "";
-            recoveryMethods = "";
-            numRecoveredAlive = "";
-            numRecoveredDeceased = "";
-            numSelfRecovered = "";
-        }
-    }
-
-    private class Foxtrot {
-        // These all are used by gson.toJson, but eclipse does not recognize
-        // that because the class is private.
-        public String numSubjectsSaved;
-        public String numSubjectsAssisted;
-        public String organizationSavesCreditedTo;
-        public boolean missionClosed;
-        public boolean missionSuspended;
-        public String closeOrSuspendTime;
-
-        public Foxtrot() {
-            numSubjectsSaved = "";
-            numSubjectsAssisted = "";
-            organizationSavesCreditedTo = "";
-            missionClosed = false;
-            missionSuspended = false;
-            closeOrSuspendTime = "";
-        }
-    }
-
-    private class Golf {
-        public String additionalRemarks;
-
-        public Golf() {
-            additionalRemarks = "";
-        }
-    }
-
     /* methods for updating fields */
 
     public void updateDeltaNameOfOrg(String s) {
-        delta.nameOfOrg = s;
+        data.delta.nameOfOrg = s;
         schedulePush();
     }
 
     public void updateDeltaActualLoc(String s) {
-        delta.actualLoc = s;
+        data.delta.actualLoc = s; 
         schedulePush();
     }
 
     public void updateDeltaCoordinates(String s) {
-        delta.coordinates = s;
+        data.delta.coordinates = s;
         schedulePush();
     }
 
     public void updateDeltaTimeObjectiveLocated(String s) {
-        delta.timeObjectiveLocated = s;
+        data.delta.timeObjectiveLocated = s;
         schedulePush();
     }
 
     public void updateDeltaELT(String s) {
-        delta.ELT = s;
+        data.delta.ELT = s;
         schedulePush();
     }
 
     public void updateDeltaBY(String s) {
-        delta.BY = s;
+        data.delta.BY = s;
         schedulePush();
     }
 
     public void updateDeltaTerrainAndGroundCover(String s) {
-        delta.terrainAndGroundCover = s;
+        data.delta.terrainAndGroundCover = s;
         schedulePush();
     }
 
     public void updateDeltaNumSubjectsInvolved(String s) {
-        delta.numSubjectsInvolved = s;
+        data.delta.numSubjectsInvolved = s;
         schedulePush();
     }
 
     public void updateDeltaNumAlive(String s) {
-        delta.numAlive = s;
+        data.delta.numAlive = s;
         schedulePush();
     }
 
     public void updateDeltaNumDeceased(String s) {
-        delta.numDeceased = s;
+        data.delta.numDeceased = s;
         schedulePush();
     }
 
     public void updateDeltaNumMissing(String s) {
-        delta.numMissing = s;
+        data.delta.numMissing = s;
         schedulePush();
     }
 
     public void updateEchoOrgMakingRecovery(String s) {
-        echo.orgMakingRecovery = s;
+        data.echo.orgMakingRecovery = s;
         schedulePush();
     }
 
     public void updateEchoTimeRecoveryBegan(String s) {
-        echo.timeRecoveryBegan = s;
+        data.echo.timeRecoveryBegan = s;
         schedulePush();
     }
 
     public void updateEchoSubjectsDeliveredTo(String s) {
-        echo.subjectsDeliveredTo = s;
+        data.echo.subjectsDeliveredTo = s;
         schedulePush();
     }
 
     public void updateEchoTimeRecoveryCompleted(String s) {
-        echo.timeRecoveryCompleted = s;
+        data.echo.timeRecoveryCompleted = s;
         schedulePush();
     }
 
     public void updateEchoRecoveryMethods(String s) {
-        echo.recoveryMethods = s;
+        data.echo.recoveryMethods = s;
         schedulePush();
     }
 
     public void updateEchoNumRecoveredAlive(String s) {
-        echo.numRecoveredAlive = s;
+        data.echo.numRecoveredAlive = s;
         schedulePush();
     }
 
     public void updateEchoNumRecoveredDeceased(String s) {
-        echo.numRecoveredDeceased = s;
+        data.echo.numRecoveredDeceased = s;
         schedulePush();
     }
 
     public void updateEchoNumSelfRecovered(String s) {
-        echo.numSelfRecovered = s;
+        data.echo.numSelfRecovered = s;
         schedulePush();
     }
 
     public void updateFoxtrotNumSubjectsSaved(String s) {
-        foxtrot.numSubjectsSaved = s;
+        data.foxtrot.numSubjectsSaved = s;
         schedulePush();
     }
 
     public void updateFoxtrotNumSubjectsAssisted(String s) {
-        foxtrot.numSubjectsAssisted = s;
+        data.foxtrot.numSubjectsAssisted = s;
         schedulePush();
     }
 
     public void updateFoxtrotOrganizationSavesCreditedTo(String s) {
-        foxtrot.organizationSavesCreditedTo = s;
+        data.foxtrot.organizationSavesCreditedTo = s;
         schedulePush();
     }
 
     public void updateFoxtrotMissionClosedOrSuspended(boolean closed, boolean suspended) {
-        foxtrot.missionClosed = closed;
-        foxtrot.missionSuspended = suspended;
+        data.foxtrot.missionClosed = closed;
+        data.foxtrot.missionSuspended = suspended;
         schedulePush();
     }
 
     public void updateFoxtrotCloseOrSuspendTime(String s) {
-        foxtrot.closeOrSuspendTime = s;
+        data.foxtrot.closeOrSuspendTime = s;
         schedulePush();
     }
 
     public void updateGolfAdditionalRemarks(String s) {
-        golf.additionalRemarks = s;
+        data.golf.additionalRemarks = s;
         schedulePush();
     }
 
@@ -243,26 +153,9 @@ public class LocatingDataModel {
      * This class encapsulates all data that should be json serialized and
      * nothing else
      */
-    private class SerializableDataEncapsulator {
-        // These all are used by gson.toJson, but
-        // eclipse does not recognize that because the class is private.
-        private String name;
-        private Delta delta;
-        private Echo echo;
-        private Foxtrot foxtrot;
-        private Golf golf;
-
-        public SerializableDataEncapsulator(String name, Delta delta, Echo echo, Foxtrot foxtrot, Golf golf) {
-            this.name = name;
-            this.delta = delta;
-            this.echo = echo;
-            this.foxtrot = foxtrot;
-            this.golf = golf;
-        }
-    }
 
     public String jsonSerialize() {
-        return gson.toJson(new SerializableDataEncapsulator(name, delta, echo, foxtrot, golf));
+        return gson.toJson(data);
     }
 
     /*
