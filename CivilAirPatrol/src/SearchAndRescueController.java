@@ -1,14 +1,19 @@
 import java.awt.Component;
 
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+
 /* Placeholder for demonstrating Session MVC */
 public class SearchAndRescueController implements Controller {
 
     private SearchAndRescueView view;
     private SearchAndRescueModel model;
 
-    public SearchAndRescueController() {
-        this.view = new SearchAndRescueView();
-        this.model = new SearchAndRescueModel();
+    public SearchAndRescueController(String name) {
+        view = new SearchAndRescueView();
+        view.setName(name);
+        model = new SearchAndRescueModel(name);
+        setListeners();
     }
 
     @Override
@@ -20,4 +25,234 @@ public class SearchAndRescueController implements Controller {
         view.setName(name);
     }
 
+    /*
+     * Set the listeners for all of the actions we want to keep track of in the
+     * view.
+     */
+    public void setListeners() {
+        // TODO: Add change listeners for "bravo.areaSearch" fields
+        view.addHeaderMissionNumberChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateHeaderMissionNumber(view.getHeaderMissionNumberText());
+            }
+        });
+        view.addHeaderActivityForDateOfChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateHeaderActivityForDateOf(view.getHeaderActivityForDateOfText());
+            }
+        });
+        view.addHeaderReportedByChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateHeaderReportedBy(view.getHeaderReportedByText());
+            }
+        });
+        view.addHeaderDateTimeChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateHeaderDateTime(view.getHeaderDateTimeText());
+            }
+        });
+        view.addAlphaNameOfSearchOrg1ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateAlphaNameOfSearchOrg1(view.getAlphaNameOfSearchOrg1Text());
+            }
+        });
+        view.addAlphaNameOfSearchOrg2ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateAlphaNameOfSearchOrg2(view.getAlphaNameOfSearchOrg2Text());
+            }
+        });
+        view.addAlphaNameOfSearchOrg3ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateAlphaNameOfSearchOrg3(view.getAlphaNameOfSearchOrg3Text());
+            }
+        });
+        view.addBravoTimeDispatched1ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoTimeDispatched1(view.getBravoTimeDispatched1Text());
+            }
+        });
+        view.addBravoTimeDispatched2ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoTimeDispatched2(view.getBravoTimeDispatched2Text());
+            }
+        });
+        view.addBravoTimeDispatched3ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoTimeDispatched3(view.getBravoTimeDispatched3Text());
+            }
+        });
+        view.addBravoTimeELTFirstHeard1ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoTimeELTFirstHeard1(view.getBravoTimeELTFirstHeard1Text());
+            }
+        });
+        view.addBravoTimeELTFirstHeard2ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoTimeELTFirstHeard2(view.getBravoTimeELTFirstHeard2Text());
+            }
+        });
+        view.addBravoTimeELTFirstHeard3ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoTimeELTFirstHeard3(view.getBravoTimeELTFirstHeard3Text());
+            }
+        });
+        view.addBravoNumAircraft1ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoNumAircraft1(view.getBravoNumAircraft1Text());
+            }
+        });
+        view.addBravoNumAircraft2ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoNumAircraft2(view.getBravoNumAircraft2Text());
+            }
+        });
+        view.addBravoNumAircraft3ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoNumAircraft3(view.getBravoNumAircraft3Text());
+            }
+        });
+        view.addBravoNumSorties1ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoNumSorties1(view.getBravoNumSorties1Text());
+            }
+        });
+        view.addBravoNumSorties2ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoNumSorties2(view.getBravoNumSorties2Text());
+            }
+        });
+        view.addBravoNumSorties3ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoNumSorties3(view.getBravoNumSorties3Text());
+            }
+        });
+        view.addBravoHoursInSearchArea1ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoHoursInSearchArea1(view.getBravoHoursInSearchArea1Text());
+            }
+        });
+        view.addBravoHoursInSearchArea2ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoHoursInSearchArea2(view.getBravoHoursInSearchArea2Text());
+            }
+        });
+        view.addBravoHoursInSearchArea3ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoHoursInSearchArea3(view.getBravoHoursInSearchArea3Text());
+            }
+        });
+        view.addBravoHoursEnroute1ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoHoursEnroute1(view.getBravoHoursEnroute1Text());
+            }
+        });
+        view.addBravoHoursEnroute2ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoHoursEnroute2(view.getBravoHoursEnroute2Text());
+            }
+        });
+        view.addBravoHoursEnroute3ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoHoursEnroute3(view.getBravoHoursEnroute3Text());
+            }
+        });
+        view.addBravoTotalFlightHours1ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoTotalFlightHours1(view.getBravoTotalFlightHours1Text());
+            }
+        });
+        view.addBravoTotalFlightHours2ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoTotalFlightHours2(view.getBravoTotalFlightHours2Text());
+            }
+        });
+        view.addBravoTotalFlightHours3ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoTotalFlightHours3(view.getBravoTotalFlightHours3Text());
+            }
+        });
+        view.addBravoTotalPersonnel1ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoTotalPersonnel1(view.getBravoTotalPersonnel1Text());
+            }
+        });
+        view.addBravoTotalPersonnel2ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoTotalPersonnel2(view.getBravoTotalPersonnel2Text());
+            }
+        });
+        view.addBravoTotalPersonnel3ChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoTotalPersonnel3(view.getBravoTotalPersonnel3Text());
+            }
+        });
+        view.addBravoOtherChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoOther(view.getBravoOtherText());
+            }
+        });
+        view.addBravoSignificantWeatherChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateBravoSignificantWeather(view.getBravoSignificantWeatherText());
+            }
+        });
+        view.addCharlieTotalResourcesExpectedACPTChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateCharlieTotalResourcesExpectedACPT(view.getCharlieTotalResourcesExpectedACPTText());
+            }
+        });
+        view.addCharlieTotalResourcesExpectedPersonnelChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateCharlieTotalResourcesExpectedPersonnel(view.getCharlieTotalResourcesExpectedPersonnelText());
+            }
+        });
+        view.addCharliePlannedSearchAreaChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateCharliePlannedSearchArea(view.getCharliePlannedSearchAreaText());
+            }
+        });
+        view.addCharlieForcastedWeatherChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateCharlieForcastedWeather(view.getCharlieForcastedWeatherText());
+            }
+        });
+
+    }
 }

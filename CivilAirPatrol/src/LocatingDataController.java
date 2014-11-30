@@ -12,9 +12,9 @@ public class LocatingDataController implements Controller {
     private LocatingDataModel model;
 
     public LocatingDataController(String name) {
-        this.view = new LocatingDataView();
+        view = new LocatingDataView();
         view.setName(name);
-        this.model = new LocatingDataModel(name);
+        model = new LocatingDataModel(name);
         setListeners();
     }
 

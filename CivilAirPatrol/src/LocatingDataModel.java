@@ -16,8 +16,6 @@ public class LocatingDataModel {
         executor = new ScheduledThreadPoolExecutor(1);
     }
 
-    /* These classes represent the sections of the form */
-
     /* methods for updating fields */
 
     public void updateDeltaNameOfOrg(String s) {
@@ -145,14 +143,6 @@ public class LocatingDataModel {
         data.golf.additionalRemarks = s;
         schedulePush();
     }
-
-    // These all are used by gson.toJson, but
-    // eclipse does not recognize that because the class is private.
-
-    /*
-     * This class encapsulates all data that should be json serialized and
-     * nothing else
-     */
 
     public String jsonSerialize() {
         return gson.toJson(data);

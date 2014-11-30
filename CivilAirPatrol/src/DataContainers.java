@@ -4,6 +4,7 @@ public class DataContainers {
 
         String name;
         String missionNum;
+        String stationFunctionalDesignator;
         String date;
         String A;
         String B;
@@ -16,6 +17,7 @@ public class DataContainers {
         public CommunicationsLog(String name) {
             this.name = name;
             missionNum = "";
+            stationFunctionalDesignator = "";
             date = "";
             A = "";
             B = "";
@@ -60,7 +62,7 @@ public class DataContainers {
         }
 
         public static class Header {
-            String MsgNum;
+            String msgNum;
             String precedence;
             String dtg;
             String from;
@@ -70,7 +72,7 @@ public class DataContainers {
             String groupCnt;
 
             public Header() {
-                MsgNum = "";
+                msgNum = "";
                 precedence = "";
                 dtg = "";
                 from = "";
@@ -137,35 +139,71 @@ public class DataContainers {
         }
 
         static public class Alpha {
-            String NameOfSearchOrg;
+            String nameOfSearchOrg1;
+            String nameOfSearchOrg2;
+            String nameOfSearchOrg3;
 
             public Alpha() {
-                NameOfSearchOrg = "";
+                nameOfSearchOrg1 = "";
+                nameOfSearchOrg2 = "";
+                nameOfSearchOrg3 = "";
             }
         }
 
         static public class Bravo {
-            public String timeDispatched;
-            public String timeELTFirstHeard;
-            public String numAircraft;
-            public String numSorties;
-            public String hoursInSearchArea;
-            public String hoursEnroute;
-            public String totalFlightHours;
-            public String totalPersonnel;
+            public String timeDispatched1;
+            public String timeDispatched2;
+            public String timeDispatched3;
+            public String timeELTFirstHeard1;
+            public String timeELTFirstHeard2;
+            public String timeELTFirstHeard3;
+            public String numAircraft1;
+            public String numAircraft2;
+            public String numAircraft3;
+            public String numSorties1;
+            public String numSorties2;
+            public String numSorties3;
+            public String hoursInSearchArea1;
+            public String hoursInSearchArea2;
+            public String hoursInSearchArea3;
+            public String hoursEnroute1;
+            public String hoursEnroute2;
+            public String hoursEnroute3;
+            public String totalFlightHours1;
+            public String totalFlightHours2;
+            public String totalFlightHours3;
+            public String totalPersonnel1;
+            public String totalPersonnel2;
+            public String totalPersonnel3;
             public String[][] areaSearch;
             public String other;
             public String significantWeather;
 
             public Bravo() {
-                timeDispatched = "";
-                timeELTFirstHeard = "";
-                numAircraft = "";
-                numSorties = "";
-                hoursInSearchArea = "";
-                hoursEnroute = "";
-                totalFlightHours = "";
-                totalPersonnel = "";
+                timeDispatched1 = "";
+                timeDispatched2 = "";
+                timeDispatched3 = "";
+                timeELTFirstHeard1 = "";
+                timeELTFirstHeard2 = "";
+                timeELTFirstHeard3 = "";
+                numAircraft1 = "";
+                numAircraft2 = "";
+                numAircraft3 = "";
+                numSorties1 = "";
+                numSorties2 = "";
+                numSorties3 = "";
+                hoursInSearchArea1 = "";
+                hoursInSearchArea2 = "";
+                hoursInSearchArea3 = "";
+                hoursEnroute1 = "";
+                hoursEnroute2 = "";
+                hoursEnroute3 = "";
+                totalFlightHours1 = "";
+                totalFlightHours2 = "";
+                totalFlightHours3 = "";
+                totalPersonnel1 = "";
+                totalPersonnel2 = "";
+                totalPersonnel3 = "";
                 areaSearch = new String[GlobalConstants.AREASEARCH_COLUMNS][GlobalConstants.AREASEARCH_ROWS];
                 for (int c = 0; c < GlobalConstants.AREASEARCH_COLUMNS; c++) {
                     for (int r = 0; r < GlobalConstants.AREASEARCH_ROWS; r++) {

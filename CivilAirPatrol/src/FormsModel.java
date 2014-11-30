@@ -24,10 +24,9 @@ public class FormsModel {
     }
 
     public Component newComLog() {
-        CommLogController comCont = new CommLogController();
-        formControllers.add(comCont);
         comLogCount++;
-        comCont.setName("Com Log " + comLogCount);
+        CommLogController comCont = new CommLogController("Com Log " + comLogCount);
+        formControllers.add(comCont);
         return comCont.getViewComponent();
     }
 
@@ -39,18 +38,16 @@ public class FormsModel {
     }
 
     public Component newSearchAndRescue() {
-        SearchAndRescueController searchRescCont = new SearchAndRescueController();
-        formControllers.add(searchRescCont);
         searchRescCount++;
-        searchRescCont.setName("Search and Rescue " + searchRescCount);
+        SearchAndRescueController searchRescCont = new SearchAndRescueController("Search and Rescue " + searchRescCount);
+        formControllers.add(searchRescCont);
         return searchRescCont.getViewComponent();
     }
 
     public Component newRadioMessage() {
-        RadioMessageController radMesCont = new RadioMessageController();
-        formControllers.add(radMesCont);
         radioMessageCount++;
-        radMesCont.setName("Radio Message " + radioMessageCount);
+        RadioMessageController radMesCont = new RadioMessageController("Radio Message " + radioMessageCount);
+        formControllers.add(radMesCont);
         return radMesCont.getViewComponent();
     }
 
