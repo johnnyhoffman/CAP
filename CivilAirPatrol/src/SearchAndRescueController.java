@@ -18,7 +18,10 @@ public class SearchAndRescueController implements Controller {
 
     @Override
     public Component getViewComponent() {
-        return view;
+        /* Needed a way to wrap the view in a scrollPane, not sure if any repercussions of this */
+        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(view);
+        scroll.setName(view.getName());
+        return scroll; //this function only returned view to start with
     }
 
     public void setName(String name) {
