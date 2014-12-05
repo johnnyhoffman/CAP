@@ -1,5 +1,4 @@
 import java.awt.Component;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
@@ -27,8 +26,6 @@ public class SessionView extends JFrame {
         newMenu.add(newComLogMenuItem);
         newRadioMessageMenuItem = new JMenuItem("Radio Message Form");
         newMenu.add(newRadioMessageMenuItem);
-        newLocatingDataMenuItem = new JMenuItem("Locating Data Form");
-        newMenu.add(newLocatingDataMenuItem);
         newSearchAndRescueMenuItem = new JMenuItem("Search And Rescue Form");
         newMenu.add(newSearchAndRescueMenuItem);
         setJMenuBar(menuBar);
@@ -65,15 +62,18 @@ public class SessionView extends JFrame {
         newComLogMenuItem.addActionListener(actionListener);
     }
 
-    public void addNewRadioMessageMenuItemActionListener(ActionListener actionListener) {
+    public void addNewRadioMessageMenuItemActionListener(
+            ActionListener actionListener) {
         newRadioMessageMenuItem.addActionListener(actionListener);
     }
 
-    public void addNewLocatingDataMenuItemActionListener(ActionListener actionListener) {
+    public void addNewLocatingDataMenuItemActionListener(
+            ActionListener actionListener) {
         newLocatingDataMenuItem.addActionListener(actionListener);
     }
 
-    public void addNewSearchAndRescueMenuItemActionListener(ActionListener actionListener) {
+    public void addNewSearchAndRescueMenuItemActionListener(
+            ActionListener actionListener) {
         newSearchAndRescueMenuItem.addActionListener(actionListener);
     }
 

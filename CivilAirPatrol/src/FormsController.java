@@ -60,10 +60,6 @@ public class FormsController implements Controller {
         addTab(model.newComLog());
     }
 
-    public void newLocatingData() {
-        addTab(model.newLocatingData());
-    }
-
     public void newSearchAndResue() {
         addTab(model.newSearchAndRescue());
     }

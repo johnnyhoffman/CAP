@@ -30,13 +30,6 @@ public class SessionController {
             }
         });
 
-        view.addNewLocatingDataMenuItemActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                formsController.newLocatingData();;
-            }
-        });
-
         view.addNewSearchAndRescueMenuItemActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

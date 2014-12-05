@@ -115,6 +115,10 @@ public class DataContainers {
         public Alpha alpha;
         public Bravo bravo;
         public Charlie charlie;
+        public Delta delta;
+        public Echo echo;
+        public Foxtrot foxtrot;
+        public Golf golf;
 
         public SearchAndRescue(String name) {
             this.name = name;
@@ -122,6 +126,10 @@ public class DataContainers {
             alpha = new Alpha();
             bravo = new Bravo();
             charlie = new Charlie();
+            delta = new Delta();
+            echo = new Echo();
+            foxtrot = new Foxtrot();
+            golf = new Golf();
         }
 
         static public class Header {
@@ -227,23 +235,6 @@ public class DataContainers {
                 plannedSearchArea = "";
                 forcastedWeather = "";
             }
-        }
-    }
-
-    public static class LocatingData {
-
-        public String name;
-        public Delta delta;
-        public Echo echo;
-        public Foxtrot foxtrot;
-        public Golf golf;
-
-        public LocatingData(String name) {
-            this.name = name;
-            delta = new Delta();
-            echo = new Echo();
-            foxtrot = new Foxtrot();
-            golf = new Golf();
         }
 
         static public class Delta {
