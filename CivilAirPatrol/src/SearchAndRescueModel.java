@@ -173,6 +173,11 @@ public class SearchAndRescueModel {
         schedulePush();
     }
 
+    public void updateBravoAreaSearched(String[][] sss) {
+        data.bravo.areaSearch = sss;
+        schedulePush();
+    }
+
     public void updateBravoOther(String s) {
         data.bravo.other = s;
         schedulePush();

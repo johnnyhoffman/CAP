@@ -2,17 +2,18 @@ public class DataContainers {
 
     public static class CommunicationsLog {
 
-        String name;
-        String missionNum;
-        String stationFunctionalDesignator;
-        String date;
-        String A;
-        String B;
-        String C;
-        String D;
-        String E;
-        String F;
-        ComLogEntry[] entries;
+        public String name;
+        public String type = "CommunicationsLog";
+        public String missionNum;
+        public String stationFunctionalDesignator;
+        public String date;
+        public String A;
+        public String B;
+        public String C;
+        public String D;
+        public String E;
+        public String F;
+        public ComLogEntry[] entries;
 
         public CommunicationsLog(String name) {
             this.name = name;
@@ -47,11 +48,12 @@ public class DataContainers {
     }
 
     public static class RadioMessage {
-        String name;
-        Header header;
-        String message;
-        MessageRecieved messageRecieved;
-        MessageSent messageSent;
+        public String type = "RadioMessage";
+        public String name;
+        public Header header;
+        public String message;
+        public MessageRecieved messageRecieved;
+        public MessageSent messageSent;
 
         public RadioMessage(String name) {
             this.name = name;
@@ -109,7 +111,7 @@ public class DataContainers {
     }
 
     public static class SearchAndRescue {
-
+        public String type = "SearchAndRescue";
         public String name;
         public Header header;
         public Alpha alpha;

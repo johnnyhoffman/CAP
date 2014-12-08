@@ -1916,22 +1916,7 @@ public class SearchAndRescueView extends javax.swing.JPanel {
     }
 
     public void addBravoAreaSearchChangeListener() {
-        jTable1.getCellEditor(0, 0).addCellEditorListener(
-                new CellEditorListener() {
-
-                    // TODO: Having Trouble finding a way to get the table to
-                    // react to changes
-                    @Override
-                    public void editingCanceled(ChangeEvent arg0) {
-                        System.out.println("HERE");
-                    }
-
-                    @Override
-                    public void editingStopped(ChangeEvent arg0) {
-                        System.out.println("here");
-                    }
-
-                });
+//        jTable1.
     }
 
     public void addBravoOtherChangeListener(CaretListener l) {
@@ -2187,6 +2172,16 @@ public class SearchAndRescueView extends javax.swing.JPanel {
 
     public String getBravoTotalPersonnel3Text() {
         return jTextField32.getText();
+    }
+    
+    public String[][] getAreaSearchedText() {
+        String[][] sss = new String[GlobalConstants.AREASEARCH_COLUMNS][GlobalConstants.AREASEARCH_ROWS];
+        for (int c = 0; c < GlobalConstants.AREASEARCH_COLUMNS; c++) {
+            for (int r = 0; r < GlobalConstants.AREASEARCH_ROWS; r++) {
+                sss[c][r] = (String) jTable1.getValueAt(r, c);
+            }
+        }
+        return sss;
     }
 
     public String getBravoOtherText() {
