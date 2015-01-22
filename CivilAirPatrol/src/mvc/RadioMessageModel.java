@@ -1,22 +1,18 @@
 package mvc;
 
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class RadioMessageModel {
+public class RadioMessageModel extends ScheduledPushModelAbstraction{
 
     private DataContainers.RadioMessage data;
     private Gson gson;
-    private final ScheduledThreadPoolExecutor executor;
 
     public RadioMessageModel(String name) {
         data = new DataContainers.RadioMessage(name);
         // gson = new Gson();
         // XXX: for debugging, revert to above creation method later
         gson = new GsonBuilder().setPrettyPrinting().create();
-        executor = new ScheduledThreadPoolExecutor(1);
     }
 
     /* methods for updating fields */
@@ -100,23 +96,4 @@ public class RadioMessageModel {
         return gson.toJson(data);
     }
 
-    // TODO: have models extend an abtract, in which this method is defined and
-    // jsonSerialize in declared
-    /*
-     * Schedule the data to be pushed to the server. Only schedules a push if
-     * there is not already one scheduled.
-     */
-    public void schedulePush() {
-        // Don't schedule if there are any runnables in the queue
-        if (executor.getQueue().size() < 1) {
-            executor.schedule(new Runnable() {
-                @Override
-                public void run() {
-                    // TODO: HERE IS WHERE WE HOOK IN DATABASE CONNECTION.
-                    // INSTEAD OF PRINTING THE JSON, PUSH IT TO THE DATABASE.
-                    System.out.println(jsonSerialize());
-                }
-            }, GlobalConstants.PUSH_DELAY, GlobalConstants.PUSH_DELAY_UNITS);
-        }
-    }
 }

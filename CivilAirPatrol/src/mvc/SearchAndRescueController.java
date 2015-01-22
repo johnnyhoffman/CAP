@@ -46,15 +46,13 @@ public class SearchAndRescueController implements Controller {
         view.addHeaderMissionNumberChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateHeaderMissionNumber(view
-                        .getHeaderMissionNumberText());
+                model.updateHeaderMissionNumber(view.getHeaderMissionNumberText());
             }
         });
         view.addHeaderActivityForDateOfChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateHeaderActivityForDateOf(view
-                        .getHeaderActivityForDateOfText());
+                model.updateHeaderActivityForDateOf(view.getHeaderActivityForDateOfText());
             }
         });
         view.addHeaderReportedByChangeListener(new CaretListener() {
@@ -72,64 +70,55 @@ public class SearchAndRescueController implements Controller {
         view.addAlphaNameOfSearchOrg1ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateAlphaNameOfSearchOrg1(view
-                        .getAlphaNameOfSearchOrg1Text());
+                model.updateAlphaNameOfSearchOrg1(view.getAlphaNameOfSearchOrg1Text());
             }
         });
         view.addAlphaNameOfSearchOrg2ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateAlphaNameOfSearchOrg2(view
-                        .getAlphaNameOfSearchOrg2Text());
+                model.updateAlphaNameOfSearchOrg2(view.getAlphaNameOfSearchOrg2Text());
             }
         });
         view.addAlphaNameOfSearchOrg3ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateAlphaNameOfSearchOrg3(view
-                        .getAlphaNameOfSearchOrg3Text());
+                model.updateAlphaNameOfSearchOrg3(view.getAlphaNameOfSearchOrg3Text());
             }
         });
         view.addBravoTimeDispatched1ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoTimeDispatched1(view
-                        .getBravoTimeDispatched1Text());
+                model.updateBravoTimeDispatched1(view.getBravoTimeDispatched1Text());
             }
         });
         view.addBravoTimeDispatched2ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoTimeDispatched2(view
-                        .getBravoTimeDispatched2Text());
+                model.updateBravoTimeDispatched2(view.getBravoTimeDispatched2Text());
             }
         });
         view.addBravoTimeDispatched3ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoTimeDispatched3(view
-                        .getBravoTimeDispatched3Text());
+                model.updateBravoTimeDispatched3(view.getBravoTimeDispatched3Text());
             }
         });
         view.addBravoTimeELTFirstHeard1ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoTimeELTFirstHeard1(view
-                        .getBravoTimeELTFirstHeard1Text());
+                model.updateBravoTimeELTFirstHeard1(view.getBravoTimeELTFirstHeard1Text());
             }
         });
         view.addBravoTimeELTFirstHeard2ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoTimeELTFirstHeard2(view
-                        .getBravoTimeELTFirstHeard2Text());
+                model.updateBravoTimeELTFirstHeard2(view.getBravoTimeELTFirstHeard2Text());
             }
         });
         view.addBravoTimeELTFirstHeard3ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoTimeELTFirstHeard3(view
-                        .getBravoTimeELTFirstHeard3Text());
+                model.updateBravoTimeELTFirstHeard3(view.getBravoTimeELTFirstHeard3Text());
             }
         });
         view.addBravoNumAircraft1ChangeListener(new CaretListener() {
@@ -171,22 +160,19 @@ public class SearchAndRescueController implements Controller {
         view.addBravoHoursInSearchArea1ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoHoursInSearchArea1(view
-                        .getBravoHoursInSearchArea1Text());
+                model.updateBravoHoursInSearchArea1(view.getBravoHoursInSearchArea1Text());
             }
         });
         view.addBravoHoursInSearchArea2ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoHoursInSearchArea2(view
-                        .getBravoHoursInSearchArea2Text());
+                model.updateBravoHoursInSearchArea2(view.getBravoHoursInSearchArea2Text());
             }
         });
         view.addBravoHoursInSearchArea3ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoHoursInSearchArea3(view
-                        .getBravoHoursInSearchArea3Text());
+                model.updateBravoHoursInSearchArea3(view.getBravoHoursInSearchArea3Text());
             }
         });
         view.addBravoHoursEnroute1ChangeListener(new CaretListener() {
@@ -210,48 +196,43 @@ public class SearchAndRescueController implements Controller {
         view.addBravoTotalFlightHours1ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoTotalFlightHours1(view
-                        .getBravoTotalFlightHours1Text());
+                model.updateBravoTotalFlightHours1(view.getBravoTotalFlightHours1Text());
             }
         });
         view.addBravoTotalFlightHours2ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoTotalFlightHours2(view
-                        .getBravoTotalFlightHours2Text());
+                model.updateBravoTotalFlightHours2(view.getBravoTotalFlightHours2Text());
             }
         });
         view.addBravoTotalFlightHours3ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoTotalFlightHours3(view
-                        .getBravoTotalFlightHours3Text());
+                model.updateBravoTotalFlightHours3(view.getBravoTotalFlightHours3Text());
             }
         });
         view.addBravoTotalPersonnel1ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoTotalPersonnel1(view
-                        .getBravoTotalPersonnel1Text());
+                model.updateBravoTotalPersonnel1(view.getBravoTotalPersonnel1Text());
             }
         });
         view.addBravoTotalPersonnel2ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoTotalPersonnel2(view
-                        .getBravoTotalPersonnel2Text());
+                model.updateBravoTotalPersonnel2(view.getBravoTotalPersonnel2Text());
             }
         });
         view.addBravoTotalPersonnel3ChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoTotalPersonnel3(view
-                        .getBravoTotalPersonnel3Text());
+                model.updateBravoTotalPersonnel3(view.getBravoTotalPersonnel3Text());
             }
         });
 
-        view.addBravoAreaSearchChangeListener();
-//                model.updateBravoAreaSearched(view.getAreaSearchedText());
+        // TODO: Delete
+        // view.addBravoAreaSearchChangeListener();
+        // model.updateBravoAreaSearched(view.getAreaSearchedText());
 
         view.addBravoOtherChangeListener(new CaretListener() {
             @Override
@@ -262,36 +243,31 @@ public class SearchAndRescueController implements Controller {
         view.addBravoSignificantWeatherChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateBravoSignificantWeather(view
-                        .getBravoSignificantWeatherText());
+                model.updateBravoSignificantWeather(view.getBravoSignificantWeatherText());
             }
         });
         view.addCharlieTotalResourcesExpectedACPTChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateCharlieTotalResourcesExpectedACPT(view
-                        .getCharlieTotalResourcesExpectedACPTText());
+                model.updateCharlieTotalResourcesExpectedACPT(view.getCharlieTotalResourcesExpectedACPTText());
             }
         });
         view.addCharlieTotalResourcesExpectedPersonnelChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateCharlieTotalResourcesExpectedPersonnel(view
-                        .getCharlieTotalResourcesExpectedPersonnelText());
+                model.updateCharlieTotalResourcesExpectedPersonnel(view.getCharlieTotalResourcesExpectedPersonnelText());
             }
         });
         view.addCharliePlannedSearchAreaChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateCharliePlannedSearchArea(view
-                        .getCharliePlannedSearchAreaText());
+                model.updateCharliePlannedSearchArea(view.getCharliePlannedSearchAreaText());
             }
         });
         view.addCharlieForcastedWeatherChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateCharlieForcastedWeather(view
-                        .getCharlieForcastedWeatherText());
+                model.updateCharlieForcastedWeather(view.getCharlieForcastedWeatherText());
             }
         });
         view.addDeltaNameOfOrgChangeListener(new CaretListener() {
@@ -318,8 +294,7 @@ public class SearchAndRescueController implements Controller {
         view.addDeltaTimeObjectiveLocatedChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateDeltaTimeObjectiveLocated(view
-                        .getDeltaTimeObjectiveLocatedText());
+                model.updateDeltaTimeObjectiveLocated(view.getDeltaTimeObjectiveLocatedText());
             }
         });
 
@@ -340,16 +315,14 @@ public class SearchAndRescueController implements Controller {
         view.addDeltaTerrainAndGroundCoverChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateDeltaTerrainAndGroundCover(view
-                        .getDeltaTerrainAndGroundCoverText());
+                model.updateDeltaTerrainAndGroundCover(view.getDeltaTerrainAndGroundCoverText());
             }
         });
 
         view.addDeltaNumSubjectsInvolvedChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateDeltaNumSubjectsInvolved(view
-                        .getDeltaNumSubjectsInvolvedText());
+                model.updateDeltaNumSubjectsInvolved(view.getDeltaNumSubjectsInvolvedText());
             }
         });
 
@@ -377,80 +350,70 @@ public class SearchAndRescueController implements Controller {
         view.addEchoOrgMakingRecoveryChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateEchoOrgMakingRecovery(view
-                        .getEchoOrgMakingRecoveryText());
+                model.updateEchoOrgMakingRecovery(view.getEchoOrgMakingRecoveryText());
             }
         });
 
         view.addEchoTimeRecoveryBeganChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateEchoTimeRecoveryBegan(view
-                        .getEchoTimeRecoveryBeganText());
+                model.updateEchoTimeRecoveryBegan(view.getEchoTimeRecoveryBeganText());
             }
         });
 
         view.addEchoSubjectsDeliveredToChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateEchoSubjectsDeliveredTo(view
-                        .getEchoSubjectsDeliveredToText());
+                model.updateEchoSubjectsDeliveredTo(view.getEchoSubjectsDeliveredToText());
             }
         });
 
         view.addEchoTimeRecoveryCompletedChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateEchoTimeRecoveryCompleted(view
-                        .getEchoTimeRecoveryCompletedText());
+                model.updateEchoTimeRecoveryCompleted(view.getEchoTimeRecoveryCompletedText());
             }
         });
 
         view.addEchoRecoveryMethodsChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateEchoRecoveryMethods(view
-                        .getEchoRecoveryMethodsText());
+                model.updateEchoRecoveryMethods(view.getEchoRecoveryMethodsText());
             }
         });
 
         view.addEchoNumRecoveredAliveChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateEchoNumRecoveredAlive(view
-                        .getEchoNumRecoveredAliveText());
+                model.updateEchoNumRecoveredAlive(view.getEchoNumRecoveredAliveText());
             }
         });
 
         view.addEchoNumRecoveredDeceasedChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateEchoNumRecoveredDeceased(view
-                        .getEchoNumRecoveredDeceasedText());
+                model.updateEchoNumRecoveredDeceased(view.getEchoNumRecoveredDeceasedText());
             }
         });
 
         view.addEchoNumSelfRecoveredChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateEchoNumSelfRecovered(view
-                        .getEchoNumSelfRecoveredText());
+                model.updateEchoNumSelfRecovered(view.getEchoNumSelfRecoveredText());
             }
         });
 
         view.addFoxtrotNumSubjectsSavedChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateFoxtrotNumSubjectsSaved(view
-                        .getFoxtrotNumSubjectsSavedText());
+                model.updateFoxtrotNumSubjectsSaved(view.getFoxtrotNumSubjectsSavedText());
             }
         });
 
         view.addFoxtrotNumSubjectsAssistedChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateFoxtrotNumSubjectsAssisted(view
-                        .getFoxtrotNumSubjectsAssistedText());
+                model.updateFoxtrotNumSubjectsAssisted(view.getFoxtrotNumSubjectsAssistedText());
             }
 
         });
@@ -458,8 +421,7 @@ public class SearchAndRescueController implements Controller {
         view.addFoxtrotMissionClosedActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                model.updateFoxtrotMissionClosedOrSuspended(
-                        view.getFoxtrotMissionClosed(),
+                model.updateFoxtrotMissionClosedOrSuspended(view.getFoxtrotMissionClosed(),
                         view.getFoxtrotMissionSuspended());
             }
         });
@@ -467,8 +429,7 @@ public class SearchAndRescueController implements Controller {
         view.addFoxtrotMissionSuspendedActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                model.updateFoxtrotMissionClosedOrSuspended(
-                        view.getFoxtrotMissionClosed(),
+                model.updateFoxtrotMissionClosedOrSuspended(view.getFoxtrotMissionClosed(),
                         view.getFoxtrotMissionSuspended());
             }
         });
@@ -476,24 +437,21 @@ public class SearchAndRescueController implements Controller {
         view.addFoxtrotOrganizationSavesCreditedToChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateFoxtrotOrganizationSavesCreditedTo(view
-                        .getFoxtrotOrganizationSavesCreditedToText());
+                model.updateFoxtrotOrganizationSavesCreditedTo(view.getFoxtrotOrganizationSavesCreditedToText());
             }
         });
 
         view.addFoxtrotCloseOrSuspendTimeChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateFoxtrotCloseOrSuspendTime(view
-                        .getFoxtrotCloseOrSuspendTimeText());
+                model.updateFoxtrotCloseOrSuspendTime(view.getFoxtrotCloseOrSuspendTimeText());
             }
         });
 
         view.addAdditionalRemarksChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateGolfAdditionalRemarks(view
-                        .getAdditionalRemarksText());
+                model.updateGolfAdditionalRemarks(view.getAdditionalRemarksText());
             }
         });
     }
