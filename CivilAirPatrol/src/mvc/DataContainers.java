@@ -1,3 +1,5 @@
+package mvc;
+
 public class DataContainers {
 
     public static class CommunicationsLog {

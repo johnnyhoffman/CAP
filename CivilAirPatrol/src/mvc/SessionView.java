@@ -1,3 +1,5 @@
+package mvc;
+
 import java.awt.Component;
 import java.awt.event.ActionListener;
 

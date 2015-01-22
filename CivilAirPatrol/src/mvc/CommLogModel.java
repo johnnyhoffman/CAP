@@ -1,16 +1,18 @@
+package mvc;
+
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class RadioMessageModel {
+public class CommLogModel {
 
-    private DataContainers.RadioMessage data;
+    private DataContainers.CommunicationsLog data;
     private Gson gson;
     private final ScheduledThreadPoolExecutor executor;
 
-    public RadioMessageModel(String name) {
-        data = new DataContainers.RadioMessage(name);
+    public CommLogModel(String name) {
+        data = new DataContainers.CommunicationsLog(name);
         // gson = new Gson();
         // XXX: for debugging, revert to above creation method later
         gson = new GsonBuilder().setPrettyPrinting().create();
@@ -19,78 +21,53 @@ public class RadioMessageModel {
 
     /* methods for updating fields */
 
-    public void updateHeaderMsgNum(String s) {
-        data.header.msgNum = s;
+    public void updateName(String s) {
+        data.name = s;
         schedulePush();
     }
 
-    public void updateHeaderPrecedence(String s) {
-        data.header.precedence = s;
+    public void updateMissionNum(String s) {
+        data.missionNum = s;
         schedulePush();
     }
 
-    public void updateHeaderDtg(String s) {
-        data.header.dtg = s;
+    public void updateStationFunctionalDesignator(String s) {
+        data.stationFunctionalDesignator = s;
         schedulePush();
     }
 
-    public void updateHeaderFrom(String s) {
-        data.header.from = s;
+    public void updateDate(String s) {
+        data.date = s;
         schedulePush();
     }
 
-    public void updateHeaderTo(String s) {
-        data.header.to = s;
+    public void updateA(String s) {
+        data.A = s;
         schedulePush();
     }
 
-    public void updateHeaderInfo(String s) {
-        data.header.info = s;
+    public void updateB(String s) {
+        data.B = s;
         schedulePush();
     }
 
-    public void updateHeaderSubj(String s) {
-        data.header.subj = s;
+    public void updateC(String s) {
+        data.C = s;
         schedulePush();
     }
 
-    public void updateHeaderGroupCnt(String s) {
-        data.header.groupCnt = s;
+    public void updateD(String s) {
+        data.D = s;
         schedulePush();
     }
 
-    public void updateMessage(String s) {
-        data.message = s;
+    public void updateE(String s) {
+        data.E = s;
         schedulePush();
     }
 
-    public void updateMessageRecievedFrom(String s) {
-        data.messageRecieved.from = s;
-        schedulePush();
-    }
-
-    public void updateMessageRecievedDtg(String s) {
-        data.messageRecieved.dtg = s;
-        schedulePush();
-    }
-
-    public void updateMessageRecievedRecievingOperatorInitials(String s) {
-        data.messageRecieved.RecievingOperatorInitials = s;
-        schedulePush();
-    }
-
-    public void updateMessageSentTo(String s) {
-        data.messageSent.to = s;
-        schedulePush();
-    }
-
-    public void updateMessageSentDtg(String s) {
-        data.messageSent.dtg = s;
-        schedulePush();
-    }
-
-    public void updateMessageSentSendingOperatorInitials(String s) {
-        data.messageSent.sendingOperatorInitials = s;
+    public void updateF(String s) {
+        data.F = s;
         schedulePush();
     }
 

@@ -1,3 +1,5 @@
+package mvc;
+
 /* Placeholder for demonstrating Session MVC */
 import javax.swing.JLabel;
 import javax.swing.JPanel;
