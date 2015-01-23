@@ -19,7 +19,7 @@ public class CommLogController implements Controller {
     }
 
     @Override
-    public Component getViewComponent() {
+    public FormComponent getViewComponent() {
         return view;
     }
 
@@ -81,6 +81,16 @@ public class CommLogController implements Controller {
             @Override
             public void caretUpdate(CaretEvent e) {
                 model.updateF(view.getFText());
+            }
+        });
+        
+        view.setOnCloseListener(new FormComponent.OnCloseListener() {
+            
+            @Override
+            public void onClose() {
+
+                model.beeperHandle.cancel(true);
+                model.push();
             }
         });
 

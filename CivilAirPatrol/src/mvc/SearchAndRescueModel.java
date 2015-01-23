@@ -3,7 +3,7 @@ package mvc;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class SearchAndRescueModel extends ScheduledPushModelAbstraction {
+public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction {
 
     private DataContainers.SearchAndRescue data;
     private Gson gson;

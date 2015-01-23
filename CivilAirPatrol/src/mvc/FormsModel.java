@@ -24,7 +24,7 @@ public class FormsModel {
         return tabs;
     }
 
-    public Component newComLog() {
+    public FormComponent newComLog() {
         comLogCount++;
         CommLogController comCont = new CommLogController("Com Log " + comLogCount);
         formControllers.add(comCont);
@@ -32,14 +32,14 @@ public class FormsModel {
     }
 
 
-    public Component newSearchAndRescue() {
+    public FormComponent newSearchAndRescue() {
         searchRescCount++;
         SearchAndRescueController searchRescCont = new SearchAndRescueController("Search and Rescue " + searchRescCount);
         formControllers.add(searchRescCont);
         return searchRescCont.getViewComponent();
     }
 
-    public Component newRadioMessage() {
+    public FormComponent newRadioMessage() {
         radioMessageCount++;
         RadioMessageController radMesCont = new RadioMessageController("Radio Message " + radioMessageCount);
         formControllers.add(radMesCont);

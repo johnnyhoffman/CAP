@@ -11,7 +11,7 @@ import javax.swing.event.CaretListener;
  *
  * @author Robert
  */
-public class RadioMessageView extends javax.swing.JPanel {
+public class RadioMessageView extends FormComponent {
 
     /**
      * Creates new form RadioMessageView

@@ -11,7 +11,7 @@ import javax.swing.event.CaretListener;
  *
  * @author Robert
  */
-public class CommLogView extends javax.swing.JPanel {
+public class CommLogView extends FormComponent {
 
     /**
      * Creates new form CommunicationLogView
@@ -356,5 +356,6 @@ public class CommLogView extends javax.swing.JPanel {
     public String getFText() {
         return jTextField9.getText();
     }
+
 
 }

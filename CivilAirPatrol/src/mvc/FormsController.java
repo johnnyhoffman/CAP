@@ -31,7 +31,7 @@ public class FormsController implements Controller {
         return view;
     }
 
-    private void addTab(Component c) {
+    private void addTab(FormComponent c) {
         view.addTab(c);
 
         view.setSelectedIndex(view.getTabCount() - 1);
@@ -76,16 +76,17 @@ public class FormsController implements Controller {
 
     public class RemoveTabListener implements ActionListener {
 
-        Component component;
+        FormComponent component;
         FormsController formsController;
 
-        public RemoveTabListener(FormsController formsController, Component component) {
+        public RemoveTabListener(FormsController formsController, FormComponent component) {
             this.formsController = formsController;
             this.component = component;
         }
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
+            component.onClose();
             formsController.removeTab(component);
         }
 

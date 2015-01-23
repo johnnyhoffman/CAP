@@ -9,7 +9,6 @@ import java.awt.event.KeyListener;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-/* Placeholder for demonstrating Session MVC */
 public class SearchAndRescueController implements Controller {
 
     private SearchAndRescueView view;
@@ -23,14 +22,15 @@ public class SearchAndRescueController implements Controller {
     }
 
     @Override
-    public Component getViewComponent() {
+    public FormComponent getViewComponent() {
         /*
-         * Needed a way to wrap the view in a scrollPane, not sure if any
-         * repercussions of this
+         * // * Needed a way to wrap the view in a scrollPane, not sure if any
+         * // * repercussions of this //
          */
-        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(view);
-        scroll.setName(view.getName());
-        return scroll; // this function only returned view to start with
+        // javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(view);
+        // scroll.setName(view.getName());
+        // return scroll; // this function only returned view to start with
+        return view;
     }
 
     public void setName(String name) {
@@ -454,5 +454,15 @@ public class SearchAndRescueController implements Controller {
                 model.updateGolfAdditionalRemarks(view.getAdditionalRemarksText());
             }
         });
+
+        view.setOnCloseListener(new FormComponent.OnCloseListener() {
+
+            @Override
+            public void onClose() {
+                model.push();
+                model.beeperHandle.cancel(true);
+            }
+        });
     }
+
 }

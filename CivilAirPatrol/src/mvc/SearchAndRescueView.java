@@ -3,8 +3,6 @@ package mvc;
 import java.awt.event.ActionListener;
 
 import javax.swing.event.CaretListener;
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,7 +13,7 @@ import javax.swing.event.ChangeEvent;
  * 
  * @author Robert
  */
-public class SearchAndRescueView extends javax.swing.JPanel {
+public class SearchAndRescueView extends FormComponent {
 
     /**
      * Creates new form SearchAndRescueView

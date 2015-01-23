@@ -3,7 +3,7 @@ package mvc;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class CommLogModel extends ScheduledPushModelAbstraction {
+public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
 
     private DataContainers.CommunicationsLog data;
     private Gson gson;

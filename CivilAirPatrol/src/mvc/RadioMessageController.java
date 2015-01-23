@@ -19,7 +19,7 @@ public class RadioMessageController implements Controller {
     }
 
     @Override
-    public Component getViewComponent() {
+    public FormComponent getViewComponent() {
         return view;
     }
 
@@ -117,6 +117,14 @@ public class RadioMessageController implements Controller {
             @Override
             public void caretUpdate(CaretEvent e) {
                 model.updateMessageSentSendingOperatorInitials(view.getMessageSentSendingOperatorInitialsText());
+            }
+        });
+
+        view.setOnCloseListener(new FormComponent.OnCloseListener() {
+
+            @Override
+            public void onClose() {
+                model.push();
             }
         });
     }

@@ -4,10 +4,10 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public abstract class ScheduledPushModelAbstraction {
 
-    private final ScheduledThreadPoolExecutor executor;
+    private final ScheduledThreadPoolExecutor pushExecutor;
 
     protected ScheduledPushModelAbstraction() {
-        executor = new ScheduledThreadPoolExecutor(1);
+        pushExecutor = new ScheduledThreadPoolExecutor(1);
     }
 
     /*
@@ -16,16 +16,20 @@ public abstract class ScheduledPushModelAbstraction {
      */
     public void schedulePush() {
         // Don't schedule if there are any runnables in the queue
-        if (executor.getQueue().size() < 1) {
-            executor.schedule(new Runnable() {
+        if (pushExecutor.getQueue().size() < 1) {
+            pushExecutor.schedule(new Runnable() {
                 @Override
                 public void run() {
-                    // TODO: HERE IS WHERE WE HOOK IN DATABASE CONNECTION.
-                    // INSTEAD OF PRINTING THE JSON, PUSH IT TO THE DATABASE.
-                    System.out.println(jsonSerialize());
+                    push();
                 }
             }, GlobalConstants.PUSH_DELAY, GlobalConstants.PUSH_DELAY_UNITS);
         }
+    }
+
+    public void push() {
+        // TODO: HERE IS WHERE WE HOOK IN DATABASE CONNECTION.
+        // INSTEAD OF PRINTING THE JSON, PUSH IT TO THE DATABASE.
+        System.out.println(jsonSerialize());
     }
 
     public abstract String jsonSerialize();
