@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /* Placeholder for demonstrating Session MVC */
 public class FormsController implements Controller {
@@ -32,13 +33,17 @@ public class FormsController implements Controller {
     }
 
     private void addTab(FormComponent c) {
-        view.addTab(c);
+
+        javax.swing.JScrollPane scrollC = new javax.swing.JScrollPane(c);
+        scrollC.setName(c.getName());
+
+        view.addTab(scrollC);
 
         view.setSelectedIndex(view.getTabCount() - 1);
-        int index = view.indexOfTab(c.getName());
+        int index = view.indexOfTab(scrollC.getName());
         JPanel pnlTab = new JPanel(new GridBagLayout());
         pnlTab.setOpaque(false);
-        JLabel lblTitle = new JLabel(c.getName() + "  ");
+        JLabel lblTitle = new JLabel(scrollC.getName() + "  ");
         JButton btnClose = new JButton("X");
         btnClose.setBorder(null);
 
@@ -54,7 +59,7 @@ public class FormsController implements Controller {
         pnlTab.add(btnClose, gbc);
 
         view.setTabComponentAt(index, pnlTab);
-        btnClose.addActionListener(new RemoveTabListener(this, c));
+        btnClose.addActionListener(new RemoveTabListener(this, c, scrollC));
 
     }
 
@@ -65,7 +70,7 @@ public class FormsController implements Controller {
     public void newSearchAndResue() {
         addTab(model.newSearchAndRescue());
     }
-    
+
     public void newRadioMessage() {
         addTab(model.newRadioMessage());
     }
@@ -78,16 +83,19 @@ public class FormsController implements Controller {
 
         FormComponent component;
         FormsController formsController;
+        JScrollPane componentAsScrollPane;
 
-        public RemoveTabListener(FormsController formsController, FormComponent component) {
+        public RemoveTabListener(FormsController formsController, FormComponent component,
+                JScrollPane componentAsScollPane) {
             this.formsController = formsController;
             this.component = component;
+            this.componentAsScrollPane = componentAsScollPane;
         }
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
             component.onClose();
-            formsController.removeTab(component);
+            formsController.removeTab(componentAsScrollPane);
         }
 
     }

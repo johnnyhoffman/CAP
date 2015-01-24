@@ -3,28 +3,35 @@ package mvc;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 public abstract class ScheduledPushAndCheckModelAbstraction extends ScheduledPushModelAbstraction {
 
+    public interface OnIntervalListener {
+        public void onInterval();
+    }
+
+    private OnIntervalListener onIntervalListener;
+
     private final ScheduledExecutorService scheduler;
-    public final ScheduledFuture<?> beeperHandle;
+    public final ScheduledFuture<?> checkerHandle;
+
     protected ScheduledPushAndCheckModelAbstraction() {
         super();
         scheduler = Executors.newScheduledThreadPool(1);
 
-        final Runnable beeper = new Runnable() {
+        final Runnable checker = new Runnable() {
             public void run() {
-                System.out.println("beep");
+                if (onIntervalListener != null) {
+                    onIntervalListener.onInterval();
+                }
             }
         };
-        beeperHandle = scheduler.scheduleAtFixedRate(beeper, 1, 1, TimeUnit.SECONDS);
-        scheduler.schedule(new Runnable() {
-            public void run() {
-                beeperHandle.cancel(true);
-            }
-        }, 60 * 60, TimeUnit.SECONDS);
+        checkerHandle = scheduler.scheduleAtFixedRate(checker, GlobalConstants.CHECK_DELAY,
+                GlobalConstants.CHECK_DELAY, GlobalConstants.CHECK_DELAY_UNITS);
     }
-    // GlobalConstants.CHECK_DELAY, GlobalConstants.CHECK_DELAY_UNITS);
+
+    public void setOnIntervalListener(OnIntervalListener l) {
+        this.onIntervalListener = l;
+    }
 
 }

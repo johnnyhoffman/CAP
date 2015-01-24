@@ -1,10 +1,8 @@
 package mvc;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.util.Arrays;
 
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -456,13 +454,28 @@ public class SearchAndRescueController implements Controller {
         });
 
         view.setOnCloseListener(new FormComponent.OnCloseListener() {
-
             @Override
             public void onClose() {
+
+                checkBravoAreaSearch();
+                model.checkerHandle.cancel(true);
                 model.push();
-                model.beeperHandle.cancel(true);
             }
         });
+
+        model.setOnIntervalListener(new ScheduledPushAndCheckModelAbstraction.OnIntervalListener() {
+            @Override
+            public void onInterval() {
+                checkBravoAreaSearch();
+            }
+        });
+    }
+    
+    private void checkBravoAreaSearch() {
+        String[][] viewSearchArea = view.getBravoAreaSearchedText();
+        if (!Arrays.deepEquals(viewSearchArea, model.getBravoAreaSearched())) {
+            model.updateBravoAreaSearched(viewSearchArea);
+        }
     }
 
 }

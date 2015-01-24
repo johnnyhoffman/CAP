@@ -1,5 +1,7 @@
 package mvc;
 
+import java.util.Arrays;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -175,6 +177,11 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
     public void updateBravoAreaSearched(String[][] sss) {
         data.bravo.areaSearch = sss;
         schedulePush();
+    }
+    
+    // Specially needed for the controller to check if view has changed:
+    public String[][] getBravoAreaSearched(){
+        return data.bravo.areaSearch;
     }
 
     public void updateBravoOther(String s) {

@@ -89,7 +89,7 @@ public class CommLogController implements Controller {
             @Override
             public void onClose() {
 
-                model.beeperHandle.cancel(true);
+                model.checkerHandle.cancel(true);
                 model.push();
             }
         });

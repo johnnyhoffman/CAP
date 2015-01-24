@@ -1853,7 +1853,7 @@ public class SearchAndRescueView extends FormComponent {
         return jTextField32.getText();
     }
 
-    public String[][] getAreaSearchedText() {
+    public String[][] getBravoAreaSearchedText() {
         String[][] sss = new String[GlobalConstants.AREASEARCH_COLUMNS][GlobalConstants.AREASEARCH_ROWS];
         for (int c = 0; c < GlobalConstants.AREASEARCH_COLUMNS; c++) {
             for (int r = 0; r < GlobalConstants.AREASEARCH_ROWS; r++) {
@@ -1990,5 +1990,6 @@ public class SearchAndRescueView extends FormComponent {
     public String getAdditionalRemarksText() {
         return jTextArea4.getText();
     }
+    
 
 }

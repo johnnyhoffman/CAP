@@ -13,6 +13,12 @@ public class FormsView extends JTabbedPane {
     }
 
     public void addTab(Component component) {
+
+        // XXX: This didn't work but keeping it around until I find a better way
+        // javax.swing.JScrollPane scroll = new
+        // javax.swing.JScrollPane(component);
+        // scroll.setName(component.getName());
+        // add(scroll);
         add(component);
     }
 }
