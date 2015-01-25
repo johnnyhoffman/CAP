@@ -1857,6 +1857,7 @@ public class SearchAndRescueView extends FormComponent {
         String[][] sss = new String[GlobalConstants.AREASEARCH_COLUMNS][GlobalConstants.AREASEARCH_ROWS];
         for (int c = 0; c < GlobalConstants.AREASEARCH_COLUMNS; c++) {
             for (int r = 0; r < GlobalConstants.AREASEARCH_ROWS; r++) {
+                jTable1.getCellEditor(r, c).stopCellEditing(); // need to stop editing to get value
                 sss[c][r] = (String) jTable1.getValueAt(r, c);
             }
         }
@@ -1990,6 +1991,5 @@ public class SearchAndRescueView extends FormComponent {
     public String getAdditionalRemarksText() {
         return jTextArea4.getText();
     }
-    
 
 }

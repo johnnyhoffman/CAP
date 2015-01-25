@@ -21,13 +21,6 @@ public class SearchAndRescueController implements Controller {
 
     @Override
     public FormComponent getViewComponent() {
-        /*
-         * // * Needed a way to wrap the view in a scrollPane, not sure if any
-         * // * repercussions of this //
-         */
-        // javax.swing.JScrollPane scroll = new javax.swing.JScrollPane(view);
-        // scroll.setName(view.getName());
-        // return scroll; // this function only returned view to start with
         return view;
     }
 
@@ -227,10 +220,6 @@ public class SearchAndRescueController implements Controller {
                 model.updateBravoTotalPersonnel3(view.getBravoTotalPersonnel3Text());
             }
         });
-
-        // TODO: Delete
-        // view.addBravoAreaSearchChangeListener();
-        // model.updateBravoAreaSearched(view.getAreaSearchedText());
 
         view.addBravoOtherChangeListener(new CaretListener() {
             @Override
@@ -470,9 +459,10 @@ public class SearchAndRescueController implements Controller {
             }
         });
     }
-    
+
     private void checkBravoAreaSearch() {
         String[][] viewSearchArea = view.getBravoAreaSearchedText();
+
         if (!Arrays.deepEquals(viewSearchArea, model.getBravoAreaSearched())) {
             model.updateBravoAreaSearched(viewSearchArea);
         }

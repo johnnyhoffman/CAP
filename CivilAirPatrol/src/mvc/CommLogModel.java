@@ -1,5 +1,7 @@
 package mvc;
 
+import mvc.DataContainers.CommunicationsLog.ComLogEntry;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -9,6 +11,7 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
     private Gson gson;
 
     public CommLogModel(String name) {
+        super();
         data = new DataContainers.CommunicationsLog(name);
         // gson = new Gson();
         // XXX: for debugging, revert to above creation method later
@@ -65,6 +68,16 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
     public void updateF(String s) {
         data.F = s;
         schedulePush();
+    }
+    
+    public void updateEntries(ComLogEntry[] cles) {
+        data.entries = cles;
+        schedulePush();
+    }
+
+    // Specially needed for the controller to check if view has changed:
+    public ComLogEntry[] getEntries(){
+        return data.entries;
     }
 
     public String jsonSerialize() {

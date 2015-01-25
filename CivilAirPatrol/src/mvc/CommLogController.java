@@ -1,9 +1,9 @@
 package mvc;
 
-import java.awt.Component;
-
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+
+import mvc.DataContainers.CommunicationsLog.ComLogEntry;
 
 /* Placeholder for demonstrating Session MVC */
 public class CommLogController implements Controller {
@@ -28,7 +28,6 @@ public class CommLogController implements Controller {
      * view.
      */
     public void setListeners() {
-        //TODO: Add change listeners for "entries" fields
         view.addMissionNumChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
@@ -83,16 +82,37 @@ public class CommLogController implements Controller {
                 model.updateF(view.getFText());
             }
         });
-        
+
         view.setOnCloseListener(new FormComponent.OnCloseListener() {
-            
+
             @Override
             public void onClose() {
-
+                checkEntries();
                 model.checkerHandle.cancel(true);
                 model.push();
             }
         });
 
+        model.setOnIntervalListener(new ScheduledPushAndCheckModelAbstraction.OnIntervalListener() {
+            @Override
+            public void onInterval() {
+                checkEntries();
+            }
+        });
+
+    }
+
+    private void checkEntries() {
+        ComLogEntry[] viewEntries = view.getEntries();
+        ComLogEntry[] modelEntries = model.getEntries();
+
+//        for (int i = 0; i < GlobalConstants.COMLOG_ENTRY_COUNT; i++) {
+//            if (!viewEntries[i].time.equals(modelEntries[i].time) || !viewEntries[i].call.equals(modelEntries[i].call)
+//                    || !viewEntries[i].chRef.equals(modelEntries[i].chRef)
+//                    || !viewEntries[i].remarks.equals(modelEntries[i].remarks)) {
+//                model.updateEntries(viewEntries);
+//                return;
+//            }
+//        }
     }
 }

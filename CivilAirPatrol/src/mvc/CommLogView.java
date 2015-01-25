@@ -2,6 +2,8 @@ package mvc;
 
 import javax.swing.event.CaretListener;
 
+import mvc.DataContainers.CommunicationsLog.ComLogEntry;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -355,6 +357,22 @@ public class CommLogView extends FormComponent {
 
     public String getFText() {
         return jTextField9.getText();
+    }
+
+    public ComLogEntry[] getEntries() {
+        ComLogEntry[] cles = new ComLogEntry[GlobalConstants.COMLOG_ENTRY_COUNT];
+        for (int i = 0; i < GlobalConstants.COMLOG_ENTRY_COUNT; i++) {
+            jTable1.getCellEditor(i, 0).stopCellEditing(); // need to stop editing to get value
+            cles[i].time = (String) jTable1.getValueAt(i, 0);
+            jTable1.getCellEditor(i, 1).stopCellEditing(); // need to stop editing to get value
+            cles[i].call = (String) jTable1.getValueAt(i, 1);
+            jTable1.getCellEditor(i, 2).stopCellEditing(); // need to stop editing to get value
+            cles[i].chRef = (String) jTable1.getValueAt(i, 2);
+            jTable1.getCellEditor(i, 3).stopCellEditing(); // need to stop editing to get value
+            cles[i].remarks = (String) jTable1.getValueAt(i, 3);
+        }
+        System.out.println("HERE");
+        return cles;
     }
 
 
