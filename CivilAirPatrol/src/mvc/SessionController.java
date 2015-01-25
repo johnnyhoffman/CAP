@@ -19,8 +19,7 @@ public class SessionController {
         formsController = new FormsController();
         assetsController = new AssetsController();
         chatController = new ChatController();
-        // view.setFormsComponent(new CommLogView()); //TODO I added this in to
-        // see my form to build
+
         view.setFormsComponent(formsController.getViewComponent());
         view.setAssetsComponent(assetsController.getViewComponent());
         view.setChatComponent(chatController.getViewComponent());

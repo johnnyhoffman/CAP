@@ -106,13 +106,13 @@ public class CommLogController implements Controller {
         ComLogEntry[] viewEntries = view.getEntries();
         ComLogEntry[] modelEntries = model.getEntries();
 
-//        for (int i = 0; i < GlobalConstants.COMLOG_ENTRY_COUNT; i++) {
-//            if (!viewEntries[i].time.equals(modelEntries[i].time) || !viewEntries[i].call.equals(modelEntries[i].call)
-//                    || !viewEntries[i].chRef.equals(modelEntries[i].chRef)
-//                    || !viewEntries[i].remarks.equals(modelEntries[i].remarks)) {
-//                model.updateEntries(viewEntries);
-//                return;
-//            }
-//        }
+        for (int i = 0; i < GlobalConstants.COMLOG_ENTRY_COUNT; i++) {
+            if (!viewEntries[i].time.equals(modelEntries[i].time) || !viewEntries[i].call.equals(modelEntries[i].call)
+                    || !viewEntries[i].chRef.equals(modelEntries[i].chRef)
+                    || !viewEntries[i].remarks.equals(modelEntries[i].remarks)) {
+                model.updateEntries(viewEntries);
+                return;
+            }
+        }
     }
 }

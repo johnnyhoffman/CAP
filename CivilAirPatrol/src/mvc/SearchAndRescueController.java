@@ -33,7 +33,7 @@ public class SearchAndRescueController implements Controller {
      * view.
      */
     public void setListeners() {
-        // TODO: Add change listeners for "bravo.areaSearch" fields
+
         view.addHeaderMissionNumberChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {

@@ -362,14 +362,23 @@ public class CommLogView extends FormComponent {
     public ComLogEntry[] getEntries() {
         ComLogEntry[] cles = new ComLogEntry[GlobalConstants.COMLOG_ENTRY_COUNT];
         for (int i = 0; i < GlobalConstants.COMLOG_ENTRY_COUNT; i++) {
+            cles[i] = new ComLogEntry();
             jTable1.getCellEditor(i, 0).stopCellEditing(); // need to stop editing to get value
-            cles[i].time = (String) jTable1.getValueAt(i, 0);
+
+            Object time = jTable1.getValueAt(i, 0);
+            cles[i].time = (time == null) ? "" : (String) time;
+
             jTable1.getCellEditor(i, 1).stopCellEditing(); // need to stop editing to get value
-            cles[i].call = (String) jTable1.getValueAt(i, 1);
+            Object call = jTable1.getValueAt(i, 1);
+            cles[i].call =  (call == null) ? "" : (String) call;
+
             jTable1.getCellEditor(i, 2).stopCellEditing(); // need to stop editing to get value
-            cles[i].chRef = (String) jTable1.getValueAt(i, 2);
+            Object chRef = jTable1.getValueAt(i, 2);
+            cles[i].chRef = (chRef==null) ? "" : (String) chRef;
+
             jTable1.getCellEditor(i, 3).stopCellEditing(); // need to stop editing to get value
-            cles[i].remarks = (String) jTable1.getValueAt(i, 3);
+            Object remarks = jTable1.getValueAt(i, 3);
+            cles[i].remarks = (remarks==null) ? "" : (String) remarks;
         }
         System.out.println("HERE");
         return cles;
