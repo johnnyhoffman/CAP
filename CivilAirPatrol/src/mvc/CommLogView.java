@@ -380,7 +380,6 @@ public class CommLogView extends FormComponent {
             Object remarks = jTable1.getValueAt(i, 3);
             cles[i].remarks = (remarks==null) ? "" : (String) remarks;
         }
-        System.out.println("HERE");
         return cles;
     }
 
