@@ -11,7 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-/* Placeholder for demonstrating Session MVC */
+import com.google.gson.JsonObject;
+
 public class FormsController implements Controller {
 
     private FormsView view;
@@ -67,7 +68,7 @@ public class FormsController implements Controller {
         addTab(model.newComLog());
     }
 
-    public void newSearchAndResue() {
+    public void newSearchAndRescue() {
         addTab(model.newSearchAndRescue());
     }
 
@@ -76,7 +77,29 @@ public class FormsController implements Controller {
     }
 
     public void removeTab(Component c) {
+        // TODO: Remove controller from model as well
         view.remove(c);
+    }
+
+    public void fromJson(JsonObject json) {
+        // TODO: Need to check if tab exists already, in which case we just update it.
+        if (json.has("type")) {
+            String type = json.get("type").getAsString();
+            if (type.equals(GlobalConstants.RADIO_MESSAGE_TYPE)) {
+                addTab(model.radioMessageFromJson(json));
+            } else if (type.equals(GlobalConstants.COMMUNICATIONS_LOG_TYPE)) {
+                addTab(model.comLogFromJson(json));
+            } else if (type.equals(GlobalConstants.SEARCH_AND_RESCUE_TYPE)) {
+                addTab(model.searchAndRescueFromJson(json));
+            } else {
+                // TODO: Exception instead maybe
+                System.out.println("Problem, unknown type");
+            }
+        } else {
+            // TODO: Exception instead maybe
+            System.out.println("Problem, json missing type");
+        }
+        // GlobalConstants.COMMUNICATIONS_LOG_TYPE
     }
 
     public class RemoveTabListener implements ActionListener {

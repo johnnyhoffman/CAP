@@ -7,6 +7,10 @@ import java.util.Arrays;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import com.google.gson.JsonObject;
+
+import mvc.ScheduledPushModelAbstraction.OnModelLoadListener;
+
 public class SearchAndRescueController implements Controller {
 
     private SearchAndRescueView view;
@@ -17,6 +21,14 @@ public class SearchAndRescueController implements Controller {
         view.setName(name);
         model = new SearchAndRescueModel(name);
         setListeners();
+    }
+
+    public SearchAndRescueController(JsonObject json) {
+        view = new SearchAndRescueView();
+        view.setName(json.get("name").getAsString());
+        model = new SearchAndRescueModel(json);
+        setListeners();
+        refreshViewFromModel();
     }
 
     @Override
@@ -435,10 +447,10 @@ public class SearchAndRescueController implements Controller {
             }
         });
 
-        view.addAdditionalRemarksChangeListener(new CaretListener() {
+        view.addGolfAdditionalRemarksChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateGolfAdditionalRemarks(view.getAdditionalRemarksText());
+                model.updateGolfAdditionalRemarks(view.getGolfAdditionalRemarksText());
             }
         });
 
@@ -458,6 +470,14 @@ public class SearchAndRescueController implements Controller {
                 checkBravoAreaSearch();
             }
         });
+        
+
+        model.setOnModelLoadListener(new OnModelLoadListener() {
+            @Override
+            public void onModelLoad() {
+                refreshViewFromModel();
+            }
+        });
     }
 
     private void checkBravoAreaSearch() {
@@ -466,6 +486,73 @@ public class SearchAndRescueController implements Controller {
         if (!Arrays.deepEquals(viewSearchArea, model.getBravoAreaSearched())) {
             model.updateBravoAreaSearched(viewSearchArea);
         }
+    }
+
+    public void refreshViewFromModel() {
+        view.setHeaderMissionNumberText(model.getHeaderMissionNumber());
+        view.setHeaderActivityForDateOfText(model.getHeaderActivityForDateOf());
+        view.setHeaderReportedByText(model.getHeaderReportedBy());
+        view.setHeaderDateTimeText(model.getHeaderDateTime());
+        view.setAlphaNameOfSearchOrg1Text(model.getAlphaNameOfSearchOrg1());
+        view.setAlphaNameOfSearchOrg2Text(model.getAlphaNameOfSearchOrg2());
+        view.setAlphaNameOfSearchOrg3Text(model.getAlphaNameOfSearchOrg3());
+        view.setBravoTimeDispatched1Text(model.getBravoTimeDispatched1());
+        view.setBravoTimeDispatched2Text(model.getBravoTimeDispatched2());
+        view.setBravoTimeDispatched3Text(model.getBravoTimeDispatched3());
+        view.setBravoTimeELTFirstHeard1Text(model.getBravoTimeELTFirstHeard1());
+        view.setBravoTimeELTFirstHeard2Text(model.getBravoTimeELTFirstHeard2());
+        view.setBravoTimeELTFirstHeard3Text(model.getBravoTimeELTFirstHeard3());
+        view.setBravoNumAircraft1Text(model.getBravoNumAircraft1());
+        view.setBravoNumAircraft2Text(model.getBravoNumAircraft2());
+        view.setBravoNumAircraft3Text(model.getBravoNumAircraft3());
+        view.setBravoNumSorties1Text(model.getBravoNumSorties1());
+        view.setBravoNumSorties2Text(model.getBravoNumSorties2());
+        view.setBravoNumSorties3Text(model.getBravoNumSorties3());
+        view.setBravoHoursInSearchArea1Text(model.getBravoHoursInSearchArea1());
+        view.setBravoHoursInSearchArea2Text(model.getBravoHoursInSearchArea2());
+        view.setBravoHoursInSearchArea3Text(model.getBravoHoursInSearchArea3());
+        view.setBravoHoursEnroute1Text(model.getBravoHoursEnroute1());
+        view.setBravoHoursEnroute2Text(model.getBravoHoursEnroute2());
+        view.setBravoHoursEnroute3Text(model.getBravoHoursEnroute3());
+        view.setBravoTotalFlightHours1Text(model.getBravoTotalFlightHours1());
+        view.setBravoTotalFlightHours2Text(model.getBravoTotalFlightHours2());
+        view.setBravoTotalFlightHours3Text(model.getBravoTotalFlightHours3());
+        view.setBravoTotalPersonnel1Text(model.getBravoTotalPersonnel1());
+        view.setBravoTotalPersonnel2Text(model.getBravoTotalPersonnel2());
+        view.setBravoTotalPersonnel3Text(model.getBravoTotalPersonnel3());
+        view.setBravoOtherText(model.getBravoOther());
+        view.setBravoSignificantWeatherText(model.getBravoSignificantWeather());
+        view.setCharlieTotalResourcesExpectedACPTText(model.getCharlieTotalResourcesExpectedACPT());
+        view.setCharlieTotalResourcesExpectedPersonnelText(model.getCharlieTotalResourcesExpectedPersonnel());
+        view.setCharliePlannedSearchAreaText(model.getCharliePlannedSearchArea());
+        view.setCharlieForcastedWeatherText(model.getCharlieForcastedWeather());
+        view.setDeltaNameOfOrgText(model.getDeltaNameOfOrg());
+        view.setDeltaActualLocText(model.getDeltaActualLoc());
+        view.setDeltaCoordinatesText(model.getDeltaCoordinates());
+        view.setDeltaTimeObjectiveLocatedText(model.getDeltaTimeObjectiveLocated());
+        view.setDeltaELTText(model.getDeltaELT());
+        view.setDeltaBYText(model.getDeltaBY());
+        view.setDeltaTerrainAndGroundCoverText(model.getDeltaTerrainAndGroundCover());
+        view.setDeltaNumSubjectsInvolvedText(model.getDeltaNumSubjectsInvolved());
+        view.setDeltaNumAliveText(model.getDeltaNumAlive());
+        view.setDeltaNumDeceasedText(model.getDeltaNumDeceased());
+        view.setDeltaNumMissingText(model.getDeltaNumMissing());
+        view.setEchoOrgMakingRecoveryText(model.getEchoOrgMakingRecovery());
+        view.setEchoTimeRecoveryBeganText(model.getEchoTimeRecoveryBegan());
+        view.setEchoSubjectsDeliveredToText(model.getEchoSubjectsDeliveredTo());
+        view.setEchoTimeRecoveryCompletedText(model.getEchoTimeRecoveryCompleted());
+        view.setEchoRecoveryMethodsText(model.getEchoRecoveryMethods());
+        view.setEchoNumRecoveredAliveText(model.getEchoNumRecoveredAlive());
+        view.setEchoNumRecoveredDeceasedText(model.getEchoNumRecoveredDeceased());
+        view.setEchoNumSelfRecoveredText(model.getEchoNumSelfRecovered());
+        view.setFoxtrotNumSubjectsSavedText(model.getFoxtrotNumSubjectsSaved());
+        view.setFoxtrotNumSubjectsAssistedText(model.getFoxtrotNumSubjectsAssisted());
+        view.setFoxtrotOrganizationSavesCreditedToText(model.getFoxtrotOrganizationSavesCreditedTo());
+        view.setFoxtrotMissionClosed(model.getFoxtrotMissionClosed());
+        view.setFoxtrotMissionSuspended(model.getFoxtrotMissionSuspended());
+        view.setFoxtrotCloseOrSuspendTimeText(model.getFoxtrotCloseOrSuspendTime());
+        view.setGolfAdditionalRemarksText(model.getGolfAdditionalRemarks());
+        view.setBravoAreaSearched(model.getBravoAreaSearched());
     }
 
 }

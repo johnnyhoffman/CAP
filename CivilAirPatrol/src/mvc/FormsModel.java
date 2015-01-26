@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+
 /* Placeholder for demonstrating Session MVC */
 public class FormsModel {
 
@@ -44,6 +46,24 @@ public class FormsModel {
         RadioMessageController radMesCont = new RadioMessageController("Radio Message " + radioMessageCount);
         formControllers.add(radMesCont);
         return radMesCont.getViewComponent();
+    }
+
+    public FormComponent radioMessageFromJson(JsonObject json) {
+        RadioMessageController radMesCont = new RadioMessageController(json);
+        formControllers.add(radMesCont);
+        return radMesCont.getViewComponent();
+    }
+
+    public FormComponent comLogFromJson(JsonObject json) {
+        CommLogController comCont = new CommLogController(json);
+        formControllers.add(comCont);
+        return comCont.getViewComponent();
+    }
+
+    public FormComponent searchAndRescueFromJson(JsonObject json) {
+        SearchAndRescueController searchRescCont = new SearchAndRescueController(json);
+        formControllers.add(searchRescCont);
+        return searchRescCont.getViewComponent();
     }
 
 }

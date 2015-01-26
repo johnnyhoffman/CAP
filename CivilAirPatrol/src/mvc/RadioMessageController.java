@@ -1,9 +1,11 @@
 package mvc;
 
-import java.awt.Component;
-
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+
+import com.google.gson.JsonObject;
+
+import mvc.ScheduledPushModelAbstraction.OnModelLoadListener;
 
 /* Placeholder for demonstrating Session MVC */
 public class RadioMessageController implements Controller {
@@ -16,6 +18,14 @@ public class RadioMessageController implements Controller {
         view.setName(name);
         model = new RadioMessageModel(name);
         setListeners();
+    }
+
+    public RadioMessageController(JsonObject json) {
+        view = new RadioMessageView();
+        view.setName(json.get("name").getAsString());
+        model = new RadioMessageModel(json);
+        setListeners();
+        refreshViewFromModel();
     }
 
     @Override
@@ -127,5 +137,30 @@ public class RadioMessageController implements Controller {
                 model.push();
             }
         });
+
+        model.setOnModelLoadListener(new OnModelLoadListener() {
+            @Override
+            public void onModelLoad() {
+                refreshViewFromModel();
+            }
+        });
+    }
+
+    public void refreshViewFromModel() {
+        view.setHeaderMsgNumText(model.getHeaderMsgNum());
+        view.setHeaderPrecedenceText(model.getHeaderPrecedence());
+        view.setHeaderDtgText(model.getHeaderDtg());
+        view.setHeaderFromText(model.getHeaderFrom());
+        view.setHeaderToText(model.getHeaderTo());
+        view.setHeaderInfoText(model.getHeaderInfo());
+        view.setHeaderSubjText(model.getHeaderSubj());
+        view.setHeaderGroupCntText(model.getHeaderGroupCnt());
+        view.setMessageText(model.getMessage());
+        view.setMessageRecievedFromText(model.getMessageRecievedFrom());
+        view.setMessageRecievedDtgText(model.getMessageRecievedDtg());
+        view.setMessageRecievedRecievingOperatorInitialsText(model.getMessageRecievedRecievingOperatorInitials());
+        view.setMessageSentToText(model.getMessageSentTo());
+        view.setMessageSentDtgText(model.getMessageSentDtg());
+        view.setMessageSentSendingOperatorInitialsText(model.getMessageSentSendingOperatorInitials());
     }
 }

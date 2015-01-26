@@ -5,7 +5,7 @@ public class DataContainers {
     public static class CommunicationsLog {
 
         public String name;
-        public String type = "CommunicationsLog";
+        public String type = GlobalConstants.COMMUNICATIONS_LOG_TYPE;
         public String missionNum;
         public String stationFunctionalDesignator;
         public String date;
@@ -50,7 +50,7 @@ public class DataContainers {
     }
 
     public static class RadioMessage {
-        public String type = "RadioMessage";
+        public String type = GlobalConstants.RADIO_MESSAGE_TYPE;
         public String name;
         public Header header;
         public String message;
@@ -113,7 +113,7 @@ public class DataContainers {
     }
 
     public static class SearchAndRescue {
-        public String type = "SearchAndRescue";
+        public String type = GlobalConstants.SEARCH_AND_RESCUE_TYPE;
         public String name;
         public Header header;
         public Alpha alpha;

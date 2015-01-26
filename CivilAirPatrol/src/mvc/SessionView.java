@@ -18,6 +18,8 @@ public class SessionView extends JFrame {
     private JMenuItem newRadioMessageMenuItem;
     private JMenuItem newLocatingDataMenuItem;
     private JMenuItem newSearchAndRescueMenuItem;
+    // XXX: Temp for testing
+    private JMenuItem newItemFromJson;
 
     SessionView() {
         // Make Menu
@@ -30,6 +32,11 @@ public class SessionView extends JFrame {
         newMenu.add(newRadioMessageMenuItem);
         newSearchAndRescueMenuItem = new JMenuItem("Search And Rescue Form");
         newMenu.add(newSearchAndRescueMenuItem);
+
+        // XXX: Temp for testing
+        newItemFromJson = new JMenuItem("Temprary make thangs frum json opshen");
+        newMenu.add(newItemFromJson);
+
         setJMenuBar(menuBar);
 
         // Split window into sections
@@ -64,19 +71,21 @@ public class SessionView extends JFrame {
         newComLogMenuItem.addActionListener(actionListener);
     }
 
-    public void addNewRadioMessageMenuItemActionListener(
-            ActionListener actionListener) {
+    public void addNewRadioMessageMenuItemActionListener(ActionListener actionListener) {
         newRadioMessageMenuItem.addActionListener(actionListener);
     }
 
-    public void addNewLocatingDataMenuItemActionListener(
-            ActionListener actionListener) {
+    public void addNewLocatingDataMenuItemActionListener(ActionListener actionListener) {
         newLocatingDataMenuItem.addActionListener(actionListener);
     }
 
-    public void addNewSearchAndRescueMenuItemActionListener(
-            ActionListener actionListener) {
+    public void addNewSearchAndRescueMenuItemActionListener(ActionListener actionListener) {
         newSearchAndRescueMenuItem.addActionListener(actionListener);
+    }
+
+    //XXX: temp for testing
+    public void addIncomingJsonActionListener(ActionListener actionListener) {
+        newItemFromJson.addActionListener(actionListener);
     }
 
 }

@@ -2,6 +2,7 @@ package mvc;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction {
 
@@ -11,9 +12,17 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
     public SearchAndRescueModel(String name) {
         super();
         data = new DataContainers.SearchAndRescue(name);
-        // gson = new Gson();
-        // XXX: for debugging, revert to above creation method later
-        gson = new GsonBuilder().setPrettyPrinting().create();
+        gson = new Gson();
+        // for debugging revert to above creation method later
+        // gson = new GsonBuilder().setPrettyPrinting().create();
+    }
+
+    public SearchAndRescueModel(JsonObject json) {
+        super();
+        gson = new Gson();
+        // for debugging revert to creation method below
+        // gson = new GsonBuilder().setPrettyPrinting().create();
+        jsonDeserialize(json);
     }
 
     /* methods for updating fields */
@@ -176,11 +185,6 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         data.bravo.areaSearch = sss;
         schedulePush();
     }
-    
-    // Specially needed for the controller to check if view has changed:
-    public String[][] getBravoAreaSearched(){
-        return data.bravo.areaSearch;
-    }
 
     public void updateBravoOther(String s) {
         data.bravo.other = s;
@@ -338,8 +342,268 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         schedulePush();
     }
 
+    public String getHeaderMissionNumber() {
+        return data.header.missionNumber;
+    }
+
+    public String getHeaderActivityForDateOf() {
+        return data.header.activityForDateOf;
+    }
+
+    public String getHeaderReportedBy() {
+        return data.header.reportedBy;
+    }
+
+    public String getHeaderDateTime() {
+        return data.header.dateTime;
+    }
+
+    public String getAlphaNameOfSearchOrg1() {
+        return data.alpha.nameOfSearchOrg1;
+    }
+
+    public String getAlphaNameOfSearchOrg2() {
+        return data.alpha.nameOfSearchOrg2;
+    }
+
+    public String getAlphaNameOfSearchOrg3() {
+        return data.alpha.nameOfSearchOrg3;
+    }
+
+    public String getBravoTimeDispatched1() {
+        return data.bravo.timeDispatched1;
+    }
+
+    public String getBravoTimeDispatched2() {
+        return data.bravo.timeDispatched2;
+    }
+
+    public String getBravoTimeDispatched3() {
+        return data.bravo.timeDispatched3;
+    }
+
+    public String getBravoTimeELTFirstHeard1() {
+        return data.bravo.timeELTFirstHeard1;
+    }
+
+    public String getBravoTimeELTFirstHeard2() {
+        return data.bravo.timeELTFirstHeard2;
+    }
+
+    public String getBravoTimeELTFirstHeard3() {
+        return data.bravo.timeELTFirstHeard3;
+    }
+
+    public String getBravoNumAircraft1() {
+        return data.bravo.numAircraft1;
+    }
+
+    public String getBravoNumAircraft2() {
+        return data.bravo.numAircraft2;
+    }
+
+    public String getBravoNumAircraft3() {
+        return data.bravo.numAircraft3;
+    }
+
+    public String getBravoNumSorties1() {
+        return data.bravo.numSorties1;
+    }
+
+    public String getBravoNumSorties2() {
+        return data.bravo.numSorties2;
+    }
+
+    public String getBravoNumSorties3() {
+        return data.bravo.numSorties3;
+    }
+
+    public String getBravoHoursInSearchArea1() {
+        return data.bravo.hoursInSearchArea1;
+    }
+
+    public String getBravoHoursInSearchArea2() {
+        return data.bravo.hoursInSearchArea2;
+    }
+
+    public String getBravoHoursInSearchArea3() {
+        return data.bravo.hoursInSearchArea3;
+    }
+
+    public String getBravoHoursEnroute1() {
+        return data.bravo.hoursEnroute1;
+    }
+
+    public String getBravoHoursEnroute2() {
+        return data.bravo.hoursEnroute2;
+    }
+
+    public String getBravoHoursEnroute3() {
+        return data.bravo.hoursEnroute3;
+    }
+
+    public String getBravoTotalFlightHours1() {
+        return data.bravo.totalFlightHours1;
+    }
+
+    public String getBravoTotalFlightHours2() {
+        return data.bravo.totalFlightHours2;
+    }
+
+    public String getBravoTotalFlightHours3() {
+        return data.bravo.totalFlightHours3;
+    }
+
+    public String getBravoTotalPersonnel1() {
+        return data.bravo.totalPersonnel1;
+    }
+
+    public String getBravoTotalPersonnel2() {
+        return data.bravo.totalPersonnel2;
+    }
+
+    public String getBravoTotalPersonnel3() {
+        return data.bravo.totalPersonnel3;
+    }
+
+    public String getBravoOther() {
+        return data.bravo.other;
+    }
+
+    public String getBravoSignificantWeather() {
+        return data.bravo.significantWeather;
+    }
+
+    public String getCharlieTotalResourcesExpectedACPT() {
+        return data.charlie.totalResourcesExpectedACPT;
+    }
+
+    public String getCharlieTotalResourcesExpectedPersonnel() {
+        return data.charlie.totalResourcesExpectedPersonnel;
+    }
+
+    public String getCharliePlannedSearchArea() {
+        return data.charlie.plannedSearchArea;
+    }
+
+    public String getCharlieForcastedWeather() {
+        return data.charlie.forcastedWeather;
+    }
+
+    public String getDeltaNameOfOrg() {
+        return data.delta.nameOfOrg;
+    }
+
+    public String getDeltaActualLoc() {
+        return data.delta.actualLoc;
+    }
+
+    public String getDeltaCoordinates() {
+        return data.delta.coordinates;
+    }
+
+    public String getDeltaTimeObjectiveLocated() {
+        return data.delta.timeObjectiveLocated;
+    }
+
+    public String getDeltaELT() {
+        return data.delta.ELT;
+    }
+
+    public String getDeltaBY() {
+        return data.delta.BY;
+    }
+
+    public String getDeltaTerrainAndGroundCover() {
+        return data.delta.terrainAndGroundCover;
+    }
+
+    public String getDeltaNumSubjectsInvolved() {
+        return data.delta.numSubjectsInvolved;
+    }
+
+    public String getDeltaNumAlive() {
+        return data.delta.numAlive;
+    }
+
+    public String getDeltaNumDeceased() {
+        return data.delta.numDeceased;
+    }
+
+    public String getDeltaNumMissing() {
+        return data.delta.numMissing;
+    }
+
+    public String getEchoOrgMakingRecovery() {
+        return data.echo.orgMakingRecovery;
+    }
+
+    public String getEchoTimeRecoveryBegan() {
+        return data.echo.timeRecoveryBegan;
+    }
+
+    public String getEchoSubjectsDeliveredTo() {
+        return data.echo.subjectsDeliveredTo;
+    }
+
+    public String getEchoTimeRecoveryCompleted() {
+        return data.echo.timeRecoveryCompleted;
+    }
+
+    public String getEchoRecoveryMethods() {
+        return data.echo.recoveryMethods;
+    }
+
+    public String getEchoNumRecoveredAlive() {
+        return data.echo.numRecoveredAlive;
+    }
+
+    public String getEchoNumRecoveredDeceased() {
+        return data.echo.numRecoveredDeceased;
+    }
+
+    public String getEchoNumSelfRecovered() {
+        return data.echo.numSelfRecovered;
+    }
+
+    public String getFoxtrotNumSubjectsSaved() {
+        return data.foxtrot.numSubjectsSaved;
+    }
+
+    public String getFoxtrotNumSubjectsAssisted() {
+        return data.foxtrot.numSubjectsAssisted;
+    }
+
+    public String getFoxtrotOrganizationSavesCreditedTo() {
+        return data.foxtrot.organizationSavesCreditedTo;
+    }
+
+    public boolean getFoxtrotMissionClosed() {
+        return data.foxtrot.missionClosed;
+    }
+
+    public boolean getFoxtrotMissionSuspended() {
+        return data.foxtrot.missionSuspended;
+    }
+
+    public String getFoxtrotCloseOrSuspendTime() {
+        return data.foxtrot.closeOrSuspendTime;
+    }
+
+    public String getGolfAdditionalRemarks() {
+        return data.golf.additionalRemarks;
+    }
+
     public String jsonSerialize() {
         return gson.toJson(data);
     }
 
+    public void jsonDeserialize(JsonObject json) {
+        data = gson.fromJson(json, DataContainers.SearchAndRescue.class);
+        modelLoaded();
+    }
+
+    public String[][] getBravoAreaSearched() {
+        return data.bravo.areaSearch;
+    }
 }

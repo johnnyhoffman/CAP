@@ -3,8 +3,13 @@ package mvc;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public abstract class ScheduledPushModelAbstraction {
+    
+    public interface OnModelLoadListener {
+        public void onModelLoad();
+    }
 
     private final ScheduledThreadPoolExecutor pushExecutor;
+    private OnModelLoadListener onModelLoadListener;
 
     protected ScheduledPushModelAbstraction() {
         pushExecutor = new ScheduledThreadPoolExecutor(1);
@@ -30,6 +35,16 @@ public abstract class ScheduledPushModelAbstraction {
         // TODO: HERE IS WHERE WE HOOK IN DATABASE CONNECTION.
         // INSTEAD OF PRINTING THE JSON, PUSH IT TO THE DATABASE.
         System.out.println(jsonSerialize());
+    }
+    
+    public void setOnModelLoadListener(OnModelLoadListener l) {
+        onModelLoadListener = l;
+    }
+    
+    protected void modelLoaded() {
+        if (onModelLoadListener != null) {
+            onModelLoadListener.onModelLoad();
+        }
     }
 
     public abstract String jsonSerialize();

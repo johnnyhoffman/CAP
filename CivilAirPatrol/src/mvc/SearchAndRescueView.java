@@ -1725,7 +1725,7 @@ public class SearchAndRescueView extends FormComponent {
         jTextField57.addCaretListener(l);
     }
 
-    public void addAdditionalRemarksChangeListener(CaretListener l) {
+    public void addGolfAdditionalRemarksChangeListener(CaretListener l) {
         jTextArea4.addCaretListener(l);
     }
 
@@ -1857,7 +1857,9 @@ public class SearchAndRescueView extends FormComponent {
         String[][] sss = new String[GlobalConstants.AREASEARCH_COLUMNS][GlobalConstants.AREASEARCH_ROWS];
         for (int c = 0; c < GlobalConstants.AREASEARCH_COLUMNS; c++) {
             for (int r = 0; r < GlobalConstants.AREASEARCH_ROWS; r++) {
-                jTable1.getCellEditor(r, c).stopCellEditing(); // need to stop editing to get value
+                jTable1.getCellEditor(r, c).stopCellEditing(); // need to stop
+                                                               // editing to get
+                                                               // value
                 sss[c][r] = (String) jTable1.getValueAt(r, c);
             }
         }
@@ -1988,8 +1990,267 @@ public class SearchAndRescueView extends FormComponent {
         return jTextField57.getText();
     }
 
-    public String getAdditionalRemarksText() {
+    public String getGolfAdditionalRemarksText() {
         return jTextArea4.getText();
     }
 
+    public void setHeaderMissionNumberText(String s) {
+        jTextField1.setText(s);
+    }
+
+    public void setHeaderActivityForDateOfText(String s) {
+        jTextField2.setText(s);
+    }
+
+    public void setHeaderReportedByText(String s) {
+        jTextField3.setText(s);
+    }
+
+    public void setHeaderDateTimeText(String s) {
+        jTextField4.setText(s);
+    }
+
+    public void setAlphaNameOfSearchOrg1Text(String s) {
+        jTextField5.setText(s);
+    }
+
+    public void setAlphaNameOfSearchOrg2Text(String s) {
+        jTextField6.setText(s);
+    }
+
+    public void setAlphaNameOfSearchOrg3Text(String s) {
+        jTextField7.setText(s);
+    }
+
+    public void setBravoTimeDispatched1Text(String s) {
+        jTextField8.setText(s);
+    }
+
+    public void setBravoTimeDispatched2Text(String s) {
+        jTextField9.setText(s);
+    }
+
+    public void setBravoTimeDispatched3Text(String s) {
+        jTextField10.setText(s);
+    }
+
+    public void setBravoTimeELTFirstHeard1Text(String s) {
+        jTextField11.setText(s);
+    }
+
+    public void setBravoTimeELTFirstHeard2Text(String s) {
+        jTextField12.setText(s);
+    }
+
+    public void setBravoTimeELTFirstHeard3Text(String s) {
+        jTextField13.setText(s);
+    }
+
+    public void setBravoNumAircraft1Text(String s) {
+        jTextField14.setText(s);
+    }
+
+    public void setBravoNumAircraft2Text(String s) {
+        jTextField15.setText(s);
+    }
+
+    public void setBravoNumAircraft3Text(String s) {
+        jTextField16.setText(s);
+    }
+
+    public void setBravoNumSorties1Text(String s) {
+        jTextField17.setText(s);
+    }
+
+    public void setBravoNumSorties2Text(String s) {
+        jTextField18.setText(s);
+    }
+
+    public void setBravoNumSorties3Text(String s) {
+        jTextField19.setText(s);
+    }
+
+    public void setBravoHoursInSearchArea1Text(String s) {
+        jTextField20.setText(s);
+    }
+
+    public void setBravoHoursInSearchArea2Text(String s) {
+        jTextField21.setText(s);
+    }
+
+    public void setBravoHoursInSearchArea3Text(String s) {
+        jTextField22.setText(s);
+    }
+
+    public void setBravoHoursEnroute1Text(String s) {
+        jTextField23.setText(s);
+    }
+
+    public void setBravoHoursEnroute2Text(String s) {
+        jTextField24.setText(s);
+    }
+
+    public void setBravoHoursEnroute3Text(String s) {
+        jTextField25.setText(s);
+    }
+
+    public void setBravoTotalFlightHours1Text(String s) {
+        jTextField27.setText(s);
+    }
+
+    public void setBravoTotalFlightHours2Text(String s) {
+        jTextField28.setText(s);
+    }
+
+    public void setBravoTotalFlightHours3Text(String s) {
+        jTextField29.setText(s);
+    }
+
+    public void setBravoTotalPersonnel1Text(String s) {
+        jTextField30.setText(s);
+    }
+
+    public void setBravoTotalPersonnel2Text(String s) {
+        jTextField31.setText(s);
+    }
+
+    public void setBravoTotalPersonnel3Text(String s) {
+        jTextField32.setText(s);
+    }
+
+    public void setBravoOtherText(String s) {
+        jTextArea1.setText(s);
+    }
+
+    public void setBravoSignificantWeatherText(String s) {
+        jTextField26.setText(s);
+    }
+
+    public void setCharlieTotalResourcesExpectedACPTText(String s) {
+        jTextField33.setText(s);
+    }
+
+    public void setCharlieTotalResourcesExpectedPersonnelText(String s) {
+        jTextField34.setText(s);
+    }
+
+    public void setCharliePlannedSearchAreaText(String s) {
+        jTextArea2.setText(s);
+    }
+
+    public void setCharlieForcastedWeatherText(String s) {
+        jTextArea3.setText(s);
+    }
+
+    public void setDeltaNameOfOrgText(String s) {
+        jTextField35.setText(s);
+    }
+
+    public void setDeltaActualLocText(String s) {
+        jTextField36.setText(s);
+    }
+
+    public void setDeltaCoordinatesText(String s) {
+        jTextField37.setText(s);
+    }
+
+    public void setDeltaTimeObjectiveLocatedText(String s) {
+        jTextField38.setText(s);
+    }
+
+    public void setDeltaELTText(String s) {
+        jTextField39.setText(s);
+    }
+
+    public void setDeltaBYText(String s) {
+        jTextField40.setText(s);
+    }
+
+    public void setDeltaTerrainAndGroundCoverText(String s) {
+        jTextField41.setText(s);
+    }
+
+    public void setDeltaNumSubjectsInvolvedText(String s) {
+        jTextField42.setText(s);
+    }
+
+    public void setDeltaNumAliveText(String s) {
+        jTextField43.setText(s);
+    }
+
+    public void setDeltaNumDeceasedText(String s) {
+        jTextField44.setText(s);
+    }
+
+    public void setDeltaNumMissingText(String s) {
+        jTextField45.setText(s);
+    }
+
+    public void setEchoOrgMakingRecoveryText(String s) {
+        jTextField46.setText(s);
+    }
+
+    public void setEchoTimeRecoveryBeganText(String s) {
+        jTextField47.setText(s);
+    }
+
+    public void setEchoSubjectsDeliveredToText(String s) {
+        jTextField48.setText(s);
+    }
+
+    public void setEchoTimeRecoveryCompletedText(String s) {
+        jTextField49.setText(s);
+    }
+
+    public void setEchoRecoveryMethodsText(String s) {
+        jTextField50.setText(s);
+    }
+
+    public void setEchoNumRecoveredAliveText(String s) {
+        jTextField51.setText(s);
+    }
+
+    public void setEchoNumRecoveredDeceasedText(String s) {
+        jTextField52.setText(s);
+    }
+
+    public void setEchoNumSelfRecoveredText(String s) {
+        jTextField53.setText(s);
+    }
+
+    public void setFoxtrotNumSubjectsSavedText(String s) {
+        jTextField54.setText(s);
+    }
+
+    public void setFoxtrotNumSubjectsAssistedText(String s) {
+        jTextField55.setText(s);
+    }
+
+    public void setFoxtrotOrganizationSavesCreditedToText(String s) {
+        jTextField56.setText(s);
+    }
+
+    public void setFoxtrotMissionClosed(boolean b) {
+        jRadioButton2.setSelected(b);
+    }
+
+    public void setFoxtrotMissionSuspended(boolean b) {
+        jRadioButton3.setSelected(b);
+    }
+
+    public void setFoxtrotCloseOrSuspendTimeText(String s) {
+        jTextField57.setText(s);
+    }
+
+    public void setGolfAdditionalRemarksText(String s) {
+        jTextArea4.setText(s);
+    }
+
+    public void setBravoAreaSearched(String[][] sss) {
+        for (int c = 0; c < GlobalConstants.AREASEARCH_COLUMNS; c++) {
+            for (int r = 0; r < GlobalConstants.AREASEARCH_ROWS; r++) {
+                jTable1.setValueAt(sss[c][r], r, c);
+            }
+        }
+    }
 }

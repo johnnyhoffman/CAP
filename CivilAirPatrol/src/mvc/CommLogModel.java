@@ -4,6 +4,7 @@ import mvc.DataContainers.CommunicationsLog.ComLogEntry;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
 
@@ -13,12 +14,20 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
     public CommLogModel(String name) {
         super();
         data = new DataContainers.CommunicationsLog(name);
-        // gson = new Gson();
-        // XXX: for debugging, revert to above creation method later
-        gson = new GsonBuilder().setPrettyPrinting().create();
+        gson = new Gson();
+        // for debugging revert to creation method below
+        // gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     /* methods for updating fields */
+
+    public CommLogModel(JsonObject json) {
+        super();
+        gson = new Gson();
+        // for debugging revert to creation method below
+        // gson = new GsonBuilder().setPrettyPrinting().create();
+        jsonDeserialize(json);
+    }
 
     public void updateName(String s) {
         data.name = s;
@@ -69,19 +78,63 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
         data.F = s;
         schedulePush();
     }
-    
+
     public void updateEntries(ComLogEntry[] cles) {
         data.entries = cles;
         schedulePush();
     }
 
-    // Specially needed for the controller to check if view has changed:
-    public ComLogEntry[] getEntries(){
+    public String getName() {
+        return data.name;
+    }
+
+    public String getMissionNum() {
+        return data.missionNum;
+    }
+
+    public String getStationFunctionalDesignator() {
+        return data.stationFunctionalDesignator;
+    }
+
+    public String getDate() {
+        return data.date;
+    }
+
+    public String getA() {
+        return data.A;
+    }
+
+    public String getB() {
+        return data.B;
+    }
+
+    public String getC() {
+        return data.C;
+    }
+
+    public String getD() {
+        return data.D;
+    }
+
+    public String getE() {
+        return data.E;
+    }
+
+    public String getF() {
+        return data.F;
+    }
+
+    public ComLogEntry[] getEntries() {
         return data.entries;
     }
 
     public String jsonSerialize() {
         return gson.toJson(data);
+    }
+
+    public void jsonDeserialize(JsonObject json) {
+        data = gson.fromJson(json, DataContainers.CommunicationsLog.class);
+        modelLoaded();
     }
 
 }

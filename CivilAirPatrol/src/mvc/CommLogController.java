@@ -3,7 +3,10 @@ package mvc;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import com.google.gson.JsonObject;
+
 import mvc.DataContainers.CommunicationsLog.ComLogEntry;
+import mvc.ScheduledPushModelAbstraction.OnModelLoadListener;
 
 /* Placeholder for demonstrating Session MVC */
 public class CommLogController implements Controller {
@@ -16,6 +19,14 @@ public class CommLogController implements Controller {
         view.setName(name);
         model = new CommLogModel(name);
         setListeners();
+    }
+
+    public CommLogController(JsonObject json) {
+        view = new CommLogView();
+        view.setName(json.get("name").getAsString());
+        model = new CommLogModel(json);
+        setListeners();
+        refreshViewFromModel();
     }
 
     @Override
@@ -100,6 +111,13 @@ public class CommLogController implements Controller {
             }
         });
 
+        model.setOnModelLoadListener(new OnModelLoadListener() {
+            @Override
+            public void onModelLoad() {
+                refreshViewFromModel();
+            }
+        });
+
     }
 
     private void checkEntries() {
@@ -114,5 +132,19 @@ public class CommLogController implements Controller {
                 return;
             }
         }
+    }
+
+    public void refreshViewFromModel() {
+        view.setName(model.getName());
+        view.setMissionNumText(model.getMissionNum());
+        view.setStationFunctionalDesignatorText(model.getStationFunctionalDesignator());
+        view.setDateText(model.getDate());
+        view.setAText(model.getA());
+        view.setBText(model.getB());
+        view.setCText(model.getC());
+        view.setDText(model.getD());
+        view.setEText(model.getE());
+        view.setFText(model.getF());
+        view.setEntries(model.getEntries());
     }
 }

@@ -19,4 +19,7 @@ public class GlobalConstants {
 
     // number of entries in the communication log table
     public static final int COMLOG_ENTRY_COUNT = 30;
+    public static final String COMMUNICATIONS_LOG_TYPE = "CommunicationsLog";
+    public static final String RADIO_MESSAGE_TYPE = "RadioMessage";
+    public static final String SEARCH_AND_RESCUE_TYPE = "SearchAndRescue";
 }
