@@ -11,7 +11,7 @@ import com.google.gson.JsonObject;
 
 import mvc.ScheduledPushModelAbstraction.OnModelLoadListener;
 
-public class SearchAndRescueController implements Controller {
+public class SearchAndRescueController implements IFormController {
 
     private SearchAndRescueView view;
     private SearchAndRescueModel model;

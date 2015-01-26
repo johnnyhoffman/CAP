@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 
 import com.google.gson.JsonObject;
 
-public class FormsController implements Controller {
+public class FormsController implements IController {
 
     private FormsView view;
     private FormsModel model;
@@ -33,10 +33,11 @@ public class FormsController implements Controller {
         return view;
     }
 
-    private void addTab(FormComponent c) {
+    private void addTab(IFormController controller) {
 
-        javax.swing.JScrollPane scrollC = new javax.swing.JScrollPane(c);
-        scrollC.setName(c.getName());
+        FormComponent component = controller.getViewComponent();
+        javax.swing.JScrollPane scrollC = new javax.swing.JScrollPane(component);
+        scrollC.setName(component.getName());
 
         view.addTab(scrollC);
 
@@ -60,7 +61,7 @@ public class FormsController implements Controller {
         pnlTab.add(btnClose, gbc);
 
         view.setTabComponentAt(index, pnlTab);
-        btnClose.addActionListener(new RemoveTabListener(this, c, scrollC));
+        btnClose.addActionListener(new RemoveTabListener(this, controller, component, scrollC));
 
     }
 
@@ -76,9 +77,9 @@ public class FormsController implements Controller {
         addTab(model.newRadioMessage());
     }
 
-    public void removeTab(Component c) {
-        // TODO: Remove controller from model as well
-        view.remove(c);
+    public void removeTab(Component component, IFormController controller) {
+        view.remove(component);
+        model.remove(controller);
     }
 
     public void fromJson(JsonObject json) {
@@ -107,10 +108,12 @@ public class FormsController implements Controller {
         FormComponent component;
         FormsController formsController;
         JScrollPane componentAsScrollPane;
+        IFormController innerController;
 
-        public RemoveTabListener(FormsController formsController, FormComponent component,
+        public RemoveTabListener(FormsController formsController, IFormController innerController, FormComponent component,
                 JScrollPane componentAsScollPane) {
             this.formsController = formsController;
+            this.innerController = innerController;
             this.component = component;
             this.componentAsScrollPane = componentAsScollPane;
         }
@@ -118,7 +121,7 @@ public class FormsController implements Controller {
         @Override
         public void actionPerformed(ActionEvent arg0) {
             component.onClose();
-            formsController.removeTab(componentAsScrollPane);
+            formsController.removeTab(componentAsScrollPane, innerController);
         }
 
     }

@@ -9,7 +9,7 @@ import mvc.DataContainers.CommunicationsLog.ComLogEntry;
 import mvc.ScheduledPushModelAbstraction.OnModelLoadListener;
 
 /* Placeholder for demonstrating Session MVC */
-public class CommLogController implements Controller {
+public class CommLogController implements IFormController {
 
     private CommLogView view;
     private CommLogModel model;
@@ -29,7 +29,6 @@ public class CommLogController implements Controller {
         refreshViewFromModel();
     }
 
-    @Override
     public FormComponent getViewComponent() {
         return view;
     }

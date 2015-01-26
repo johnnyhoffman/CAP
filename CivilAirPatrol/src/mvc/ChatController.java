@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /* Placeholder for demonstrating Session MVC */
-public class ChatController implements Controller {
+public class ChatController implements IController {
 
     private ChatView view;
     private ChatModel model;

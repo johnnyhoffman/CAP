@@ -8,7 +8,7 @@ import com.google.gson.JsonObject;
 import mvc.ScheduledPushModelAbstraction.OnModelLoadListener;
 
 /* Placeholder for demonstrating Session MVC */
-public class RadioMessageController implements Controller {
+public class RadioMessageController implements IFormController {
 
     private RadioMessageView view;
     private RadioMessageModel model;

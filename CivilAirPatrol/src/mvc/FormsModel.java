@@ -9,61 +9,70 @@ import com.google.gson.JsonObject;
 /* Placeholder for demonstrating Session MVC */
 public class FormsModel {
 
-    private List<Controller> formControllers;
+    private List<IFormController> formControllers;
     private int comLogCount = 0;
     private int searchRescCount = 0;
     private int radioMessageCount = 0;
 
     FormsModel() {
-        formControllers = new ArrayList<Controller>();
+        formControllers = new ArrayList<IFormController>();
+    }
+
+    public boolean has(String name) {
+        //TODO: Johnny working here. need to make FormComponent have a getName field for comparing.
+        return false;
     }
 
     public List<Component> getTabs() {
         List<Component> tabs = new ArrayList<Component>();
-        for (Controller c : formControllers) {
+        for (IFormController c : formControllers) {
             tabs.add(c.getViewComponent());
         }
         return tabs;
     }
 
-    public FormComponent newComLog() {
+    public CommLogController newComLog() {
         comLogCount++;
         CommLogController comCont = new CommLogController("Com Log " + comLogCount);
         formControllers.add(comCont);
-        return comCont.getViewComponent();
+        return comCont;
     }
 
 
-    public FormComponent newSearchAndRescue() {
+    public SearchAndRescueController newSearchAndRescue() {
         searchRescCount++;
         SearchAndRescueController searchRescCont = new SearchAndRescueController("Search and Rescue " + searchRescCount);
         formControllers.add(searchRescCont);
-        return searchRescCont.getViewComponent();
+        return searchRescCont;
     }
 
-    public FormComponent newRadioMessage() {
+    public RadioMessageController newRadioMessage() {
         radioMessageCount++;
         RadioMessageController radMesCont = new RadioMessageController("Radio Message " + radioMessageCount);
         formControllers.add(radMesCont);
-        return radMesCont.getViewComponent();
+        return radMesCont;
     }
 
-    public FormComponent radioMessageFromJson(JsonObject json) {
+    public RadioMessageController radioMessageFromJson(JsonObject json) {
         RadioMessageController radMesCont = new RadioMessageController(json);
         formControllers.add(radMesCont);
-        return radMesCont.getViewComponent();
+        return radMesCont;
     }
 
-    public FormComponent comLogFromJson(JsonObject json) {
+    public CommLogController comLogFromJson(JsonObject json) {
         CommLogController comCont = new CommLogController(json);
         formControllers.add(comCont);
-        return comCont.getViewComponent();
+        return comCont;
     }
 
-    public FormComponent searchAndRescueFromJson(JsonObject json) {
+    public SearchAndRescueController searchAndRescueFromJson(JsonObject json) {
         SearchAndRescueController searchRescCont = new SearchAndRescueController(json);
         formControllers.add(searchRescCont);
-        return searchRescCont.getViewComponent();
+        return searchRescCont;
+    }
+
+    public void remove(IFormController controller) {
+        formControllers.remove(controller);
     }
 
 }

@@ -3,7 +3,7 @@ package mvc;
 import java.awt.Component;
 
 /* Placeholder for demonstrating Session MVC */
-public class AssetsController implements Controller {
+public class AssetsController implements IController {
 
     private AssetsView view;
     private AssetsModel model;
