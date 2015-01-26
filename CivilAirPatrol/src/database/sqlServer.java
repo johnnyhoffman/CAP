@@ -1,7 +1,11 @@
 package database;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
+import mvc.DBPushParams;
+import mvc.ScheduledPushModelAbstraction.FormType;
+import java.util.List;
 
 public class sqlServer {
 	private static Connection c = null;
@@ -15,11 +19,11 @@ public class sqlServer {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:test.db"); //create DB if it does not exist, otherwise get connection
                         Statement stmt = c.createStatement();
-                        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS MISSION "
-                                        + "(MISSIONNUMBER INT PRIMARY KEY NOT NULL,"
-                                        +  "MISSIONNAME   TEXT            NOT NULL)");//create the Mission table
+                       // stmt.executeUpdate("CREATE TABLE IF NOT EXISTS MISSION "
+                        //                + "(MISSIONNUMBER INT PRIMARY KEY NOT NULL,"
+                        //                +  "MISSIONNAME   TEXT            NOT NULL)");//create the Mission table
                         
-                        System.out.println("Created Mission table successfully.");
+                        //System.out.println("Created Mission table successfully.");
                         
                         stmt.executeUpdate("CREATE TABLE IF NOT EXISTS COMMLOG"     //create the commlog table
                                         + "(COMMID        INT PRIMARY KEY NOT NULL,"
@@ -92,42 +96,7 @@ public class sqlServer {
             }
             return 0;
         }
-        public static void testInsertMission(String name, int num){
-            try{
-                PreparedStatement stmt = c.prepareStatement("INSERT into MISSION (MISSIONNUMBER, MISSIONNAME) " 
-                                 + "VALUES(?,?)");
-                
-                stmt.setInt(1,num);
-                stmt.setString(2,name);
-                stmt.execute();
-            }catch(Exception e){
-                System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            }
-            
-        }
-        public static void testQueryMission(String name, int num){
-            try{
-                ResultSet result;
-                PreparedStatement stmt = c.prepareStatement("SELECT * FROM MISSION WHERE MISSIONNUMBER = ?");
-                stmt.setInt(1, num);
-                
-                result = stmt.executeQuery();
-                if (result.getString("MISSIONNAME").equals(name))
-                    System.out.println("Result = " + result.getString("MISSIONNAME"));
-                else System.out.println("Query failed.");
-            }catch(Exception e){
-                System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            }
-        }
-        public static void testClearMission(){
-            try{
-                PreparedStatement stmt = c.prepareStatement("DELETE FROM MISSION");
-                stmt.execute();
-                System.out.println("MISSION CLEARED");
-            }catch(Exception e){
-                System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            }
-        }
+        
         public static void testClearSAR(){
             try{
                 PreparedStatement stmt = c.prepareStatement("DELETE FROM SAR");
@@ -217,114 +186,168 @@ public class sqlServer {
         /* The following are selects */
         
         /* for querying comlog table */
-        public static ResultSet SelectFromCommLog(String date, int missionnum){
+        public static List<DBPushParams> SelectFromCommLog(String date, int missionnum){
+            List<DBPushParams> results = new ArrayList<>();
+            DBPushParams current;
             try{
                 ResultSet result;
                 PreparedStatement stmt = c.prepareStatement("SELECT * FROM COMMLOG WHERE MISSIONNUMBER = ? AND DATE = ?");
                 stmt.setInt(1, missionnum);
                 stmt.setString(2, date);
                 result = stmt.executeQuery();
-                return result;
+                while (result.next()){
+                    current = new DBPushParams(FormType.CL,result.getString("JSONDATA"),result.getInt("COMMID"),result.getInt("MISSIONNUMBER"),result.getString("DATE"));
+                    results.add(current);
+                }
+                return results;
             }catch(Exception e){
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
             }
             return null;
         }
-        public static ResultSet SelectFromCommLog(String date){
+        public static List<DBPushParams> SelectFromCommLog(String date){
+            List<DBPushParams> results = new ArrayList<>();
+            DBPushParams current;
             try{
                 ResultSet result;
                 PreparedStatement stmt = c.prepareStatement("SELECT * FROM COMMLOG WHERE DATE = ?");
                 stmt.setString(1, date);
                 result = stmt.executeQuery();
-                return result;
+                while (result.next()){
+                    current = new DBPushParams(FormType.CL,result.getString("JSONDATA"),result.getInt("COMMID"),result.getInt("MISSIONNUMBER"),result.getString("DATE"));
+                    results.add(current);
+                }
+                return results;
             }catch(Exception e){
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
             }
             return null;
         }
-        public static ResultSet SelectFromCommLog(int missionnum){
+        public static List<DBPushParams> SelectFromCommLog(int missionnum){
+            List<DBPushParams> results = new ArrayList<>();
+            DBPushParams current;
             try{
                 ResultSet result;
                 PreparedStatement stmt = c.prepareStatement("SELECT * FROM COMMLOG WHERE MISSIONNUMBER = ?");
                 stmt.setInt(1, missionnum);
                 result = stmt.executeQuery();
-                return result;
+                while (result.next()){
+                    current = new DBPushParams(FormType.CL,result.getString("JSONDATA"),result.getInt("COMMID"),result.getInt("MISSIONNUMBER"),result.getString("DATE"));
+                    results.add(current);
+                }
+                return results;
             }catch(Exception e){
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
             }
             return null;       
         }
         /* for querying sar table */
-        public static ResultSet SelectFromSAR(String date, int missionnum){
+        public static List<DBPushParams> SelectFromSAR(String date, int missionnum){
+            List<DBPushParams> results = new ArrayList<>();
+            DBPushParams current;
             try{
                 ResultSet result;
                 PreparedStatement stmt = c.prepareStatement("SELECT * FROM SAR WHERE MISSIONNUMBER = ? AND DATE = ?");
                 stmt.setInt(1, missionnum);
                 stmt.setString(2, date);
                 result = stmt.executeQuery();
-                return result;
+                while (result.next()){
+                    current = new DBPushParams(FormType.SAR,result.getString("JSONDATA"),result.getInt("SARID"),result.getInt("MISSIONNUMBER"),result.getString("DATE"));
+                    results.add(current);
+                }
+                return results;
             }catch(Exception e){
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
             }
             return null;
         }
-        public static ResultSet SelectFromSAR(String date){
+        public static List<DBPushParams> SelectFromSAR(String date){
+            List<DBPushParams> results = new ArrayList<>();
+            DBPushParams current;
             try{
                 ResultSet result;
                 PreparedStatement stmt = c.prepareStatement("SELECT * FROM SAR WHERE DATE = ?");
                 stmt.setString(1, date);
                 result = stmt.executeQuery();
-                return result;
+                while (result.next()){
+                    current = new DBPushParams(FormType.SAR,result.getString("JSONDATA"),result.getInt("SARID"),result.getInt("MISSIONNUMBER"),result.getString("DATE"));
+                    results.add(current);
+                }
+                return results;
             }catch(Exception e){
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
             }
             return null;
         }
-        public static ResultSet SelectFromSAR(int missionnum){
+        public static List<DBPushParams> SelectFromSAR(int missionnum){
+            List<DBPushParams> results = new ArrayList<>();
+            DBPushParams current;
             try{
                 ResultSet result;
-                PreparedStatement stmt = c.prepareStatement("SELECT * FROM COMMLOG WHERE MISSIONNUMBER = ?");
+                PreparedStatement stmt = c.prepareStatement("SELECT * FROM SAR WHERE MISSIONNUMBER = ?");
                 stmt.setInt(1, missionnum);
                 result = stmt.executeQuery();
-                return result;
+                while (result.next()){
+                    current = new DBPushParams(FormType.SAR,result.getString("JSONDATA"),result.getInt("SARID"),result.getInt("MISSIONNUMBER"),result.getString("DATE"));
+                    results.add(current);
+                }
+                return results;
             }catch(Exception e){
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
             }
             return null;  
         }
         /* for querying rad table */
-        public static ResultSet SelectFromRadMess(String date, int missionnum){
+        public static List<DBPushParams> SelectFromRadMess(String date, int missionnum){
+            List<DBPushParams> results = new ArrayList<>();
+            DBPushParams current;
             try{
                 ResultSet result;
-                PreparedStatement stmt = c.prepareStatement("SELECT * FROM SAR WHERE MISSIONNUMBER = ? AND DATE = ?");
+                PreparedStatement stmt = c.prepareStatement("SELECT * FROM RADIOMESS WHERE MISSIONNUMBER = ? AND DATE = ?");
                 stmt.setInt(1, missionnum);
                 stmt.setString(2, date);
                 result = stmt.executeQuery();
-                return result;
+                while (result.next()){
+                    current = new DBPushParams(FormType.RM,result.getString("JSONDATA"),result.getInt("RADID"),result.getInt("MISSIONNUMBER"),result.getString("DATE"));
+                    results.add(current);
+                }
+                return results;
             }catch(Exception e){
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
             }
             return null;
         }
-        public static ResultSet SelectFromRadMess(String date){
+        public static List<DBPushParams> SelectFromRadMess(String date){
+            List<DBPushParams> results = new ArrayList<>();
+            DBPushParams current;
             try{
                 ResultSet result;
                 PreparedStatement stmt = c.prepareStatement("SELECT * FROM RADIOMESS WHERE DATE = ?");
                 stmt.setString(1, date);
                 result = stmt.executeQuery();
-                return result;
+                while (result.next()){
+                    current = new DBPushParams(FormType.RM,result.getString("JSONDATA"),result.getInt("RADID"),result.getInt("MISSIONNUMBER"),result.getString("DATE"));
+                    results.add(current);
+                }
+                return results;
             }catch(Exception e){
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
             }
             return null;
         }
-        public static ResultSet SelectFromRadMess(int missionnum){
+        public static List<DBPushParams> SelectFromRadMess(int missionnum){
+            List<DBPushParams> results = new ArrayList<>();
+            DBPushParams current;
             try{
                 ResultSet result;
                 PreparedStatement stmt = c.prepareStatement("SELECT * FROM RADIOMESS WHERE MISSIONNUMBER = ?");
                 stmt.setInt(1, missionnum);
                 result = stmt.executeQuery();
-                return result;
+                while (result.next()){
+                    current = new DBPushParams(FormType.RM,result.getString("JSONDATA"),result.getInt("RADID"),result.getInt("MISSIONNUMBER"),result.getString("DATE"));
+                    results.add(current);
+                }
+                return results;
             }catch(Exception e){
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
             }

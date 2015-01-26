@@ -10,22 +10,7 @@ public abstract class ScheduledPushModelAbstraction {
         RM // Radio Message
     }
 
-    public class DBPushParams {
-        public FormType type;
-        public String json;
-        public int id;
-        public int missionNo;
-        public String date;
 
-        public DBPushParams(FormType type, String json, int id, int missionNo,
-                String date) {
-            this.type = type;
-            this.json = json;
-            this.id = id;
-            this.missionNo = missionNo;
-            this.date = date;
-        }
-    }
 
     public interface OnModelLoadListener {
         public void onModelLoad();
