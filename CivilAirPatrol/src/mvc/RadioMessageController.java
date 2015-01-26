@@ -20,11 +20,10 @@ public class RadioMessageController implements IFormController {
         setListeners();
     }
 
-    public RadioMessageController(JsonObject json) {
-        // TODO: set id
+    public RadioMessageController(int id, JsonObject json) {
         view = new RadioMessageView();
         view.setName(json.get("name").getAsString());
-        model = new RadioMessageModel(json);
+        model = new RadioMessageModel(id, json);
         setListeners();
         refreshViewFromModel();
     }

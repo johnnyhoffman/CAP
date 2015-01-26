@@ -25,9 +25,9 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
 
     /* methods for updating fields */
 
-    public CommLogModel(JsonObject json) {
+    public CommLogModel(int id, JsonObject json) {
         super();
-        // TODO: get id
+        this.id = id;
         gson = new Gson();
         // for debugging revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();

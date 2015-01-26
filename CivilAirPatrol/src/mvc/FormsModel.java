@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import database.sqlServer;
 
@@ -12,8 +13,10 @@ import database.sqlServer;
 public class FormsModel {
 
     private List<IFormController> formControllers;
+    private JsonParser jsonParser;
 
     FormsModel() {
+        jsonParser = new JsonParser();
         formControllers = new ArrayList<IFormController>();
     }
 
@@ -52,20 +55,21 @@ public class FormsModel {
         return radMesCont;
     }
 
-    public RadioMessageController radioMessageFromJson(JsonObject json) {
-        RadioMessageController radMesCont = new RadioMessageController(json);
+    public RadioMessageController radioMessageFromJson(DBPushParams pushParams) {
+        RadioMessageController radMesCont = new RadioMessageController(pushParams.id ,(JsonObject) jsonParser.parse(pushParams.json));
         formControllers.add(radMesCont);
         return radMesCont;
     }
 
-    public CommLogController comLogFromJson(JsonObject json) {
-        CommLogController comCont = new CommLogController(json);
+    public CommLogController comLogFromJson(DBPushParams pushParams) {
+        CommLogController comCont = new CommLogController(pushParams.id ,(JsonObject) jsonParser.parse(pushParams.json));
+        
         formControllers.add(comCont);
         return comCont;
     }
 
-    public SearchAndRescueController searchAndRescueFromJson(JsonObject json) {
-        SearchAndRescueController searchRescCont = new SearchAndRescueController(json);
+    public SearchAndRescueController searchAndRescueFromJson(DBPushParams pushParams) {
+        SearchAndRescueController searchRescCont = new SearchAndRescueController(pushParams.id ,(JsonObject) jsonParser.parse(pushParams.json));
         formControllers.add(searchRescCont);
         return searchRescCont;
     }

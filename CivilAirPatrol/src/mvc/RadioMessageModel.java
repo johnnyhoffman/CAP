@@ -22,8 +22,8 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
 
     /* methods for updating fields */
 
-    public RadioMessageModel(JsonObject json) {
-        //TODO set id
+    public RadioMessageModel(int id, JsonObject json) {
+        this.id = id;
         gson = new Gson();
         // for debugging revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();

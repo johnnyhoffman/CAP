@@ -12,13 +12,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class FormsController implements IController {
 
     private FormsView view;
     private FormsModel model;
+    private JsonParser jsonParser;
 
     public FormsController() {
+        jsonParser = new JsonParser();
         view = new FormsView();
         model = new FormsModel();
 
@@ -61,7 +64,8 @@ public class FormsController implements IController {
         pnlTab.add(btnClose, gbc);
 
         view.setTabComponentAt(index, pnlTab);
-        btnClose.addActionListener(new RemoveTabListener(this, controller, component, scrollC));
+        btnClose.addActionListener(new RemoveTabListener(this, controller,
+                component, scrollC));
 
     }
 
@@ -82,25 +86,20 @@ public class FormsController implements IController {
         model.remove(controller);
     }
 
-    public void fromJson(JsonObject json) {
-        // TODO: Need to check if tab exists already, in which case we just update it.
-        if (json.has("type")) {
-            String type = json.get("type").getAsString();
-            if (type.equals(GlobalConstants.RADIO_MESSAGE_TYPE)) {
-                addTab(model.radioMessageFromJson(json));
-            } else if (type.equals(GlobalConstants.COMMUNICATIONS_LOG_TYPE)) {
-                addTab(model.comLogFromJson(json));
-            } else if (type.equals(GlobalConstants.SEARCH_AND_RESCUE_TYPE)) {
-                addTab(model.searchAndRescueFromJson(json));
-            } else {
-                // TODO: Exception instead maybe
-                System.out.println("Problem, unknown type");
-            }
-        } else {
-            // TODO: Exception instead maybe
-            System.out.println("Problem, json missing type");
+    public void fromDBPushParams(DBPushParams pushParams) {
+        // TODO: Need to check if tab exists already, in which case we just
+        // update it.
+        switch (pushParams.type) {
+        case CL:
+            addTab(model.comLogFromJson(pushParams));
+            break;
+        case RM:
+            addTab(model.radioMessageFromJson(pushParams));
+            break;
+        case SAR:
+            addTab(model.searchAndRescueFromJson(pushParams));
+            break;
         }
-        // GlobalConstants.COMMUNICATIONS_LOG_TYPE
     }
 
     public class RemoveTabListener implements ActionListener {
@@ -110,7 +109,8 @@ public class FormsController implements IController {
         JScrollPane componentAsScrollPane;
         IFormController innerController;
 
-        public RemoveTabListener(FormsController formsController, IFormController innerController, FormComponent component,
+        public RemoveTabListener(FormsController formsController,
+                IFormController innerController, FormComponent component,
                 JScrollPane componentAsScollPane) {
             this.formsController = formsController;
             this.innerController = innerController;
