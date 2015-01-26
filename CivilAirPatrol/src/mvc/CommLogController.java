@@ -21,10 +21,10 @@ public class CommLogController implements IFormController {
         setListeners();
     }
 
-    public CommLogController(JsonObject json) {
+    public CommLogController(int id, JsonObject json) {
         view = new CommLogView();
         view.setName(json.get("name").getAsString());
-        model = new CommLogModel(json);
+        model = new CommLogModel(id, json);
         setListeners();
         refreshViewFromModel();
     }

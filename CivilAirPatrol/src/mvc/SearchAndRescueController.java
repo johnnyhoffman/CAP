@@ -23,10 +23,10 @@ public class SearchAndRescueController implements IFormController {
         setListeners();
     }
 
-    public SearchAndRescueController(JsonObject json) {
+    public SearchAndRescueController(int id, JsonObject json) {
         view = new SearchAndRescueView();
         view.setName(json.get("name").getAsString());
-        model = new SearchAndRescueModel(json);
+        model = new SearchAndRescueModel(id, json);
         setListeners();
         refreshViewFromModel();
     }

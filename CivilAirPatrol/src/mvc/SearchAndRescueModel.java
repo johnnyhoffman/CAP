@@ -21,9 +21,9 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         // gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
-    public SearchAndRescueModel(JsonObject json) {
-        // TODO: set id
+    public SearchAndRescueModel(int id, JsonObject json) {
         super();
+        this.id = id;
         gson = new Gson();
         // for debugging revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();

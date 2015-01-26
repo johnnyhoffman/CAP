@@ -49,10 +49,13 @@ public abstract class ScheduledPushModelAbstraction {
         switch (pushParams.type) {
         case CL:
             database.sqlServer.InsertCommLog(pushParams.json, pushParams.id, pushParams.missionNo, pushParams.date);
+            break;
         case RM:
             database.sqlServer.InsertRADIOMESS(pushParams.json, pushParams.id, pushParams.missionNo, pushParams.date);
+            break;
         case SAR:
             database.sqlServer.InsertSAR(pushParams.json, pushParams.id, pushParams.missionNo, pushParams.date);
+            break;
         }
     }
 
