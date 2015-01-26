@@ -9,7 +9,7 @@ public class sqlServer {
 
         
 	// creates the database
-	public static void createDatabase() {
+	public static void CreateDatabase() {
 		//Connection c = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -88,13 +88,40 @@ public class sqlServer {
                 System.err.println(e.getClass().getName() + ": " + e.getMessage());
             }
         }
+        public static void testClearSAR(){
+            try{
+                PreparedStatement stmt = c.prepareStatement("DELETE FROM SAR");
+                stmt.execute();
+                System.out.println("SAR CLEARED");
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+        }
+        public static void testClearRAD(){
+            try{
+                PreparedStatement stmt = c.prepareStatement("DELETE FROM RADIOMESS");
+                stmt.execute();
+                System.out.println("RAD CLEARED");
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+        }
+        public static void testClearCommLog(){
+            try{
+                PreparedStatement stmt = c.prepareStatement("DELETE FROM COMMLOG");
+                stmt.execute();
+                System.out.println("COMMLOG CLEARED");
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+        }
         
         /* ---------------------------THE FOLLOWING ARE INSERTS----------------------------- */        
         //when inserting a Form, need to make sure that a mission exists for the form 
         
-        public static void insertCommLog(String json, int commid, int missionnum, String date){
+        public static void InsertCommLog(String json, int commid, int missionnum, String date){
             try{
-                PreparedStatement stmt = c.prepareStatement("INSERT into COMMLOG (COMMID,MISSIONNUM,DATE,JSONDATA) "
+                PreparedStatement stmt = c.prepareStatement("INSERT into COMMLOG (COMMID,MISSIONNUMBER,DATE,JSONDATA) "
                                                            + "VALUES(?,?,?,?)");
                 stmt.setInt(1, commid);
                 stmt.setInt(2, missionnum);
@@ -106,9 +133,9 @@ public class sqlServer {
             }
         }
         
-        public static void insertSAR(String json, int sarid, int missionnum, String date){
+        public static void InsertSAR(String json, int sarid, int missionnum, String date){
             try{
-                PreparedStatement stmt = c.prepareStatement("INSERT into SAR (SARID,MISSIONNUM,DATE,JSONDATA) "
+                PreparedStatement stmt = c.prepareStatement("INSERT into SAR (SARID,MISSIONNUMBER,DATE,JSONDATA) "
                                                            + "VALUES(?,?,?,?)");
                 stmt.setInt(1, sarid);
                 stmt.setInt(2, missionnum);
@@ -120,9 +147,9 @@ public class sqlServer {
             }
         }
         
-        public static void insertRADIOMESS(String json, int radid, int missionnum, String date){
+        public static void InsertRADIOMESS(String json, int radid, int missionnum, String date){
             try{
-                PreparedStatement stmt = c.prepareStatement("INSERT into RADIOMESS (RADID,MISSIONNUM,DATE,JSONDATA) "
+                PreparedStatement stmt = c.prepareStatement("INSERT into RADIOMESS (RADID,MISSIONNUMBER,DATE,JSONDATA) "
                                                            + "VALUES(?,?,?,?)");
                 stmt.setInt(1, radid);
                 stmt.setInt(2, missionnum);
@@ -147,7 +174,125 @@ public class sqlServer {
             
         }
         /* ----------------------------------------------------------------------------------------- */
+        /* The following are selects */
         
+        /* for querying comlog table */
+        public static ResultSet SelectFromCommLog(String date, int missionnum){
+            try{
+                ResultSet result;
+                PreparedStatement stmt = c.prepareStatement("SELECT * FROM COMMLOG WHERE MISSIONNUMBER = ? AND DATE = ?");
+                stmt.setInt(1, missionnum);
+                stmt.setString(2, date);
+                result = stmt.executeQuery();
+                return result;
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+            return null;
+        }
+        public static ResultSet SelectFromCommLog(String date){
+            try{
+                ResultSet result;
+                PreparedStatement stmt = c.prepareStatement("SELECT * FROM COMMLOG WHERE DATE = ?");
+                stmt.setString(1, date);
+                result = stmt.executeQuery();
+                return result;
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+            return null;
+        }
+        public static ResultSet SelectFromCommLog(int missionnum){
+            try{
+                ResultSet result;
+                PreparedStatement stmt = c.prepareStatement("SELECT * FROM COMMLOG WHERE MISSIONNUMBER = ?");
+                stmt.setInt(1, missionnum);
+                result = stmt.executeQuery();
+                return result;
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+            return null;       
+        }
+        /* for querying sar table */
+        public static ResultSet SelectFromSAR(String date, int missionnum){
+            try{
+                ResultSet result;
+                PreparedStatement stmt = c.prepareStatement("SELECT * FROM SAR WHERE MISSIONNUMBER = ? AND DATE = ?");
+                stmt.setInt(1, missionnum);
+                stmt.setString(2, date);
+                result = stmt.executeQuery();
+                return result;
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+            return null;
+        }
+        public static ResultSet SelectFromSAR(String date){
+            try{
+                ResultSet result;
+                PreparedStatement stmt = c.prepareStatement("SELECT * FROM SAR WHERE DATE = ?");
+                stmt.setString(1, date);
+                result = stmt.executeQuery();
+                return result;
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+            return null;
+        }
+        public static ResultSet SelectFromSAR(int missionnum){
+            try{
+                ResultSet result;
+                PreparedStatement stmt = c.prepareStatement("SELECT * FROM COMMLOG WHERE MISSIONNUMBER = ?");
+                stmt.setInt(1, missionnum);
+                result = stmt.executeQuery();
+                return result;
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+            return null;  
+        }
+        /* for querying rad table */
+        public static ResultSet SelectFromRadMess(String date, int missionnum){
+            try{
+                ResultSet result;
+                PreparedStatement stmt = c.prepareStatement("SELECT * FROM SAR WHERE MISSIONNUMBER = ? AND DATE = ?");
+                stmt.setInt(1, missionnum);
+                stmt.setString(2, date);
+                result = stmt.executeQuery();
+                return result;
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+            return null;
+        }
+        public static ResultSet SelectFromRadMess(String date){
+            try{
+                ResultSet result;
+                PreparedStatement stmt = c.prepareStatement("SELECT * FROM RADIOMESS WHERE DATE = ?");
+                stmt.setString(1, date);
+                result = stmt.executeQuery();
+                return result;
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+            return null;
+        }
+        public static ResultSet SelectFromRadMess(int missionnum){
+            try{
+                ResultSet result;
+                PreparedStatement stmt = c.prepareStatement("SELECT * FROM RADIOMESS WHERE MISSIONNUMBER = ?");
+                stmt.setInt(1, missionnum);
+                result = stmt.executeQuery();
+                return result;
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+            return null;  
+        }
+        
+        
+        /* -------------------------------------------------------------------------------------------*/
 	// gets the name out of the JSON String that was sent to the database
 	private static String getName(String newEntry) {
 		String name;
