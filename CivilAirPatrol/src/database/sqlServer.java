@@ -77,7 +77,7 @@ public class sqlServer {
             ResultSet result;
             int unqid;
             try{
-                c.setAutoCommit(false);
+                //c.setAutoCommit(false);
                 PreparedStatement stmt = c.prepareStatement("SELECT * from GLOBALS WHERE TYPE = ?");
                 stmt.setString(1, "UNIQUEID");
                 result = stmt.executeQuery();
@@ -88,7 +88,7 @@ public class sqlServer {
                     stmt.setInt(1, unqid+1);
                     stmt.setString(2, "UNIQUEID");
                     stmt.executeUpdate();
-                    c.commit();
+                    //c.commit();
                     return unqid;
                 }
             }catch(Exception e){
@@ -356,6 +356,43 @@ public class sqlServer {
         
         /* ------------------------The following are updates------------------------------------------ */
         //TODO implement the update methods for updating a form in progress.
+        public static void UpdateCommLog(int id, int missionnum, String json, String date){
+            try{
+                PreparedStatement stmt = c.prepareStatement("UPDATE COMMLOG set MISSIONNUMBER = ?, JSONDATA = ?, DATE = ?  WHERE ID = ?");
+                stmt.setInt(1, missionnum);
+                stmt.setString(2, json);
+                stmt.setString(3, date);
+                stmt.setInt(4, id);
+                stmt.executeUpdate();
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+        }
+        public static void UpdateSAR(int id, int missionnum, String json, String date){
+            try{
+                PreparedStatement stmt = c.prepareStatement("UPDATE SAR set MISSIONNUMBER = ?, JSONDATA = ?, DATE = ?  WHERE ID = ?");
+                stmt.setInt(1, missionnum);
+                stmt.setString(2, json);
+                stmt.setString(3, date);
+                stmt.setInt(4, id);
+                stmt.executeUpdate();
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+        }
+        public static void UpdateRADMESS(int id, int missionnum, String json, String date){
+            try{
+                PreparedStatement stmt = c.prepareStatement("UPDATE RADIOMESS set MISSIONNUMBER = ?, JSONDATA = ?, DATE = ?  WHERE ID = ?");
+                stmt.setInt(1, missionnum);
+                stmt.setString(2, json);
+                stmt.setString(3, date);
+                stmt.setInt(4, id);
+                stmt.executeUpdate();
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+        }
+        
         
         /* -------------------------------------------------------------------------------------------*/
 	// gets the name out of the JSON String that was sent to the database
