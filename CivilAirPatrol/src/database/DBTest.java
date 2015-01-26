@@ -16,7 +16,15 @@ import java.sql.*;
 /* all methods currently are static in the sqlServer class from Kasey */
 
 public class DBTest {
+    
+    
+    
     public static void main(String args[]){
+        
         sqlServer.createDatabase();
+        sqlServer.testClearMission();
+        sqlServer.testInsertMission("FLAMINGO", 5);
+        sqlServer.testQueryMission("FLAMINGO", 5);
+        
     }
 }
