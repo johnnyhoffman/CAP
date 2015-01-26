@@ -10,8 +10,6 @@ public abstract class ScheduledPushModelAbstraction {
         RM // Radio Message
     }
 
-
-
     public interface OnModelLoadListener {
         public void onModelLoad();
     }
@@ -48,13 +46,16 @@ public abstract class ScheduledPushModelAbstraction {
 
         switch (pushParams.type) {
         case CL:
-            database.sqlServer.InsertCommLog(pushParams.json, pushParams.id, pushParams.missionNo, pushParams.date);
+            database.sqlServer.UpdateCommLog(pushParams.json, pushParams.id,
+                    pushParams.missionNo, pushParams.date);
             break;
         case RM:
-            database.sqlServer.InsertRADIOMESS(pushParams.json, pushParams.id, pushParams.missionNo, pushParams.date);
+            database.sqlServer.UpdateRADMESS(pushParams.json, pushParams.id,
+                    pushParams.missionNo, pushParams.date);
             break;
         case SAR:
-            database.sqlServer.InsertSAR(pushParams.json, pushParams.id, pushParams.missionNo, pushParams.date);
+            database.sqlServer.UpdateSAR(pushParams.json, pushParams.id,
+                    pushParams.missionNo, pushParams.date);
             break;
         }
     }

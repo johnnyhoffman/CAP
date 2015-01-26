@@ -15,6 +15,8 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
     public SearchAndRescueModel(int id, String name) {
         super();
         this.id = id;
+        database.sqlServer.InsertSAR("{}", id,
+                -1, "DATE"); //XXX: Temp
         data = new DataContainers.SearchAndRescue(name);
         gson = new Gson();
         // for debugging revert to above creation method later

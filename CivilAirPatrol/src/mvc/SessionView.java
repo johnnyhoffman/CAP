@@ -34,7 +34,7 @@ public class SessionView extends JFrame {
         newMenu.add(newSearchAndRescueMenuItem);
 
         // XXX: Temp for testing
-        newItemFromJson = new JMenuItem("Temprary make thangs frum json opshen");
+        newItemFromJson = new JMenuItem("Temprary make thangs frum danabase opshen");
         newMenu.add(newItemFromJson);
 
         setJMenuBar(menuBar);

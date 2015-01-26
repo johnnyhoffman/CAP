@@ -17,6 +17,8 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
     public CommLogModel(int id, String name) {
         super();
         this.id = id;
+        database.sqlServer.InsertCommLog("{}", id,
+                -1, "DATE"); //XXX: Temp
         data = new DataContainers.CommunicationsLog(name);
         gson = new Gson();
         // for debugging revert to creation method below

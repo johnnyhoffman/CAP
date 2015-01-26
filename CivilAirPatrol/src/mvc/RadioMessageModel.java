@@ -14,6 +14,8 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
 
     public RadioMessageModel(int id, String name) {
         this.id = id;
+        database.sqlServer.InsertRADIOMESS("{}", id,
+                -1, "DATE"); //XXX: Temp
         data = new DataContainers.RadioMessage(name);
         gson = new Gson();
         // for debugging revert to creation method below
@@ -177,7 +179,7 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
     @Override
     public DBPushParams prepareForPush() {
         String json = gson.toJson(data);
-        int missionNo = 1; // XXX: Need to get mission no
+        int missionNo = -1; // XXX: Need to get mission no
         String date = new SimpleDateFormat(GlobalConstants.DATE_FORMAT)
                 .format(new Date()); // TODO: Eventually use date input in form
         return new DBPushParams(FormType.RM, json, id, missionNo, date);
