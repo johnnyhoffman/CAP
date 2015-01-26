@@ -44,6 +44,10 @@ public class sqlServer {
                                         +  "JSONDATA      TEXT            NOT NULL)");
                         
                         System.out.println("Created radiomess table successfully.");
+                        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS GLOBALS"
+                                        + "(TYPE          TEXT PRIMARY KEY NOT NULL,"
+                                        +  "ID            INT              NOT NULL)");
+                        setUpGlobals();
                                                 
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -51,7 +55,43 @@ public class sqlServer {
 		System.out.println("Opened database successfully");
                 
 	}
-
+        /* this sets up the globals table with initial values, currently only a uniqueid to generate uniquee form ids */
+        private static void setUpGlobals(){
+            //TODO make sure that this only runs once, IE when the table is first created upon intitial DB creation. 
+            //can query, see if result set is empty, if empty run, else do nothing
+            try{
+                PreparedStatement stmt = c.prepareStatement("INSERT into GLOBALS(TYPE, ID) VALUES(?,?)");
+                stmt.setString(1, "UNIQUEID");
+                stmt.setInt(2, 1);
+                stmt.execute();
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+        }
+        /* this will retrieve the next id to be used as a unique identifier for forms */
+        public static int RetrieveNextFormId(){
+            ResultSet result;
+            int unqid;
+            try{
+                c.setAutoCommit(false);
+                PreparedStatement stmt = c.prepareStatement("SELECT * from GLOBALS WHERE TYPE = ?");
+                stmt.setString(1, "UNIQUEID");
+                result = stmt.executeQuery();
+          
+                if(result.next()){
+                    unqid = result.getInt("ID");
+                    stmt = c.prepareStatement("UPDATE GLOBALS set ID = ? WHERE TYPE = ?");
+                    stmt.setInt(1, unqid+1);
+                    stmt.setString(2, "UNIQUEID");
+                    stmt.executeUpdate();
+                    c.commit();
+                    return unqid;
+                }
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+            return 0;
+        }
         public static void testInsertMission(String name, int num){
             try{
                 PreparedStatement stmt = c.prepareStatement("INSERT into MISSION (MISSIONNUMBER, MISSIONNAME) " 
@@ -291,6 +331,8 @@ public class sqlServer {
             return null;  
         }
         
+        /* ------------------------The following are updates------------------------------------------ */
+        //TODO implement the update methods for updating a form in progress.
         
         /* -------------------------------------------------------------------------------------------*/
 	// gets the name out of the JSON String that was sent to the database
