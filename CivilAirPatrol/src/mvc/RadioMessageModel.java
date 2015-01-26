@@ -10,8 +10,10 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
 
     private DataContainers.RadioMessage data;
     private Gson gson;
+    int id;
 
-    public RadioMessageModel(String name) {
+    public RadioMessageModel(int id, String name) {
+        this.id = id;
         data = new DataContainers.RadioMessage(name);
         gson = new Gson();
         // for debugging revert to creation method below
@@ -21,10 +23,15 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
     /* methods for updating fields */
 
     public RadioMessageModel(JsonObject json) {
+        //TODO set id
         gson = new Gson();
         // for debugging revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();
         jsonDeserialize(json);
+    }
+
+    public int getID() {
+        return id;
     }
 
     public void updateHeaderMsgNum(String s) {
@@ -170,9 +177,9 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
     @Override
     public DBPushParams prepareForPush() {
         String json = gson.toJson(data);
-        int id = 1; //XXX: Need to have unique id 
-        int missionNo = 1; //XXX: Need to get mission no
-        String date = new SimpleDateFormat(GlobalConstants.DATE_FORMAT).format(new Date()); //TODO: Eventually use date input in form
+        int missionNo = 1; // XXX: Need to get mission no
+        String date = new SimpleDateFormat(GlobalConstants.DATE_FORMAT)
+                .format(new Date()); // TODO: Eventually use date input in form
         return new DBPushParams(FormType.RM, json, id, missionNo, date);
     }
 

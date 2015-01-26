@@ -14,10 +14,10 @@ public class CommLogController implements IFormController {
     private CommLogView view;
     private CommLogModel model;
 
-    public CommLogController(String name) {
+    public CommLogController(int id, String name) {
         view = new CommLogView();
         view.setName(name);
-        model = new CommLogModel(name);
+        model = new CommLogModel(id, name);
         setListeners();
     }
 

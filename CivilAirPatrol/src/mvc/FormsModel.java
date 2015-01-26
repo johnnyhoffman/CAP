@@ -6,13 +6,12 @@ import java.util.List;
 
 import com.google.gson.JsonObject;
 
+import database.sqlServer;
+
 /* Placeholder for demonstrating Session MVC */
 public class FormsModel {
 
     private List<IFormController> formControllers;
-    private int comLogCount = 0;
-    private int searchRescCount = 0;
-    private int radioMessageCount = 0;
 
     FormsModel() {
         formControllers = new ArrayList<IFormController>();
@@ -32,23 +31,23 @@ public class FormsModel {
     }
 
     public CommLogController newComLog() {
-        comLogCount++;
-        CommLogController comCont = new CommLogController("Com Log " + comLogCount);
+        int id = sqlServer.RetrieveNextFormId();
+        CommLogController comCont = new CommLogController(id, "Com Log " + id);
         formControllers.add(comCont);
         return comCont;
     }
 
 
     public SearchAndRescueController newSearchAndRescue() {
-        searchRescCount++;
-        SearchAndRescueController searchRescCont = new SearchAndRescueController("Search and Rescue " + searchRescCount);
+        int id = sqlServer.RetrieveNextFormId();
+        SearchAndRescueController searchRescCont = new SearchAndRescueController(id, "Search and Rescue " + id);
         formControllers.add(searchRescCont);
         return searchRescCont;
     }
 
     public RadioMessageController newRadioMessage() {
-        radioMessageCount++;
-        RadioMessageController radMesCont = new RadioMessageController("Radio Message " + radioMessageCount);
+        int id = sqlServer.RetrieveNextFormId();
+        RadioMessageController radMesCont = new RadioMessageController(id, "Radio Message " + id);
         formControllers.add(radMesCont);
         return radMesCont;
     }

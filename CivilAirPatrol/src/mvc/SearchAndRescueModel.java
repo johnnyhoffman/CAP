@@ -3,19 +3,18 @@ package mvc;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import mvc.ScheduledPushModelAbstraction.DBPushParams;
-
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction {
 
     private DataContainers.SearchAndRescue data;
     private Gson gson;
+    private int id;
 
-    public SearchAndRescueModel(String name) {
+    public SearchAndRescueModel(int id, String name) {
         super();
+        this.id = id;
         data = new DataContainers.SearchAndRescue(name);
         gson = new Gson();
         // for debugging revert to above creation method later
@@ -23,11 +22,16 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
     }
 
     public SearchAndRescueModel(JsonObject json) {
+        // TODO: set id
         super();
         gson = new Gson();
         // for debugging revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();
         jsonDeserialize(json);
+    }
+
+    public int getID() {
+        return id;
     }
 
     /* methods for updating fields */
@@ -607,12 +611,11 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
     @Override
     public DBPushParams prepareForPush() {
         String json = gson.toJson(data);
-        int id = 1; // XXX: Need to have unique id
         int missionNo = -1;
         try {
             missionNo = Integer.parseInt(data.header.missionNumber);
         } catch (NumberFormatException e) {
-            e.printStackTrace(); //TODO : Handle error more appropriately
+            e.printStackTrace(); // TODO : Handle error more appropriately
         }
         String date = new SimpleDateFormat(GlobalConstants.DATE_FORMAT)
                 .format(new Date());// TODO: Eventually use date input in form

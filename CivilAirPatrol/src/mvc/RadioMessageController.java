@@ -13,14 +13,15 @@ public class RadioMessageController implements IFormController {
     private RadioMessageView view;
     private RadioMessageModel model;
 
-    public RadioMessageController(String name) {
+    public RadioMessageController(int id, String name) {
         view = new RadioMessageView();
         view.setName(name);
-        model = new RadioMessageModel(name);
+        model = new RadioMessageModel(id, name);
         setListeners();
     }
 
     public RadioMessageController(JsonObject json) {
+        // TODO: set id
         view = new RadioMessageView();
         view.setName(json.get("name").getAsString());
         model = new RadioMessageModel(json);
@@ -95,7 +96,8 @@ public class RadioMessageController implements IFormController {
         view.addMessageRecievedFromChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateMessageRecievedFrom(view.getMessageRecievedFromText());
+                model.updateMessageRecievedFrom(view
+                        .getMessageRecievedFromText());
             }
         });
         view.addMessageRecievedDtgChangeListener(new CaretListener() {
@@ -126,7 +128,8 @@ public class RadioMessageController implements IFormController {
         view.addMessageSentSendingOperatorInitialsChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateMessageSentSendingOperatorInitials(view.getMessageSentSendingOperatorInitialsText());
+                model.updateMessageSentSendingOperatorInitials(view
+                        .getMessageSentSendingOperatorInitialsText());
             }
         });
 
@@ -158,9 +161,11 @@ public class RadioMessageController implements IFormController {
         view.setMessageText(model.getMessage());
         view.setMessageRecievedFromText(model.getMessageRecievedFrom());
         view.setMessageRecievedDtgText(model.getMessageRecievedDtg());
-        view.setMessageRecievedRecievingOperatorInitialsText(model.getMessageRecievedRecievingOperatorInitials());
+        view.setMessageRecievedRecievingOperatorInitialsText(model
+                .getMessageRecievedRecievingOperatorInitials());
         view.setMessageSentToText(model.getMessageSentTo());
         view.setMessageSentDtgText(model.getMessageSentDtg());
-        view.setMessageSentSendingOperatorInitialsText(model.getMessageSentSendingOperatorInitials());
+        view.setMessageSentSendingOperatorInitialsText(model
+                .getMessageSentSendingOperatorInitials());
     }
 }

@@ -4,19 +4,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import mvc.DataContainers.CommunicationsLog.ComLogEntry;
-import mvc.ScheduledPushModelAbstraction.DBPushParams;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
 
     private DataContainers.CommunicationsLog data;
     private Gson gson;
+    private int id;
 
-    public CommLogModel(String name) {
+    public CommLogModel(int id, String name) {
         super();
+        this.id = id;
         data = new DataContainers.CommunicationsLog(name);
         gson = new Gson();
         // for debugging revert to creation method below
@@ -27,10 +27,15 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
 
     public CommLogModel(JsonObject json) {
         super();
+        // TODO: get id
         gson = new Gson();
         // for debugging revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();
         jsonDeserialize(json);
+    }
+
+    public int getID() {
+        return id;
     }
 
     public void updateName(String s) {
@@ -135,7 +140,6 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
     @Override
     public DBPushParams prepareForPush() {
         String json = gson.toJson(data);
-        int id = 1; // XXX: Need to have unique id
         int missionNo = -1;
         try {
             missionNo = Integer.parseInt(data.missionNum);
