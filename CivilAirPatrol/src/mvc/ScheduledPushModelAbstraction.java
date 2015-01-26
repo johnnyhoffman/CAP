@@ -3,7 +3,30 @@ package mvc;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public abstract class ScheduledPushModelAbstraction {
-    
+
+    public enum FormType {
+        SAR, // Search and Rescue
+        CL, // Communication Log
+        RM // Radio Message
+    }
+
+    public class DBPushParams {
+        public FormType type;
+        public String json;
+        public int id;
+        public int missionNo;
+        public String date;
+
+        public DBPushParams(FormType type, String json, int id, int missionNo,
+                String date) {
+            this.type = type;
+            this.json = json;
+            this.id = id;
+            this.missionNo = missionNo;
+            this.date = date;
+        }
+    }
+
     public interface OnModelLoadListener {
         public void onModelLoad();
     }
@@ -34,18 +57,29 @@ public abstract class ScheduledPushModelAbstraction {
     public void push() {
         // TODO: HERE IS WHERE WE HOOK IN DATABASE CONNECTION.
         // INSTEAD OF PRINTING THE JSON, PUSH IT TO THE DATABASE.
-        System.out.println(jsonSerialize());
+        DBPushParams pushParams = prepareForPush();
+        System.out.println(pushParams.json + "\n" + pushParams.id + "\n"
+                + pushParams.missionNo + "\n" + pushParams.date);
+
+        switch (pushParams.type) {
+        case CL:
+            database.sqlServer.InsertCommLog(pushParams.json, pushParams.id, pushParams.missionNo, pushParams.date);
+        case RM:
+            database.sqlServer.InsertRADIOMESS(pushParams.json, pushParams.id, pushParams.missionNo, pushParams.date);
+        case SAR:
+            database.sqlServer.InsertSAR(pushParams.json, pushParams.id, pushParams.missionNo, pushParams.date);
+        }
     }
-    
+
     public void setOnModelLoadListener(OnModelLoadListener l) {
         onModelLoadListener = l;
     }
-    
+
     protected void modelLoaded() {
         if (onModelLoadListener != null) {
             onModelLoadListener.onModelLoad();
         }
     }
 
-    public abstract String jsonSerialize();
+    public abstract DBPushParams prepareForPush();
 }

@@ -1,6 +1,10 @@
 package mvc;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import mvc.DataContainers.CommunicationsLog.ComLogEntry;
+import mvc.ScheduledPushModelAbstraction.DBPushParams;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -128,8 +132,19 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
         return data.entries;
     }
 
-    public String jsonSerialize() {
-        return gson.toJson(data);
+    @Override
+    public DBPushParams prepareForPush() {
+        String json = gson.toJson(data);
+        int id = 1; // XXX: Need to have unique id
+        int missionNo = -1;
+        try {
+            missionNo = Integer.parseInt(data.missionNum);
+        } catch (NumberFormatException e) {
+            e.printStackTrace(); // TODO : Handle error more appropriately
+        }
+        String date = new SimpleDateFormat(GlobalConstants.DATE_FORMAT)
+                .format(new Date());// TODO: Eventually use date input in form
+        return new DBPushParams(FormType.CL, json, id, missionNo, date);
     }
 
     public void jsonDeserialize(JsonObject json) {

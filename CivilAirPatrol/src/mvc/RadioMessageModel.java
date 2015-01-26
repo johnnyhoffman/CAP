@@ -1,7 +1,9 @@
 package mvc;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 public class RadioMessageModel extends ScheduledPushModelAbstraction {
@@ -160,13 +162,18 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
         return data.messageSent.sendingOperatorInitials;
     }
 
-    public String jsonSerialize() {
-        return gson.toJson(data);
-    }
-
     public void jsonDeserialize(JsonObject json) {
         data = gson.fromJson(json, DataContainers.RadioMessage.class);
         modelLoaded();
+    }
+
+    @Override
+    public DBPushParams prepareForPush() {
+        String json = gson.toJson(data);
+        int id = 1; //XXX: Need to have unique id 
+        int missionNo = 1; //XXX: Need to get mission no
+        String date = new SimpleDateFormat(GlobalConstants.DATE_FORMAT).format(new Date()); //TODO: Eventually use date input in form
+        return new DBPushParams(FormType.RM, json, id, missionNo, date);
     }
 
 }

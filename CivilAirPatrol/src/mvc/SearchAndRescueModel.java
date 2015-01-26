@@ -1,5 +1,10 @@
 package mvc;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import mvc.ScheduledPushModelAbstraction.DBPushParams;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -326,7 +331,8 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         schedulePush();
     }
 
-    public void updateFoxtrotMissionClosedOrSuspended(boolean closed, boolean suspended) {
+    public void updateFoxtrotMissionClosedOrSuspended(boolean closed,
+            boolean suspended) {
         data.foxtrot.missionClosed = closed;
         data.foxtrot.missionSuspended = suspended;
         schedulePush();
@@ -594,8 +600,23 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         return data.golf.additionalRemarks;
     }
 
-    public String jsonSerialize() {
-        return gson.toJson(data);
+    public String[][] getBravoAreaSearched() {
+        return data.bravo.areaSearch;
+    }
+
+    @Override
+    public DBPushParams prepareForPush() {
+        String json = gson.toJson(data);
+        int id = 1; // XXX: Need to have unique id
+        int missionNo = -1;
+        try {
+            missionNo = Integer.parseInt(data.header.missionNumber);
+        } catch (NumberFormatException e) {
+            e.printStackTrace(); //TODO : Handle error more appropriately
+        }
+        String date = new SimpleDateFormat(GlobalConstants.DATE_FORMAT)
+                .format(new Date());// TODO: Eventually use date input in form
+        return new DBPushParams(FormType.SAR, json, id, missionNo, date);
     }
 
     public void jsonDeserialize(JsonObject json) {
@@ -603,7 +624,4 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         modelLoaded();
     }
 
-    public String[][] getBravoAreaSearched() {
-        return data.bravo.areaSearch;
-    }
 }
