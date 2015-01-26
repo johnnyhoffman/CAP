@@ -23,7 +23,7 @@ public class DBTest {
     public static void main(String args[]){
         
         sqlServer.CreateDatabase();
-        sqlServer.testClearMission();
+    
         sqlServer.testClearCommLog();
         sqlServer.testClearRAD();
         sqlServer.testClearSAR();
