@@ -19,3 +19,6 @@ hs_err_pid*
 /CivilAirPatrol/build/
 /CivilAirPatrol/.gitignore
 /CivilAirPatrol/dist/
+
+# Files Created by application
+/CivilAirPatrol/test.db

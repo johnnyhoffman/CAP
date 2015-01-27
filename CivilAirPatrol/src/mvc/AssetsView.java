@@ -10,7 +10,7 @@ public class AssetsView extends JPanel {
 
     AssetsView() {
         this.setSize(300, 200);
-        this.add(new JLabel("THIZ IZ AZZETZ"));
+        this.add(new JLabel("[[Placeholder for Asset Tracking view]]"));
     }
 
 }

@@ -34,14 +34,14 @@ public class SessionView extends JFrame {
         newMenu.add(newSearchAndRescueMenuItem);
 
         // XXX: Temp for testing
-        newItemFromJson = new JMenuItem("Temprary make thangs frum danabase opshen");
+        newItemFromJson = new JMenuItem("For demo: Open all saved forms with mission number 10");
         newMenu.add(newItemFromJson);
 
         setJMenuBar(menuBar);
 
         // Split window into sections
         hSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        hSplitPane.setResizeWeight(0.7);
+        hSplitPane.setResizeWeight(0.85);
         vSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         vSplitPane.setResizeWeight(0.5);
         hSplitPane.setRightComponent(vSplitPane);
