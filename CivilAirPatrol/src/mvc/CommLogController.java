@@ -47,7 +47,8 @@ public class CommLogController implements IFormController {
         view.addStationFunctionalDesignatorChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateStationFunctionalDesignator(view.getStationFunctionalDesignatorText());
+                model.updateStationFunctionalDesignator(view
+                        .getStationFunctionalDesignatorText());
             }
         });
         view.addDateChangeListener(new CaretListener() {
@@ -124,7 +125,8 @@ public class CommLogController implements IFormController {
         ComLogEntry[] modelEntries = model.getEntries();
 
         for (int i = 0; i < GlobalConstants.COMLOG_ENTRY_COUNT; i++) {
-            if (!viewEntries[i].time.equals(modelEntries[i].time) || !viewEntries[i].call.equals(modelEntries[i].call)
+            if (!viewEntries[i].time.equals(modelEntries[i].time)
+                    || !viewEntries[i].call.equals(modelEntries[i].call)
                     || !viewEntries[i].chRef.equals(modelEntries[i].chRef)
                     || !viewEntries[i].remarks.equals(modelEntries[i].remarks)) {
                 model.updateEntries(viewEntries);
@@ -136,7 +138,8 @@ public class CommLogController implements IFormController {
     public void refreshViewFromModel() {
         view.setName(model.getName());
         view.setMissionNumText(model.getMissionNum());
-        view.setStationFunctionalDesignatorText(model.getStationFunctionalDesignator());
+        view.setStationFunctionalDesignatorText(model
+                .getStationFunctionalDesignator());
         view.setDateText(model.getDate());
         view.setAText(model.getA());
         view.setBText(model.getB());
@@ -145,5 +148,15 @@ public class CommLogController implements IFormController {
         view.setEText(model.getE());
         view.setFText(model.getF());
         view.setEntries(model.getEntries());
+    }
+
+    @Override
+    public int getID() {
+        return model.getID();
+    }
+
+    @Override
+    public void updateFromJson(JsonObject json) {
+        model.jsonDeserialize(json);
     }
 }

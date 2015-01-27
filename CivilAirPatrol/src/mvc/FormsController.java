@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.text.html.HTMLEditorKit.Parser;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -87,18 +88,21 @@ public class FormsController implements IController {
     }
 
     public void fromDBPushParams(DBPushParams pushParams) {
-        // TODO: Need to check if tab exists already, in which case we just
-        // update it.
-        switch (pushParams.type) {
-        case CL:
-            addTab(model.comLogFromJson(pushParams));
-            break;
-        case RM:
-            addTab(model.radioMessageFromJson(pushParams));
-            break;
-        case SAR:
-            addTab(model.searchAndRescueFromJson(pushParams));
-            break;
+        if (model.has(pushParams.id)) {
+            switch (pushParams.type) {
+            case CL:
+                addTab(model.comLogFromJson(pushParams));
+                break;
+            case RM:
+                addTab(model.radioMessageFromJson(pushParams));
+                break;
+            case SAR:
+                addTab(model.searchAndRescueFromJson(pushParams));
+                break;
+            }
+        } else {
+            IFormController c = model.get(pushParams.id);
+            c.updateFromJson((JsonObject) jsonParser.parse(pushParams.json));
         }
     }
 

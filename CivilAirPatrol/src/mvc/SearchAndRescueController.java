@@ -608,4 +608,14 @@ public class SearchAndRescueController implements IFormController {
         view.setBravoAreaSearched(model.getBravoAreaSearched());
     }
 
+    @Override
+    public int getID() {
+        return model.getID();
+    }
+
+    @Override
+    public void updateFromJson(JsonObject json) {
+        model.jsonDeserialize(json);
+    }
+
 }

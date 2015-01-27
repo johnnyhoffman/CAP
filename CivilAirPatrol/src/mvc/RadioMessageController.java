@@ -174,4 +174,14 @@ public class RadioMessageController implements IFormController {
         view.setMessageSentSendingOperatorInitialsText(model
                 .getMessageSentSendingOperatorInitials());
     }
+
+    @Override
+    public int getID() {
+        return model.getID();
+    }
+
+    @Override
+    public void updateFromJson(JsonObject json) {
+        model.jsonDeserialize(json);
+    }
 }
