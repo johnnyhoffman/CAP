@@ -12,6 +12,7 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
     private Gson gson;
     int id;
 
+
     public RadioMessageModel(int id, String name) {
         this.id = id;
         database.sqlServer.InsertRADIOMESS("{}", id,
@@ -34,6 +35,11 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
 
     public int getID() {
         return id;
+    }
+
+    public void updateHeaderMissionNo(String s) {
+        data.header.missionNo = s;
+        schedulePush();
     }
 
     public void updateHeaderMsgNum(String s) {
@@ -115,6 +121,10 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
         return data.header.msgNum;
     }
 
+    public String getHeaderMissionNo() {
+        return data.header.missionNo;
+    }
+
     public String getHeaderPrecedence() {
         return data.header.precedence;
     }
@@ -179,7 +189,7 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
     @Override
     public DBPushParams prepareForPush() {
         String json = gson.toJson(data);
-        int missionNo = -1; // XXX: Need to get mission no
+        int missionNo = Integer.parseInt(data.header.missionNo);
         String date = new SimpleDateFormat(GlobalConstants.DATE_FORMAT)
                 .format(new Date()); // TODO: Eventually use date input in form
         return new DBPushParams(FormType.RM, json, id, missionNo, date);

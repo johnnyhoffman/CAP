@@ -66,6 +66,7 @@ public class DataContainers {
         }
 
         public static class Header {
+            String missionNo;
             String msgNum;
             String precedence;
             String dtg;
@@ -76,6 +77,7 @@ public class DataContainers {
             String groupCnt;
 
             public Header() {
+                missionNo = "";
                 msgNum = "";
                 precedence = "";
                 dtg = "";

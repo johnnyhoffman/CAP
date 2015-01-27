@@ -38,6 +38,12 @@ public class RadioMessageController implements IFormController {
      * view.
      */
     public void setListeners() {
+        view.addHeaderMissionNoChangeListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                model.updateHeaderMissionNo(view.getHeaderMissionNoText());
+            }
+        });
         view.addHeaderMsgNumChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
@@ -150,6 +156,7 @@ public class RadioMessageController implements IFormController {
 
     public void refreshViewFromModel() {
         view.setHeaderMsgNumText(model.getHeaderMsgNum());
+        view.setHeaderMissionNoText(model.getHeaderMissionNo());
         view.setHeaderPrecedenceText(model.getHeaderPrecedence());
         view.setHeaderDtgText(model.getHeaderDtg());
         view.setHeaderFromText(model.getHeaderFrom());
