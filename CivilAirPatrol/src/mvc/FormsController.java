@@ -89,6 +89,13 @@ public class FormsController implements IController {
 
     public void fromDBPushParams(DBPushParams pushParams) {
         if (model.has(pushParams.id)) {
+            IFormController c = model.get(pushParams.id);
+            if (c == null) {
+                System.out.println("null");
+            }
+            System.out.println("[[[[[" + pushParams.json + "]]]]]");
+            c.updateFromJson((JsonObject) jsonParser.parse(pushParams.json));
+        } else {
             switch (pushParams.type) {
             case CL:
                 addTab(model.comLogFromJson(pushParams));
@@ -100,9 +107,6 @@ public class FormsController implements IController {
                 addTab(model.searchAndRescueFromJson(pushParams));
                 break;
             }
-        } else {
-            IFormController c = model.get(pushParams.id);
-            c.updateFromJson((JsonObject) jsonParser.parse(pushParams.json));
         }
     }
 
