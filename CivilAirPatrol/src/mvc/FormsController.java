@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.text.html.HTMLEditorKit.Parser;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
