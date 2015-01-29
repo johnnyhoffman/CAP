@@ -2,6 +2,8 @@ package mvc;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,36 +33,28 @@ public class SessionView extends JFrame {
     private static final long serialVersionUID = 9131304647063274186L;
     private JSplitPane hSplitPane;
     private JSplitPane vSplitPane;
-    private JMenuItem newComLogMenuItem;
-    private JMenuItem newRadioMessageMenuItem;
-    private JMenuItem newLocatingDataMenuItem;
-    private JMenuItem newSearchAndRescueMenuItem;
+    private JMenuItem newDialog;
     // XXX: Temp for testing
     private JMenuItem newItemFromJson;
-    // XXX: Temp for testing
-    private JMenuItem newDialog;
     private JFrame thisFrame;
+    private ActionListener newComLogMenuActionListener;
+    private ActionListener newRadioMessageMenuActionListener;
+    private ActionListener newSearchAndRescueActionListener;
 
     SessionView() {
         // Make Menu
         thisFrame = this; // For anonymous class referencing the JFrame
         menuBar = new JMenuBar();
-        JMenu newMenu = new JMenu("New");
-        menuBar.add(newMenu);
-        newComLogMenuItem = new JMenuItem("Communication Log");
-        newMenu.add(newComLogMenuItem);
-        newRadioMessageMenuItem = new JMenuItem("Radio Message Form");
-        newMenu.add(newRadioMessageMenuItem);
-        newSearchAndRescueMenuItem = new JMenuItem("Search And Rescue Form");
-        newMenu.add(newSearchAndRescueMenuItem);
+        JMenu fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
 
         // XXX: Temp for testing
         newItemFromJson = new JMenuItem(
                 "For demo: Open all saved forms with mission number 10");
-        newMenu.add(newItemFromJson);
+        fileMenu.add(newItemFromJson);
         // XXX: Temp for testing
-        newDialog = new JMenuItem("Open Dialog");
-        newMenu.add(newDialog);
+        newDialog = new JMenuItem("New Form");
+        fileMenu.add(newDialog);
         newDialog.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,23 +65,45 @@ public class SessionView extends JFrame {
                         formNames);
                 JTextField missionNoField = new JTextField(5);
                 JTextField dateField = new JTextField(5);
-                JPanel myPanel = new JPanel();
-                myPanel.add(new JLabel("FormType: "));
-                myPanel.add(formTypeCombobox);
-                myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-                myPanel.add(new JLabel("Mission Number: "));
-                myPanel.add(missionNoField);
-                myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-                myPanel.add(new JLabel("Date:"));
-                myPanel.add(dateField);
+                JPanel dialogPanel = new JPanel();
+                dialogPanel.setLayout(new GridBagLayout());
+                GridBagConstraints left = new GridBagConstraints();
+                left.anchor = GridBagConstraints.EAST;
+                GridBagConstraints right = new GridBagConstraints();
+                right.fill = GridBagConstraints.HORIZONTAL;
+                right.anchor = GridBagConstraints.WEST;
+                right.gridwidth = GridBagConstraints.REMAINDER;
+                dialogPanel.add(new JLabel("Form Type: "), left);
+                dialogPanel.add(formTypeCombobox, right);
+                dialogPanel.add(Box.createVerticalStrut(15), right); // a spacer
+                dialogPanel.add(new JLabel("Mission Number: "), left);
+                dialogPanel.add(missionNoField, right);
+                dialogPanel.add(Box.createVerticalStrut(15), right); // a spacer
+                dialogPanel.add(new JLabel("Date:"), left);
+                dialogPanel.add(dateField, right);
 
-                int result = JOptionPane.showConfirmDialog(thisFrame, myPanel,
-                        "Please Enter X and Y Values",
-                        JOptionPane.OK_CANCEL_OPTION);
+                int result = JOptionPane.showOptionDialog(thisFrame,
+                        dialogPanel, "NewForm", JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE, null, new String[] {
+                                "Create Form", "Cancel" }, "default");
 
                 if (result == JOptionPane.OK_OPTION) {
-                    System.out.println("m n value: " + missionNoField.getText());
-                    System.out.println("date value: " + dateField.getText());
+                    switch (formTypeCombobox.getSelectedIndex()) {
+                    case (0):
+                        // TODO: Johnny working here. Need to somehow pass the
+                        // missionNo & date values to the actionListener through
+                        // the action event, or make a custom listener
+                        newComLogMenuActionListener.actionPerformed(null);
+                        break;
+                    case (1):
+                        newSearchAndRescueActionListener.actionPerformed(null);
+                        break;
+                    case (2):
+                        newRadioMessageMenuActionListener.actionPerformed(null);
+                        break;
+                    default:
+                        break;
+                    }
                 }
             }
 
@@ -124,22 +140,17 @@ public class SessionView extends JFrame {
     }
 
     public void addNewComLogMenuItemActionListener(ActionListener actionListener) {
-        newComLogMenuItem.addActionListener(actionListener);
+        newComLogMenuActionListener = actionListener;
     }
 
     public void addNewRadioMessageMenuItemActionListener(
             ActionListener actionListener) {
-        newRadioMessageMenuItem.addActionListener(actionListener);
-    }
-
-    public void addNewLocatingDataMenuItemActionListener(
-            ActionListener actionListener) {
-        newLocatingDataMenuItem.addActionListener(actionListener);
+        newRadioMessageMenuActionListener = actionListener;
     }
 
     public void addNewSearchAndRescueMenuItemActionListener(
             ActionListener actionListener) {
-        newSearchAndRescueMenuItem.addActionListener(actionListener);
+        newSearchAndRescueActionListener = actionListener;
     }
 
     // XXX: temp for testing

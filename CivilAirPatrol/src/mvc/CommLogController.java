@@ -21,6 +21,14 @@ public class CommLogController implements IFormController {
         setListeners();
     }
 
+    public CommLogController(int id, String name, String missionNo, String date) {
+        view = new CommLogView();
+        view.setName(name);
+        model = new CommLogModel(id, name, missionNo, date);
+        setListeners();
+        refreshViewFromModel();
+    }
+
     public CommLogController(int id, JsonObject json) {
         view = new CommLogView();
         view.setName(json.get("name").getAsString());

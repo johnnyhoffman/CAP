@@ -31,6 +31,21 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
         jsonDeserialize(json);
     }
 
+    public RadioMessageModel(int id, String name, String missionNo, String date) {
+        this.id = id;
+        int missionNoInt = -1;
+        try {
+            missionNoInt = Integer.parseInt(missionNo);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        database.sqlServer.InsertRADIOMESS("{}", id, missionNoInt, date); // XXX: Temp
+        data = new DataContainers.RadioMessage(name);
+        gson = new Gson();
+        // for debugging revert to creation method below
+        // gson = new GsonBuilder().setPrettyPrinting().create();
+    }
+
     public int getID() {
         return id;
     }

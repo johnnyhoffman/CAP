@@ -17,8 +17,7 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
     public CommLogModel(int id, String name) {
         super();
         this.id = id;
-        database.sqlServer.InsertCommLog("{}", id,
-                -1, "DATE"); //XXX: Temp
+        database.sqlServer.InsertCommLog("{}", id, -1, "DATE"); // XXX: Temp
         data = new DataContainers.CommunicationsLog(name);
         gson = new Gson();
         // for debugging revert to creation method below
@@ -34,6 +33,22 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
         // for debugging revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();
         jsonDeserialize(json);
+    }
+
+    public CommLogModel(int id, String name, String missionNo, String date) {
+        super();
+        this.id = id;
+        int missionNoInt = -1;
+        try {
+            missionNoInt = Integer.parseInt(missionNo);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        database.sqlServer.InsertCommLog("{}", id, missionNoInt, date); // XXX: Temp
+        data = new DataContainers.CommunicationsLog(name);
+        gson = new Gson();
+        // for debugging revert to creation method below
+        // gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     public int getID() {
