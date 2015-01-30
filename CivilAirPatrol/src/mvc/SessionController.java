@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import mvc.SessionView.NewFormListener;
 import database.sqlServer;
 
 public class SessionController {
@@ -28,24 +29,21 @@ public class SessionController {
         view.setAssetsComponent(assetsController.getViewComponent());
         view.setChatComponent(chatController.getViewComponent());
 
-        view.addNewComLogMenuItemActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                formsController.newComLog();
+        view.addNewComLogMenuItemActionListener(new NewFormListener() {
+            public void createForm(String missionNo, String date) {
+                formsController.newComLog(missionNo, date);;
             }
         });
 
-        view.addNewSearchAndRescueMenuItemActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                formsController.newSearchAndRescue();
+        view.addNewSearchAndRescueMenuItemActionListener(new NewFormListener() {
+            public void createForm(String missionNo, String date) {
+                formsController.newSearchAndRescue(missionNo, date);
             }
         });
 
-        view.addNewRadioMessageMenuItemActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                formsController.newRadioMessage();
+        view.addNewRadioMessageMenuItemActionListener(new NewFormListener() {
+            public void createForm(String missionNo, String date) {
+                formsController.newRadioMessage(missionNo, date);
             }
         });
 

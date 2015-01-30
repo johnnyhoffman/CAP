@@ -44,11 +44,13 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        database.sqlServer.InsertCommLog("{}", id, missionNoInt, date); // XXX: Temp
         data = new DataContainers.CommunicationsLog(name);
+        data.missionNum = missionNo;
+        data.date = date;
         gson = new Gson();
         // for debugging revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();
+        database.sqlServer.InsertCommLog(gson.toJson(data), id, missionNoInt, date);
     }
 
     public int getID() {
@@ -163,9 +165,7 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
         } catch (NumberFormatException e) {
             e.printStackTrace(); // TODO : Handle error more appropriately
         }
-        String date = new SimpleDateFormat(GlobalConstants.DATE_FORMAT)
-                .format(new Date());// TODO: Eventually use date input in form
-        return new DBPushParams(FormType.CL, json, id, missionNo, date);
+        return new DBPushParams(FormType.CL, json, id, missionNo, data.date);
     }
 
     public void jsonDeserialize(JsonObject json) {

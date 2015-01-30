@@ -39,11 +39,13 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        database.sqlServer.InsertRADIOMESS("{}", id, missionNoInt, date); // XXX: Temp
         data = new DataContainers.RadioMessage(name);
+        data.header.missionNo = missionNo;
+        data.header.date = date;
         gson = new Gson();
         // for debugging revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();
+        database.sqlServer.InsertRADIOMESS(gson.toJson(data), id, missionNoInt, date);
     }
 
     public int getID() {
@@ -208,8 +210,6 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
         } catch (NumberFormatException e) {
             e.printStackTrace(); // TODO: Better error handling?
         }
-        String date = new SimpleDateFormat(GlobalConstants.DATE_FORMAT)
-                .format(new Date()); // TODO: Eventually use date input in form
-        return new DBPushParams(FormType.RM, json, id, missionNo, date);
+        return new DBPushParams(FormType.RM, json, id, missionNo, data.header.date);
     }
 }

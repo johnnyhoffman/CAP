@@ -64,8 +64,7 @@ public class FormsController implements IController {
         pnlTab.add(btnClose, gbc);
 
         view.setTabComponentAt(index, pnlTab);
-        btnClose.addActionListener(new RemoveTabListener(this, controller,
-                component, scrollC));
+        btnClose.addActionListener(new RemoveTabListener(this, controller, component, scrollC));
 
     }
 
@@ -73,12 +72,24 @@ public class FormsController implements IController {
         addTab(model.newComLog());
     }
 
+    public void newComLog(String missionNo, String date) {
+        addTab(model.newComLog(missionNo, date));
+    }
+
     public void newSearchAndRescue() {
         addTab(model.newSearchAndRescue());
     }
 
+    public void newSearchAndRescue(String missionNo, String date) {
+        addTab(model.newSearchAndRescue(missionNo, date));
+    }
+
     public void newRadioMessage() {
         addTab(model.newRadioMessage());
+    }
+
+    public void newRadioMessage(String missionNo, String date) {
+        addTab(model.newRadioMessage(missionNo, date));
     }
 
     public void removeTab(Component component, IFormController controller) {
@@ -116,9 +127,8 @@ public class FormsController implements IController {
         JScrollPane componentAsScrollPane;
         IFormController innerController;
 
-        public RemoveTabListener(FormsController formsController,
-                IFormController innerController, FormComponent component,
-                JScrollPane componentAsScollPane) {
+        public RemoveTabListener(FormsController formsController, IFormController innerController,
+                FormComponent component, JScrollPane componentAsScollPane) {
             this.formsController = formsController;
             this.innerController = innerController;
             this.component = component;

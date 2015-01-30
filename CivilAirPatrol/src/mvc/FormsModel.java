@@ -53,41 +53,59 @@ public class FormsModel {
         return comCont;
     }
 
+    public CommLogController newComLog(String missionNo, String date) {
+        int id = sqlServer.RetrieveNextFormId();
+        CommLogController comCont = new CommLogController(id, "Com Log " + id, missionNo, date);
+        formControllers.add(comCont);
+        return comCont;
+    }
+
     public SearchAndRescueController newSearchAndRescue() {
         int id = sqlServer.RetrieveNextFormId();
-        SearchAndRescueController searchRescCont = new SearchAndRescueController(
-                id, "Search and Rescue " + id);
+        SearchAndRescueController searchRescCont = new SearchAndRescueController(id, "Search and Rescue " + id);
+        formControllers.add(searchRescCont);
+        return searchRescCont;
+    }
+
+    public SearchAndRescueController newSearchAndRescue(String missionNo, String date) {
+        int id = sqlServer.RetrieveNextFormId();
+        SearchAndRescueController searchRescCont = new SearchAndRescueController(id, "Search and Rescue " + id,
+                missionNo, date);
         formControllers.add(searchRescCont);
         return searchRescCont;
     }
 
     public RadioMessageController newRadioMessage() {
         int id = sqlServer.RetrieveNextFormId();
-        RadioMessageController radMesCont = new RadioMessageController(id,
-                "Radio Message " + id);
+        RadioMessageController radMesCont = new RadioMessageController(id, "Radio Message " + id);
+        formControllers.add(radMesCont);
+        return radMesCont;
+    }
+
+    public RadioMessageController newRadioMessage(String missionNo, String date) {
+        int id = sqlServer.RetrieveNextFormId();
+        RadioMessageController radMesCont = new RadioMessageController(id, "Radio Message " + id, missionNo, date);
         formControllers.add(radMesCont);
         return radMesCont;
     }
 
     public RadioMessageController radioMessageFromJson(DBPushParams pushParams) {
-        RadioMessageController radMesCont = new RadioMessageController(
-                pushParams.id, (JsonObject) jsonParser.parse(pushParams.json));
+        RadioMessageController radMesCont = new RadioMessageController(pushParams.id,
+                (JsonObject) jsonParser.parse(pushParams.json));
         formControllers.add(radMesCont);
         return radMesCont;
     }
 
     public CommLogController comLogFromJson(DBPushParams pushParams) {
-        CommLogController comCont = new CommLogController(pushParams.id,
-                (JsonObject) jsonParser.parse(pushParams.json));
+        CommLogController comCont = new CommLogController(pushParams.id, (JsonObject) jsonParser.parse(pushParams.json));
 
         formControllers.add(comCont);
         return comCont;
     }
 
-    public SearchAndRescueController searchAndRescueFromJson(
-            DBPushParams pushParams) {
-        SearchAndRescueController searchRescCont = new SearchAndRescueController(
-                pushParams.id, (JsonObject) jsonParser.parse(pushParams.json));
+    public SearchAndRescueController searchAndRescueFromJson(DBPushParams pushParams) {
+        SearchAndRescueController searchRescCont = new SearchAndRescueController(pushParams.id,
+                (JsonObject) jsonParser.parse(pushParams.json));
         formControllers.add(searchRescCont);
         return searchRescCont;
     }

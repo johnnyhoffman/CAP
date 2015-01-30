@@ -29,6 +29,11 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 public class SessionView extends JFrame {
+
+    public interface NewFormListener {
+        public void createForm(String missionNo, String date);
+    }
+
     private JMenuBar menuBar;
     private static final long serialVersionUID = 9131304647063274186L;
     private JSplitPane hSplitPane;
@@ -37,9 +42,9 @@ public class SessionView extends JFrame {
     // XXX: Temp for testing
     private JMenuItem newItemFromJson;
     private JFrame thisFrame;
-    private ActionListener newComLogMenuActionListener;
-    private ActionListener newRadioMessageMenuActionListener;
-    private ActionListener newSearchAndRescueActionListener;
+    private NewFormListener newComLogMenuListener;
+    private NewFormListener newRadioMessageMenuListener;
+    private NewFormListener newSearchAndRescueListener;
 
     SessionView() {
         // Make Menu
@@ -49,8 +54,7 @@ public class SessionView extends JFrame {
         menuBar.add(fileMenu);
 
         // XXX: Temp for testing
-        newItemFromJson = new JMenuItem(
-                "For demo: Open all saved forms with mission number 10");
+        newItemFromJson = new JMenuItem("For demo: Open all saved forms with mission number 10");
         fileMenu.add(newItemFromJson);
         // XXX: Temp for testing
         newDialog = new JMenuItem("New Form");
@@ -59,10 +63,8 @@ public class SessionView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String[] formNames = { "Communication Log",
-                        "Search And Rescue", "Radio Message" };
-                JComboBox<String> formTypeCombobox = new JComboBox<String>(
-                        formNames);
+                String[] formNames = { "Communication Log", "Search And Rescue", "Radio Message" };
+                JComboBox<String> formTypeCombobox = new JComboBox<String>(formNames);
                 JTextField missionNoField = new JTextField(5);
                 JTextField dateField = new JTextField(5);
                 JPanel dialogPanel = new JPanel();
@@ -82,24 +84,22 @@ public class SessionView extends JFrame {
                 dialogPanel.add(new JLabel("Date:"), left);
                 dialogPanel.add(dateField, right);
 
-                int result = JOptionPane.showOptionDialog(thisFrame,
-                        dialogPanel, "NewForm", JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE, null, new String[] {
+                int result = JOptionPane.showOptionDialog(thisFrame, dialogPanel, "NewForm",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[] {
                                 "Create Form", "Cancel" }, "default");
 
                 if (result == JOptionPane.OK_OPTION) {
+                    String missionNo = missionNoField.getText();
+                    String date = dateField.getText();
                     switch (formTypeCombobox.getSelectedIndex()) {
                     case (0):
-                        // TODO: Johnny working here. Need to somehow pass the
-                        // missionNo & date values to the actionListener through
-                        // the action event, or make a custom listener
-                        newComLogMenuActionListener.actionPerformed(null);
+                        newComLogMenuListener.createForm(missionNo, date);
                         break;
                     case (1):
-                        newSearchAndRescueActionListener.actionPerformed(null);
+                        newSearchAndRescueListener.createForm(missionNo, date);
                         break;
                     case (2):
-                        newRadioMessageMenuActionListener.actionPerformed(null);
+                        newRadioMessageMenuListener.createForm(missionNo, date);
                         break;
                     default:
                         break;
@@ -139,23 +139,21 @@ public class SessionView extends JFrame {
         vSplitPane.setBottomComponent(viewComponent);
     }
 
-    public void addNewComLogMenuItemActionListener(ActionListener actionListener) {
-        newComLogMenuActionListener = actionListener;
+    public void addNewComLogMenuItemActionListener(NewFormListener l) {
+        newComLogMenuListener = l;
     }
 
-    public void addNewRadioMessageMenuItemActionListener(
-            ActionListener actionListener) {
-        newRadioMessageMenuActionListener = actionListener;
+    public void addNewRadioMessageMenuItemActionListener(NewFormListener l) {
+        newRadioMessageMenuListener = l;
     }
 
-    public void addNewSearchAndRescueMenuItemActionListener(
-            ActionListener actionListener) {
-        newSearchAndRescueActionListener = actionListener;
+    public void addNewSearchAndRescueMenuItemActionListener(NewFormListener l) {
+        newSearchAndRescueListener = l;
     }
 
     // XXX: temp for testing
-    public void addIncomingJsonActionListener(ActionListener actionListener) {
-        newItemFromJson.addActionListener(actionListener);
+    public void addIncomingJsonActionListener(ActionListener l) {
+        newItemFromJson.addActionListener(l);
     }
 
     public class MyJDialog extends JDialog {
@@ -201,8 +199,7 @@ public class SessionView extends JFrame {
                     dispose();
                 }
             };
-            InputMap inputMap = rootPane
-                    .getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+            InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
             inputMap.put(stroke, "ESCAPE");
             rootPane.getActionMap().put("ESCAPE", action);
             return rootPane;
@@ -219,5 +216,4 @@ public class SessionView extends JFrame {
             }
         }
     }
-
 }

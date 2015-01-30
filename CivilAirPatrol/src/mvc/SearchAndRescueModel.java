@@ -31,8 +31,7 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         jsonDeserialize(json);
     }
 
-    public SearchAndRescueModel(int id, String name, String missionNo,
-            String date) {
+    public SearchAndRescueModel(int id, String name, String missionNo, String date) {
         super();
         this.id = id;
         int missionNoInt = -1;
@@ -41,12 +40,13 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        database.sqlServer.InsertSAR("{}", id, missionNoInt, date); // XXX:
-                                                                    // Temp?
         data = new DataContainers.SearchAndRescue(name);
+        data.header.missionNumber = missionNo;
+        data.header.dateTime = date; //XXX: Will dateTime field be same format as date?
         gson = new Gson();
-        // for debugging revert to above creation method later
+        // for debugging, revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();
+        database.sqlServer.InsertSAR(gson.toJson(data), id, missionNoInt, date);
     }
 
     public int getID() {
@@ -354,8 +354,7 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         schedulePush();
     }
 
-    public void updateFoxtrotMissionClosedOrSuspended(boolean closed,
-            boolean suspended) {
+    public void updateFoxtrotMissionClosedOrSuspended(boolean closed, boolean suspended) {
         data.foxtrot.missionClosed = closed;
         data.foxtrot.missionSuspended = suspended;
         schedulePush();
@@ -636,9 +635,7 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         } catch (NumberFormatException e) {
             e.printStackTrace(); // TODO : Handle error more appropriately
         }
-        String date = new SimpleDateFormat(GlobalConstants.DATE_FORMAT)
-                .format(new Date());// TODO: Eventually use date input in form
-        return new DBPushParams(FormType.SAR, json, id, missionNo, date);
+        return new DBPushParams(FormType.SAR, json, id, missionNo, data.header.dateTime);
     }
 
     public void jsonDeserialize(JsonObject json) {

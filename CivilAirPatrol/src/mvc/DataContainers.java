@@ -67,9 +67,10 @@ public class DataContainers {
 
         public static class Header {
             String missionNo;
+            String date; // XXX: Should this be DTG?
             String msgNum;
             String precedence;
-            String dtg;
+            String dtg; // XXX: Is this the date
             String from;
             String to;
             String info;
@@ -78,6 +79,7 @@ public class DataContainers {
 
             public Header() {
                 missionNo = "";
+                date = "";
                 msgNum = "";
                 precedence = "";
                 dtg = "";
