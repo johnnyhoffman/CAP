@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import userInterface.SearchWindow;
+
 import mvc.SessionView.NewFormListener;
 import database.sqlServer;
 
@@ -16,6 +18,8 @@ public class SessionController {
     private FormsController formsController;
     private ChatController chatController;
     private AssetsController assetsController;
+    
+    private SearchWindow searchWindow;
 
     public SessionController() {
         view = new SessionView();
@@ -44,6 +48,18 @@ public class SessionController {
         view.addNewRadioMessageMenuItemActionListener(new NewFormListener() {
             public void createForm(String missionNo, String date) {
                 formsController.newRadioMessage(missionNo, date);
+            }
+        });
+        
+        
+        view.addRetrieveFormsActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	if (searchWindow == null || searchWindow.isDead()) {
+            		searchWindow = new SearchWindow(view.getX(),view.getY());
+            	} else {
+            		searchWindow.moveToTop();
+            	}
             }
         });
 

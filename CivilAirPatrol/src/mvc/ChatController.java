@@ -32,10 +32,14 @@ public class ChatController implements IController {
                 String textArea = view.getTextChatArea();
                 String textEntry = view.getTextChatEntry();
                 
-                if (textEntry.isEmpty()) return;               
+                if (textEntry.isEmpty()) return; 
                 
-                switch (textArea){
-                    case "":
+                int textTest = 1;
+                if (textArea == "") {
+                	textTest = 0;
+                }
+                switch (textTest){
+                    case 0:
                         view.setTextChatArea(textEntry);
                         break;
                         

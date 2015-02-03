@@ -41,6 +41,7 @@ public class SessionView extends JFrame {
     private JMenuItem newDialog;
     // XXX: Temp for testing
     private JMenuItem newItemFromJson;
+    private JMenuItem searchDatabaseMenuItem;
     private JFrame thisFrame;
     private NewFormListener newComLogMenuListener;
     private NewFormListener newRadioMessageMenuListener;
@@ -56,15 +57,18 @@ public class SessionView extends JFrame {
         // XXX: Temp for testing
         newItemFromJson = new JMenuItem("For demo: Open all saved forms with mission number 10");
         fileMenu.add(newItemFromJson);
+        searchDatabaseMenuItem = new JMenuItem("Search/Open Forms");
+        fileMenu.add(searchDatabaseMenuItem);
+        
         // XXX: Temp for testing
         newDialog = new JMenuItem("New Form");
         fileMenu.add(newDialog);
         newDialog.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+            	JComboBox a;
                 String[] formNames = { "Communication Log", "Search And Rescue", "Radio Message" };
-                JComboBox<String> formTypeCombobox = new JComboBox<String>(formNames);
+                JComboBox formTypeCombobox = new JComboBox(formNames);
                 JTextField missionNoField = new JTextField(5);
                 JTextField dateField = new JTextField(5);
                 JPanel dialogPanel = new JPanel();
@@ -108,7 +112,8 @@ public class SessionView extends JFrame {
             }
 
         });
-
+        
+        
         setJMenuBar(menuBar);
 
         // Split window into sections
@@ -204,6 +209,7 @@ public class SessionView extends JFrame {
             rootPane.getActionMap().put("ESCAPE", action);
             return rootPane;
         }
+        
 
         // an action listener to be used when an action is performed
         // (e.g. button is pressed)
@@ -215,5 +221,9 @@ public class SessionView extends JFrame {
                 dispose();
             }
         }
+    }
+
+    public void addRetrieveFormsActionListener(ActionListener actionListener) {
+        searchDatabaseMenuItem.addActionListener(actionListener);
     }
 }
