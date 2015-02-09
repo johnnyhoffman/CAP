@@ -16,6 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 
 /**
  * Here we have a class that lets us search the database for forms
@@ -90,27 +93,33 @@ public class SearchWindow {
 		JLabel date2slash1 = new JLabel("/",JLabel.CENTER);
 		JLabel date2slash2 = new JLabel("/",JLabel.CENTER);
 		minDay = new javax.swing.JTextField();
+		minDay.setDocument(new TextDocumentForLimitedTextFields(2,true));
 		minDay.setPreferredSize(new Dimension(32,24));
 		maxDay = new javax.swing.JTextField();
+		maxDay.setDocument(new TextDocumentForLimitedTextFields(2,true));
 		maxDay.setPreferredSize(new Dimension(32,24));
 		minMonth = new javax.swing.JTextField();
+		minMonth.setDocument(new TextDocumentForLimitedTextFields(2,true));
 		minMonth.setPreferredSize(new Dimension(32,24));
 		maxMonth = new javax.swing.JTextField();
+		maxMonth.setDocument(new TextDocumentForLimitedTextFields(2,true));
 		maxMonth.setPreferredSize(new Dimension(32,24));
 		minYear = new javax.swing.JTextField();
+		minYear.setDocument(new TextDocumentForLimitedTextFields(4,true));
 		minYear.setPreferredSize(new Dimension(48,24));
 		maxYear = new javax.swing.JTextField();
+		maxYear.setDocument(new TextDocumentForLimitedTextFields(4,true));
 		maxYear.setPreferredSize(new Dimension(48,24));
 		dateRangePanel.add(dateHeader);
-		dateRangePanel.add(minMonth);
-		dateRangePanel.add(date1slash1);
 		dateRangePanel.add(minDay);
+		dateRangePanel.add(date1slash1);
+		dateRangePanel.add(minMonth);
 		dateRangePanel.add(date1slash2);
 		dateRangePanel.add(minYear);
 		dateRangePanel.add(date1to2label);
-		dateRangePanel.add(maxMonth);
-		dateRangePanel.add(date2slash1);
 		dateRangePanel.add(maxDay);
+		dateRangePanel.add(date2slash1);
+		dateRangePanel.add(maxMonth);
 		dateRangePanel.add(date2slash2);
 		dateRangePanel.add(maxYear);
 		mainFrame.add(tooltip);
@@ -126,6 +135,7 @@ public class SearchWindow {
 		formIDPanel.setBackground(new Color(230,230,230));
 		JLabel formIDHeader = new JLabel("Form ID: ",JLabel.CENTER);
 		formID = new javax.swing.JTextField();
+		formID.setDocument(new TextDocumentForLimitedTextFields(18,true));
 		formID.setPreferredSize(new Dimension(64,24));
 		formIDPanel.add(formIDHeader);
 		formIDPanel.add(formID);
@@ -137,6 +147,7 @@ public class SearchWindow {
 		missionNamePanel.setBackground(new Color(200,220,200));
 		JLabel missionNameHeader = new JLabel("Mission name: ",JLabel.CENTER);
 		missionName = new javax.swing.JTextField();
+		missionName.setDocument(new TextDocumentForLimitedTextFields(60,false));
 		missionName.setPreferredSize(new Dimension(128,24));
 		missionNamePanel.add(missionNameHeader);
 		missionNamePanel.add(missionName);
@@ -261,6 +272,38 @@ public class SearchWindow {
 			super.dispose();
 		}
 	}
+}
+
+class TextDocumentForLimitedTextFields extends PlainDocument {
+	
+    private int max;
+    private boolean numbersOnly;
+    
+    TextDocumentForLimitedTextFields(int max, boolean numbersOnly) {
+        super();
+        this.max = max;
+        this.numbersOnly = numbersOnly;
+    }
+    
+    public void insertString(int offset, String  str, AttributeSet attr) throws BadLocationException {
+        if (str == null) {
+        	return;
+        } else if ((getLength() + str.length()) <= max) {
+    		String newStr = "";
+        	if (numbersOnly) {
+        		int len = str.length();
+        		for (int i = 0; i < len; i++) {
+        			char c = str.charAt(i);
+        			if (c >= '0' && c <= '9') {
+        				newStr += c;
+        			}
+        		}
+        	} else {
+        		newStr = str;
+        	}
+            super.insertString(offset, newStr, attr);
+        }
+    }
 }
 
 
