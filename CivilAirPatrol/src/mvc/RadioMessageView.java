@@ -40,7 +40,7 @@ public class RadioMessageView extends FormComponent {
         jTextFieldMissionNo = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        datePicker = new DateTimePicker();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
@@ -185,7 +185,7 @@ public class RadioMessageView extends FormComponent {
                                                                         18)
                                                                 .addGroup(
                                                                         layout.createParallelGroup(
-                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                javax.swing.GroupLayout.Alignment.TRAILING)
                                                                                 .addComponent(
                                                                                         jTextFieldMissionNo)
                                                                                 .addComponent(
@@ -193,7 +193,7 @@ public class RadioMessageView extends FormComponent {
                                                                                 .addComponent(
                                                                                         jTextField2)
                                                                                 .addComponent(
-                                                                                        jTextField3)
+                                                                                        datePicker)
                                                                                 .addComponent(
                                                                                         jTextField4)
                                                                                 .addComponent(
@@ -392,7 +392,7 @@ public class RadioMessageView extends FormComponent {
                                                 javax.swing.GroupLayout.Alignment.BASELINE)
                                                 .addComponent(jLabel4)
                                                 .addComponent(
-                                                        jTextField3,
+                                                        datePicker,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE,
                                                         javax.swing.GroupLayout.DEFAULT_SIZE,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -608,7 +608,7 @@ public class RadioMessageView extends FormComponent {
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private DateTimePicker datePicker;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
@@ -636,7 +636,7 @@ public class RadioMessageView extends FormComponent {
     }
 
     public void addHeaderDtgChangeListener(CaretListener l) {
-        jTextField3.addCaretListener(l);
+        // datePicker.addCaretListener(l); TODO: NEED LISTENER!!
     }
 
     public void addHeaderFromChangeListener(CaretListener l) {
@@ -702,7 +702,7 @@ public class RadioMessageView extends FormComponent {
     }
 
     public String getHeaderDtgText() {
-        return jTextField3.getText();
+        return datePicker.getDateString();
     }
 
     public String getHeaderFromText() {
@@ -766,7 +766,7 @@ public class RadioMessageView extends FormComponent {
     }
 
     public void setHeaderDtgText(String s) {
-        jTextField3.setText(s);
+        datePicker.setDate(s);
     }
 
     public void setHeaderFromText(String s) {
