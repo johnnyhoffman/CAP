@@ -59,18 +59,19 @@ public class SessionView extends JFrame {
         fileMenu.add(newItemFromJson);
         searchDatabaseMenuItem = new JMenuItem("Search/Open Forms");
         fileMenu.add(searchDatabaseMenuItem);
-        
+
         // XXX: Temp for testing
         newDialog = new JMenuItem("New Form");
         fileMenu.add(newDialog);
         newDialog.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	JComboBox a;
                 String[] formNames = { "Communication Log", "Search And Rescue", "Radio Message" };
                 JComboBox formTypeCombobox = new JComboBox(formNames);
                 JTextField missionNoField = new JTextField(5);
-                JTextField dateField = new JTextField(5);
+                DateTimePicker dateTimePicker = new DateTimePicker();
+
+
                 JPanel dialogPanel = new JPanel();
                 dialogPanel.setLayout(new GridBagLayout());
                 GridBagConstraints left = new GridBagConstraints();
@@ -86,7 +87,8 @@ public class SessionView extends JFrame {
                 dialogPanel.add(missionNoField, right);
                 dialogPanel.add(Box.createVerticalStrut(15), right); // a spacer
                 dialogPanel.add(new JLabel("Date:"), left);
-                dialogPanel.add(dateField, right);
+
+                dialogPanel.add(dateTimePicker, right);
 
                 int result = JOptionPane.showOptionDialog(thisFrame, dialogPanel, "NewForm",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[] {
@@ -94,7 +96,7 @@ public class SessionView extends JFrame {
 
                 if (result == JOptionPane.OK_OPTION) {
                     String missionNo = missionNoField.getText();
-                    String date = dateField.getText();
+                    String date = dateTimePicker.getDateString();
                     switch (formTypeCombobox.getSelectedIndex()) {
                     case (0):
                         newComLogMenuListener.createForm(missionNo, date);
@@ -112,8 +114,7 @@ public class SessionView extends JFrame {
             }
 
         });
-        
-        
+
         setJMenuBar(menuBar);
 
         // Split window into sections
@@ -209,7 +210,6 @@ public class SessionView extends JFrame {
             rootPane.getActionMap().put("ESCAPE", action);
             return rootPane;
         }
-        
 
         // an action listener to be used when an action is performed
         // (e.g. button is pressed)

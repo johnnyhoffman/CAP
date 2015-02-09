@@ -44,7 +44,7 @@ public class SearchAndRescueView extends FormComponent {
         jLabel4 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        datePicker = new DateTimePicker();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -901,8 +901,8 @@ public class SearchAndRescueView extends FormComponent {
                                                                 .addComponent(jLabel5)
                                                                 .addPreferredGap(
                                                                         javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(jTextField4,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 108,
+                                                                .addComponent(datePicker,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 300,
                                                                         javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGroup(
                                                         layout.createSequentialGroup().addContainerGap()
@@ -943,7 +943,7 @@ public class SearchAndRescueView extends FormComponent {
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel5)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        .addComponent(datePicker, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1438,7 +1438,7 @@ public class SearchAndRescueView extends FormComponent {
     private javax.swing.JTextField jTextField37;
     private javax.swing.JTextField jTextField38;
     private javax.swing.JTextField jTextField39;
-    private javax.swing.JTextField jTextField4;
+    private DateTimePicker datePicker;
     private javax.swing.JTextField jTextField40;
     private javax.swing.JTextField jTextField41;
     private javax.swing.JTextField jTextField42;
@@ -1483,7 +1483,7 @@ public class SearchAndRescueView extends FormComponent {
     }
 
     public void addHeaderDateTimeChangeListener(CaretListener l) {
-        jTextField4.addCaretListener(l);
+//        datePicker.addCaretListener(l); TODO: ADD LISTENER FOR DATETIME!!!!!!!
     }
 
     public void addAlphaNameOfSearchOrg1ChangeListener(CaretListener l) {
@@ -1742,7 +1742,7 @@ public class SearchAndRescueView extends FormComponent {
     }
 
     public String getHeaderDateTimeText() {
-        return jTextField4.getText();
+        return datePicker.getDateString();
     }
 
     public String getAlphaNameOfSearchOrg1Text() {
@@ -2007,7 +2007,7 @@ public class SearchAndRescueView extends FormComponent {
     }
 
     public void setHeaderDateTimeText(String s) {
-        jTextField4.setText(s);
+        datePicker.setDate(s);
     }
 
     public void setAlphaNameOfSearchOrg1Text(String s) {

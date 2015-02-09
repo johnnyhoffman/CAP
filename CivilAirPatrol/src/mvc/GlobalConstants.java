@@ -22,5 +22,10 @@ public class GlobalConstants {
     public static final String COMMUNICATIONS_LOG_TYPE = "CommunicationsLog";
     public static final String RADIO_MESSAGE_TYPE = "RadioMessage";
     public static final String SEARCH_AND_RESCUE_TYPE = "SearchAndRescue";
-    public static final String DATE_FORMAT = "MM-dd-yyyy_HH:mm";
+    
+    public static final String DAY_FORMAT = "dd";
+    public static final String MONTH_FORMAT = "MMM";
+    public static final String YEAR_FORMAT = "yyyy";
+    public static final String TIME_FORMAT = "HH:mm";
+    public static final String DATETIME_FORMAT = DAY_FORMAT + " " + MONTH_FORMAT + ". " + YEAR_FORMAT + ", " + TIME_FORMAT;
 }
