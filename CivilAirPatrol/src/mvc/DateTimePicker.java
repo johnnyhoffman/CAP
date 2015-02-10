@@ -9,9 +9,16 @@ import java.util.GregorianCalendar;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class DateTimePicker extends JPanel {
 
+    public interface DateTimePickerChangeListener {
+        public void onChange();
+    }
+
+    private DateTimePickerChangeListener changeListener;
     private JSpinner daySpinner;
     private JSpinner monthSpinner;
     private JSpinner yearSpinner;
@@ -26,7 +33,7 @@ public class DateTimePicker extends JPanel {
         super();
         constructorCommon(startDate);
     }
-    
+
     private void constructorCommon(Date startDate) {
         daySpinner = new JSpinner(new SpinnerDateModel());
         monthSpinner = new JSpinner(new SpinnerDateModel());
@@ -45,6 +52,17 @@ public class DateTimePicker extends JPanel {
         this.add(monthSpinner);
         this.add(yearSpinner);
         this.add(timeSpinner);
+        ChangeListener swingChangeListener = new ChangeListener() {
+
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                changePerformed();
+            }
+        };
+        daySpinner.addChangeListener(swingChangeListener);
+        monthSpinner.addChangeListener(swingChangeListener);
+        yearSpinner.addChangeListener(swingChangeListener);
+        timeSpinner.addChangeListener(swingChangeListener);
     }
 
     public void setDate(Date date) {
@@ -59,7 +77,8 @@ public class DateTimePicker extends JPanel {
             Date date = new SimpleDateFormat(GlobalConstants.DATETIME_FORMAT).parse(dateString);
             setDate(date);
         } catch (ParseException e) {
-            //TODO: Maybe better error handling in case database sends wrongly formmatted dateTime?
+            // TODO: Maybe better error handling in case database sends wrongly
+            // formmatted dateTime?
             e.printStackTrace();
         }
     }
@@ -82,5 +101,15 @@ public class DateTimePicker extends JPanel {
     public String getDateString() {
         Date d = getDate();
         return new SimpleDateFormat(GlobalConstants.DATETIME_FORMAT).format(d);
+    }
+
+    public void setChangeListener(DateTimePickerChangeListener l) {
+        this.changeListener = l;
+    }
+
+    public void changePerformed() {
+        if (changeListener != null) {
+            changeListener.onChange();
+        }
     }
 }

@@ -3,10 +3,11 @@ package mvc;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import com.google.gson.JsonObject;
-
 import mvc.DataContainers.CommunicationsLog.ComLogEntry;
+import mvc.DateTimePicker.DateTimePickerChangeListener;
 import mvc.ScheduledPushModelAbstraction.OnModelLoadListener;
+
+import com.google.gson.JsonObject;
 
 /* Placeholder for demonstrating Session MVC */
 public class CommLogController implements IFormController {
@@ -59,9 +60,9 @@ public class CommLogController implements IFormController {
                         .getStationFunctionalDesignatorText());
             }
         });
-        view.addDateChangeListener(new CaretListener() {
+        view.addDateChangeListener(new DateTimePickerChangeListener() {
             @Override
-            public void caretUpdate(CaretEvent e) {
+            public void onChange() {
                 model.updateDate(view.getDateText());
             }
         });

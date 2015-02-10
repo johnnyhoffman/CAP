@@ -4,6 +4,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.event.CaretListener;
 
+import mvc.DateTimePicker.DateTimePickerChangeListener;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -902,7 +904,7 @@ public class SearchAndRescueView extends FormComponent {
                                                                 .addPreferredGap(
                                                                         javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                                 .addComponent(datePicker,
-                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 300,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                         javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGroup(
                                                         layout.createSequentialGroup().addContainerGap()
@@ -1482,8 +1484,8 @@ public class SearchAndRescueView extends FormComponent {
         jTextField3.addCaretListener(l);
     }
 
-    public void addHeaderDateTimeChangeListener(CaretListener l) {
-//        datePicker.addCaretListener(l); TODO: ADD LISTENER FOR DATETIME!!!!!!!
+    public void addHeaderDateTimeChangeListener(DateTimePickerChangeListener l) {
+        datePicker.setChangeListener(l);
     }
 
     public void addAlphaNameOfSearchOrg1ChangeListener(CaretListener l) {

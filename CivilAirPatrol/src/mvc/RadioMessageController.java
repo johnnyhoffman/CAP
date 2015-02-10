@@ -3,9 +3,10 @@ package mvc;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import com.google.gson.JsonObject;
-
+import mvc.DateTimePicker.DateTimePickerChangeListener;
 import mvc.ScheduledPushModelAbstraction.OnModelLoadListener;
+
+import com.google.gson.JsonObject;
 
 /* Placeholder for demonstrating Session MVC */
 public class RadioMessageController implements IFormController {
@@ -65,9 +66,9 @@ public class RadioMessageController implements IFormController {
                 model.updateHeaderPrecedence(view.getHeaderPrecedenceText());
             }
         });
-        view.addHeaderDtgChangeListener(new CaretListener() {
+        view.addHeaderDtgChangeListener(new DateTimePickerChangeListener() {
             @Override
-            public void caretUpdate(CaretEvent e) {
+            public void onChange() {
                 model.updateHeaderDtg(view.getHeaderDtgText());
             }
         });

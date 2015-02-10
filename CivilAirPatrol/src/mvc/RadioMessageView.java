@@ -1,6 +1,9 @@
 package mvc;
 
+import javax.swing.GroupLayout;
 import javax.swing.event.CaretListener;
+
+import mvc.DateTimePicker.DateTimePickerChangeListener;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -393,6 +396,7 @@ public class RadioMessageView extends FormComponent {
                                                 .addComponent(jLabel4)
                                                 .addComponent(
                                                         datePicker,
+                                                        GroupLayout.Alignment.LEADING,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE,
                                                         javax.swing.GroupLayout.DEFAULT_SIZE,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -635,8 +639,8 @@ public class RadioMessageView extends FormComponent {
         jTextField2.addCaretListener(l);
     }
 
-    public void addHeaderDtgChangeListener(CaretListener l) {
-        // datePicker.addCaretListener(l); TODO: NEED LISTENER!!
+    public void addHeaderDtgChangeListener(DateTimePickerChangeListener dateTimePickerChangeListener) {
+        datePicker.setChangeListener(dateTimePickerChangeListener);
     }
 
     public void addHeaderFromChangeListener(CaretListener l) {

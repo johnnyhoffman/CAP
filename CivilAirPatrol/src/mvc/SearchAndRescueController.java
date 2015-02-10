@@ -7,9 +7,10 @@ import java.util.Arrays;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import com.google.gson.JsonObject;
-
+import mvc.DateTimePicker.DateTimePickerChangeListener;
 import mvc.ScheduledPushModelAbstraction.OnModelLoadListener;
+
+import com.google.gson.JsonObject;
 
 public class SearchAndRescueController implements IFormController {
 
@@ -75,9 +76,9 @@ public class SearchAndRescueController implements IFormController {
                 model.updateHeaderReportedBy(view.getHeaderReportedByText());
             }
         });
-        view.addHeaderDateTimeChangeListener(new CaretListener() {
+        view.addHeaderDateTimeChangeListener(new DateTimePickerChangeListener() {
             @Override
-            public void caretUpdate(CaretEvent e) {
+            public void onChange() {
                 model.updateHeaderDateTime(view.getHeaderDateTimeText());
             }
         });

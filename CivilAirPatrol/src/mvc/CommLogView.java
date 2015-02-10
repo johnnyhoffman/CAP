@@ -3,6 +3,7 @@ package mvc;
 import javax.swing.event.CaretListener;
 
 import mvc.DataContainers.CommunicationsLog.ComLogEntry;
+import mvc.DateTimePicker.DateTimePickerChangeListener;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -40,7 +41,7 @@ public class CommLogView extends FormComponent {
         jLabel3 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        datePicker = new DateTimePicker();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -159,8 +160,12 @@ public class CommLogView extends FormComponent {
                                                                                         javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                         javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                         Short.MAX_VALUE)
-                                                                                .addComponent(jTextField3))
-                                                                .addGap(28, 28, 28))
+                                                                                .addComponent(datePicker, 
+                                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                        javax.swing.GroupLayout.DEFAULT_SIZE))
+                                                                .addGap(28, 28, 28)
+                                                                )
                                                 .addGroup(
                                                         layout.createSequentialGroup()
                                                                 .addComponent(jLabel6,
@@ -231,9 +236,9 @@ public class CommLogView extends FormComponent {
                                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        .addComponent(datePicker, javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                javax.swing.GroupLayout.DEFAULT_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10,
                                 javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -276,7 +281,7 @@ public class CommLogView extends FormComponent {
                 jTextField6, jTextField7, jTextField8, jTextField9 });
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] { jTextField1, jTextField2,
-                jTextField3 });
+                datePicker });
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] { jLabel10, jLabel11, jLabel6,
                 jLabel7, jLabel8, jLabel9 });
@@ -310,7 +315,7 @@ public class CommLogView extends FormComponent {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private DateTimePicker datePicker;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
@@ -333,8 +338,8 @@ public class CommLogView extends FormComponent {
         jTextField2.addCaretListener(l);
     }
 
-    public void addDateChangeListener(CaretListener l) {
-        jTextField3.addCaretListener(l);
+    public void addDateChangeListener(DateTimePickerChangeListener l) {
+        datePicker.setChangeListener(l);
     }
 
     public void addAChangeListener(CaretListener l) {
@@ -370,7 +375,7 @@ public class CommLogView extends FormComponent {
     }
 
     public String getDateText() {
-        return jTextField3.getText();
+        return datePicker.getDateString();
     }
 
     public String getAText() {
@@ -438,7 +443,7 @@ public class CommLogView extends FormComponent {
     }
 
     public void setDateText(String s) {
-        jTextField3.setText(s);
+        datePicker.setDate(s);
     }
 
     public void setAText(String s) {
