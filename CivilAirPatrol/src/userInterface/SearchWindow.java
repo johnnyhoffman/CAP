@@ -20,6 +20,8 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+import mvc.DateTimePicker;
+
 /**
  * Here we have a class that lets us search the database for forms
  * 
@@ -32,19 +34,26 @@ public class SearchWindow {
 	 * 
 	 */
 	private static final long serialVersionUID = 7658371200547895945L;
-	private static final int SEARCH_WIDTH = 480;
+	private static final int SEARCH_WIDTH = 580; //was 480
 	private static final int SEARCH_HEIGHT = 240;
 	private static final int RESULTS_WIDTH = 420;
 	private static final int RESULTS_HEIGHT = 480;
 	private static final int X_DISPLACE = 60;
 	private static final int Y_DISPLACE = 40;
 	
-	private JTextField minDay;
-	private JTextField minMonth;
-	private JTextField minYear;
-	private JTextField maxDay;
-	private JTextField maxMonth;
-	private JTextField maxYear;
+	
+	/* Dana, I left what you had but commented it out.
+	 * to get the min and max date values just use 
+	 * min/maxDateTime.getDate() or .getDateString().
+	 * I also change SEARCH_WIDTH to 580 to fit it */
+//	private JTextField minDay;
+//	private JTextField minMonth;
+//	private JTextField minYear;
+//	private JTextField maxDay;
+//	private JTextField maxMonth;
+//	private JTextField maxYear;
+    private DateTimePicker minDateTime;
+    private DateTimePicker maxDateTime;
 
 	private JTextField formID;
 
@@ -87,41 +96,48 @@ public class SearchWindow {
 		dateRangePanel.setLayout(new FlowLayout());
 		dateRangePanel.setBackground(new Color(200,200,220));
 		JLabel dateHeader = new JLabel("Created between ",JLabel.CENTER);
-		JLabel date1slash1 = new JLabel("/",JLabel.CENTER);
-		JLabel date1slash2 = new JLabel("/",JLabel.CENTER);
+//		JLabel date1slash1 = new JLabel("/",JLabel.CENTER);
+//		JLabel date1slash2 = new JLabel("/",JLabel.CENTER);
 		JLabel date1to2label = new JLabel("  and  ",JLabel.CENTER);
-		JLabel date2slash1 = new JLabel("/",JLabel.CENTER);
-		JLabel date2slash2 = new JLabel("/",JLabel.CENTER);
-		minDay = new javax.swing.JTextField();
-		minDay.setDocument(new TextDocumentForLimitedTextFields(2,true));
-		minDay.setPreferredSize(new Dimension(32,24));
-		maxDay = new javax.swing.JTextField();
-		maxDay.setDocument(new TextDocumentForLimitedTextFields(2,true));
-		maxDay.setPreferredSize(new Dimension(32,24));
-		minMonth = new javax.swing.JTextField();
-		minMonth.setDocument(new TextDocumentForLimitedTextFields(2,true));
-		minMonth.setPreferredSize(new Dimension(32,24));
-		maxMonth = new javax.swing.JTextField();
-		maxMonth.setDocument(new TextDocumentForLimitedTextFields(2,true));
-		maxMonth.setPreferredSize(new Dimension(32,24));
-		minYear = new javax.swing.JTextField();
-		minYear.setDocument(new TextDocumentForLimitedTextFields(4,true));
-		minYear.setPreferredSize(new Dimension(48,24));
-		maxYear = new javax.swing.JTextField();
-		maxYear.setDocument(new TextDocumentForLimitedTextFields(4,true));
-		maxYear.setPreferredSize(new Dimension(48,24));
-		dateRangePanel.add(dateHeader);
-		dateRangePanel.add(minDay);
-		dateRangePanel.add(date1slash1);
-		dateRangePanel.add(minMonth);
-		dateRangePanel.add(date1slash2);
-		dateRangePanel.add(minYear);
-		dateRangePanel.add(date1to2label);
-		dateRangePanel.add(maxDay);
-		dateRangePanel.add(date2slash1);
-		dateRangePanel.add(maxMonth);
-		dateRangePanel.add(date2slash2);
-		dateRangePanel.add(maxYear);
+//		JLabel date2slash1 = new JLabel("/",JLabel.CENTER);
+//		JLabel date2slash2 = new JLabel("/",JLabel.CENTER);
+//		minDay = new javax.swing.JTextField();
+//		minDay.setDocument(new TextDocumentForLimitedTextFields(2,true));
+//		minDay.setPreferredSize(new Dimension(32,24));
+//		maxDay = new javax.swing.JTextField();
+//		maxDay.setDocument(new TextDocumentForLimitedTextFields(2,true));
+//		maxDay.setPreferredSize(new Dimension(32,24));
+//		minMonth = new javax.swing.JTextField();
+//		minMonth.setDocument(new TextDocumentForLimitedTextFields(2,true));
+//		minMonth.setPreferredSize(new Dimension(32,24));
+//		maxMonth = new javax.swing.JTextField();
+//		maxMonth.setDocument(new TextDocumentForLimitedTextFields(2,true));
+//		maxMonth.setPreferredSize(new Dimension(32,24));
+//		minYear = new javax.swing.JTextField();
+//		minYear.setDocument(new TextDocumentForLimitedTextFields(4,true));
+//		minYear.setPreferredSize(new Dimension(48,24));
+//		maxYear = new javax.swing.JTextField();
+//		maxYear.setDocument(new TextDocumentForLimitedTextFields(4,true));
+//		maxYear.setPreferredSize(new Dimension(48,24));
+//		dateRangePanel.add(dateHeader);
+//		dateRangePanel.add(minDay);
+//		dateRangePanel.add(date1slash1);
+//		dateRangePanel.add(minMonth);
+//		dateRangePanel.add(date1slash2);
+//		dateRangePanel.add(minYear);
+//		dateRangePanel.add(date1to2label);
+//		dateRangePanel.add(maxDay);
+//		dateRangePanel.add(date2slash1);
+//		dateRangePanel.add(maxMonth);
+//		dateRangePanel.add(date2slash2);
+//		dateRangePanel.add(maxYear);
+        minDateTime = new DateTimePicker();
+        maxDateTime = new DateTimePicker();
+        dateRangePanel.add(dateHeader);
+        dateRangePanel.add(minDateTime);
+        dateRangePanel.add(date1to2label);
+        dateRangePanel.add(maxDateTime);
+		
 		mainFrame.add(tooltip);
 		mainFrame.add(dateRangePanel);
 		
