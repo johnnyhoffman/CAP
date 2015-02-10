@@ -52,7 +52,7 @@ public class TestClient {
     public static void main(String argv []){
         try {
             TestClient client = new TestClient(address, port);
-            client.sendMessage(new NetworkMessage(MessageType.CHAT, "This is only a test"));
+            client.sendMessage(new NetworkMessage(MessageType.CHAT, "This is only a test", null));
             client.recMessage();
         } catch (IOException ex) {
             Logger.getLogger(TestClient.class.getName()).log(Level.SEVERE, null, ex);

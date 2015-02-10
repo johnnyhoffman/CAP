@@ -6,6 +6,7 @@
 package network;
 
 import java.io.Serializable;
+import mvc.DBPushParams;
 
 /**
  *
@@ -16,10 +17,12 @@ public class NetworkMessage implements Serializable {
     
     private MessageType type;
     private String message;
+    private DBPushParams pushParams;
     
-    public NetworkMessage(MessageType t, String m){
+    public NetworkMessage(MessageType t, String m, DBPushParams p){
         this.type = t;
         this.message = m;
+        this.pushParams = p;
     }
     
     public MessageType getType(){
@@ -28,5 +31,8 @@ public class NetworkMessage implements Serializable {
     
     public String getMessage(){
         return this.message;
+    }
+    public DBPushParams getPushParams(){
+        return this.pushParams;
     }
 }

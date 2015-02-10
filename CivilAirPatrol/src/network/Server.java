@@ -21,11 +21,11 @@ public class Server extends Thread{
     private ServerSocket socket;
     boolean run = true;
     
-    private List<Socket> allClients;
+    public static List<ClientConnection> allClients;
     
     public Server(int p){
         
-        allClients = new ArrayList<Socket>();
+        allClients = new ArrayList<ClientConnection>();
         try{
             this.socket = new ServerSocket(p);
             this.socket.setReuseAddress(true);
@@ -37,34 +37,31 @@ public class Server extends Thread{
         ObjectInputStream input;
         ObjectOutputStream output;
         NetworkMessage message;
+        ClientConnection client;
         try{
             while(run){
                 //allClients.add(sock);
                 Socket server = socket.accept();
-                //allClients.add(sock);
-                System.out.println("Accepting client connection.");
                 output = new ObjectOutputStream(server.getOutputStream());
                 output.flush();
                 input = new ObjectInputStream(server.getInputStream());
-                //System.out.println(((NetworkMessage)input.readObject()).getMessage());
+                client = new ClientConnection(input,output,server,"");
+                allClients.add(client);
+                client.start();
+                System.out.println("Accepting client connection.");
                 
-
-                System.out.println("Streams set up.");
-                message = (NetworkMessage)input.readObject();
-                System.out.println(message.getMessage());
-                message = new NetworkMessage(MessageType.CHAT, "Welcome" );
-                output.writeObject(message);
-
-                System.out.println("Sent the message.");
-                input.close();
-                output.close();
-                server.close();
+                
+                //System.out.println(((NetworkMessage)input.readObject()).getMessage());
                 
             }
             socket.close();
         }catch(Exception e){
             System.err.println(e.toString());
         }
+    }
+    
+    private void handleChatMessage(NetworkMessage message){
+        
     }
     
     public static void main(String argv []){
