@@ -17,12 +17,14 @@ public class NetworkMessage implements Serializable {
     
     private MessageType type;
     private String message;
+    private String password;
     private DBPushParams pushParams;
     
-    public NetworkMessage(MessageType t, String m, DBPushParams p){
+    public NetworkMessage(MessageType t, String m, DBPushParams p, String pass){
         this.type = t;
         this.message = m;
         this.pushParams = p;
+        this.password = pass;
     }
     
     public MessageType getType(){
@@ -34,5 +36,8 @@ public class NetworkMessage implements Serializable {
     }
     public DBPushParams getPushParams(){
         return this.pushParams;
+    }
+    public String getPassword(){
+        return this.password;
     }
 }

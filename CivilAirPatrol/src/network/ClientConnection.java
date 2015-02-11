@@ -5,6 +5,7 @@
  */
 package network;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -46,6 +47,7 @@ public class ClientConnection extends Thread {
             this.input.close();
             this.output.close();
             this.socket.close();
+            Server.allClients.remove(this);
             return true;
         }catch(Exception e){
             System.err.println(e.toString());
@@ -74,8 +76,10 @@ public class ClientConnection extends Thread {
                         break;
                 }
             }catch(IOException e){
+                closeConnection();
                 System.err.println(e.toString());
-            } catch (ClassNotFoundException ex) {
+                return;
+            }catch (ClassNotFoundException ex) {
                 Logger.getLogger(ClientConnection.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -96,6 +100,7 @@ public class ClientConnection extends Thread {
         //TODO echo the message to all non-radio officer connections...and update db
     }
     private void handleLogin(String message){
-        //TODO handle authentication of client connection, send back a confirmation
+        //TODO this should actually never happen, if it does client is doing something strange..
+        //decided to make login the first message and is required to be validated before starting clientConnection
     }
 }

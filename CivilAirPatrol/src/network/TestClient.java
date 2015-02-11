@@ -23,15 +23,20 @@ public class TestClient {
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
+    private ClientListenerThread listener;
+    public static boolean run = true;
     
     public TestClient(String a, int p) throws IOException{
         this.socket = new Socket(a, p);
         this.output = new ObjectOutputStream(this.socket.getOutputStream());
         this.output.flush();
         this.input = new ObjectInputStream(this.socket.getInputStream());
-        
+        this.listener = new ClientListenerThread(input);
     }
     
+    public void startListener(){
+        this.listener.start();
+    }
     public void sendMessage(NetworkMessage message){
         
         try {
@@ -52,8 +57,20 @@ public class TestClient {
     public static void main(String argv []){
         try {
             TestClient client = new TestClient(address, port);
-            client.sendMessage(new NetworkMessage(MessageType.CHAT, "This is only a test", null));
-            client.recMessage();
+            client.startListener();
+            client.sendMessage(new NetworkMessage(MessageType.LOGIN, "Robert", null, "password"));
+            client.sendMessage(new NetworkMessage(MessageType.CHAT, "This is only a test", null, ""));
+            int count = 1;
+            while(run){
+                try {
+                    //SIT AND WAIT
+                    Thread.sleep(2000);
+                    client.sendMessage(new NetworkMessage(MessageType.CHAT, "This is only a test " + count++, null, ""));
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(TestClient.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            //client.socket.close();
         } catch (IOException ex) {
             Logger.getLogger(TestClient.class.getName()).log(Level.SEVERE, null, ex);
         }

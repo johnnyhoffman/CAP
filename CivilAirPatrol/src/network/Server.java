@@ -18,14 +18,14 @@ import java.util.List;
  * @author Robert
  */
 public class Server extends Thread{
+    
     private ServerSocket socket;
     boolean run = true;
-    
     public static List<ClientConnection> allClients;
     
     public Server(int p){
         
-        allClients = new ArrayList<ClientConnection>();
+        allClients = new ArrayList<>();
         try{
             this.socket = new ServerSocket(p);
             this.socket.setReuseAddress(true);
@@ -33,35 +33,50 @@ public class Server extends Thread{
             System.err.println(e.toString());
         }
     }
+    //Function to check credentials against db
+    private boolean validate(NetworkMessage attempt){
+        if (attempt.getType() == MessageType.LOGIN){
+            //TODO check against the DB information
+            return true;
+        }
+        return false;
+    }
+    //What will continue to run, handle new connections and spawn threads to handle the new connection
+    @Override
     public void run(){
         ObjectInputStream input;
         ObjectOutputStream output;
-        NetworkMessage message;
         ClientConnection client;
         try{
             while(run){
-                //allClients.add(sock);
+                
                 Socket server = socket.accept();
                 output = new ObjectOutputStream(server.getOutputStream());
                 output.flush();
                 input = new ObjectInputStream(server.getInputStream());
-                client = new ClientConnection(input,output,server,"");
-                allClients.add(client);
-                client.start();
-                System.out.println("Accepting client connection.");
                 
+                //TODO before addin the client to the list of accepted connection need to validate them
+                //They should have sent a login message with the connection attempt.
+                NetworkMessage loginattempt = (NetworkMessage)input.readObject();
                 
-                //System.out.println(((NetworkMessage)input.readObject()).getMessage());
-                
+                if (validate(loginattempt)){
+                    //create the client connection
+                    client = new ClientConnection(input,output,server,loginattempt.getMessage());
+                    allClients.add(client);
+                    client.start();
+                    System.out.println("Accepted client connection.");
+                }else{
+                    //Did not have correct credentials, drop them
+                    input.close();
+                    output.close();
+                    server.close();
+                }
+                               
             }
             socket.close();
         }catch(Exception e){
             System.err.println(e.toString());
         }
-    }
-    
-    private void handleChatMessage(NetworkMessage message){
-        
     }
     
     public static void main(String argv []){
