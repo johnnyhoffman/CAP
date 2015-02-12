@@ -13,10 +13,10 @@ package mvc;
         public ScheduledPushModelAbstraction.FormType type;
         public String json;
         public int id;
-        public int missionNo;
+        public String missionNo;
         public String date;
 
-        public DBPushParams(ScheduledPushModelAbstraction.FormType type, String json, int id, int missionNo,
+        public DBPushParams(ScheduledPushModelAbstraction.FormType type, String json, int id, String missionNo,
                 String date) {
             this.type = type;
             this.json = json;

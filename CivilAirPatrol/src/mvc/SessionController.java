@@ -67,14 +67,14 @@ public class SessionController {
         view.addIncomingJsonActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                int missionNo = 10;
+                String missionNo = "10";
                 List<DBPushParams> allThingsWithMissionNoX = new ArrayList<DBPushParams>();
                 allThingsWithMissionNoX.addAll(sqlServer
-                        .SelectFromCommLog(missionNo));
+                        .SelectFromCommLogWithMissionNum(missionNo));
                 allThingsWithMissionNoX.addAll(sqlServer
-                        .SelectFromRadMess(missionNo));
+                        .SelectFromRadMessWithMissionNum(missionNo));
                 allThingsWithMissionNoX.addAll(sqlServer
-                        .SelectFromSAR(missionNo));
+                        .SelectFromSARWithMissionNum(missionNo));
                 for (DBPushParams dbpp : allThingsWithMissionNoX) {
                     formsController.fromDBPushParams(dbpp);
                 }

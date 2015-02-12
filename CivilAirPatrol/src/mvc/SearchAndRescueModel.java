@@ -1,8 +1,5 @@
 package mvc;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -15,7 +12,7 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
     public SearchAndRescueModel(int id, String name) {
         super();
         this.id = id;
-        database.sqlServer.InsertSAR("{}", id, -1, "DATE"); // XXX: Temp
+        database.sqlServer.InsertSAR("{}", id, "-1", "DATE"); // XXX: Temp
         data = new DataContainers.SearchAndRescue(name);
         gson = new Gson();
         // for debugging revert to above creation method later
@@ -34,19 +31,13 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
     public SearchAndRescueModel(int id, String name, String missionNo, String date) {
         super();
         this.id = id;
-        int missionNoInt = -1;
-        try {
-            missionNoInt = Integer.parseInt(missionNo);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
         data = new DataContainers.SearchAndRescue(name);
         data.header.missionNumber = missionNo;
         data.header.dateTime = date; //XXX: Will dateTime field be same format as date?
         gson = new Gson();
         // for debugging, revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();
-        database.sqlServer.InsertSAR(gson.toJson(data), id, missionNoInt, date);
+        database.sqlServer.InsertSAR(gson.toJson(data), id, missionNo, date);
     }
 
     public int getID() {
@@ -629,13 +620,7 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
     @Override
     public DBPushParams prepareForPush() {
         String json = gson.toJson(data);
-        int missionNo = -1;
-        try {
-            missionNo = Integer.parseInt(data.header.missionNumber);
-        } catch (NumberFormatException e) {
-            e.printStackTrace(); // TODO : Handle error more appropriately
-        }
-        return new DBPushParams(FormType.SAR, json, id, missionNo, data.header.dateTime);
+        return new DBPushParams(FormType.SAR, json, id, data.header.missionNumber, data.header.dateTime);
     }
 
     public void jsonDeserialize(JsonObject json) {

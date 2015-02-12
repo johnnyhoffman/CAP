@@ -37,7 +37,7 @@ public class sqlServer {
                                                                     // commlog
                                                                     // table
                     + "(COMMID        INT PRIMARY KEY NOT NULL,"
-                    + "MISSIONNUMBER INT             NOT NULL,"
+                    + "MISSIONNUMBER TEXT             NOT NULL,"
                     + "DATE          TEXT            NOT NULL,"
                     + "JSONDATA      TEXT            NOT NULL)");
 
@@ -46,7 +46,7 @@ public class sqlServer {
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS SAR" // create the
                                                                 // saR table
                     + "(SARID         INT PRIMARY KEY NOT NULL,"
-                    + "MISSIONNUMBER INT             NOT NULL,"
+                    + "MISSIONNUMBER TEXT             NOT NULL,"
                     + "DATE          TEXT            NOT NULL,"
                     + "JSONDATA      TEXT            NOT NULL)");
 
@@ -57,7 +57,7 @@ public class sqlServer {
                                                                       // commlog
                                                                       // table
                     + "(RADID        INT PRIMARY KEY  NOT NULL,"
-                    + "MISSIONNUMBER INT             NOT NULL,"
+                    + "MISSIONNUMBER TEXT             NOT NULL,"
                     + "DATE          TEXT            NOT NULL,"
                     + "JSONDATA      TEXT            NOT NULL)");
 
@@ -160,14 +160,14 @@ public class sqlServer {
     // when inserting a Form, need to make sure that a mission exists for the
     // form
 
-    public static void InsertCommLog(String json, int commid, int missionnum,
+    public static void InsertCommLog(String json, int commid, String missionnum,
             String date) {
         try {
             PreparedStatement stmt = c
                     .prepareStatement("INSERT into COMMLOG (COMMID,MISSIONNUMBER,DATE,JSONDATA) "
                             + "VALUES(?,?,?,?)");
             stmt.setInt(1, commid);
-            stmt.setInt(2, missionnum);
+            stmt.setString(2, missionnum);
             stmt.setString(3, date);
             stmt.setString(4, json);
             stmt.execute();
@@ -176,14 +176,14 @@ public class sqlServer {
         }
     }
 
-    public static void InsertSAR(String json, int sarid, int missionnum,
+    public static void InsertSAR(String json, int sarid, String missionnum,
             String date) {
         try {
             PreparedStatement stmt = c
                     .prepareStatement("INSERT into SAR (SARID,MISSIONNUMBER,DATE,JSONDATA) "
                             + "VALUES(?,?,?,?)");
             stmt.setInt(1, sarid);
-            stmt.setInt(2, missionnum);
+            stmt.setString(2, missionnum);
             stmt.setString(3, date);
             stmt.setString(4, json);
             stmt.execute();
@@ -192,14 +192,14 @@ public class sqlServer {
         }
     }
 
-    public static void InsertRADIOMESS(String json, int radid, int missionnum,
+    public static void InsertRADIOMESS(String json, int radid, String missionnum,
             String date) {
         try {
             PreparedStatement stmt = c
                     .prepareStatement("INSERT into RADIOMESS (RADID,MISSIONNUMBER,DATE,JSONDATA) "
                             + "VALUES(?,?,?,?)");
             stmt.setInt(1, radid);
-            stmt.setInt(2, missionnum);
+            stmt.setString(2, missionnum);
             stmt.setString(3, date);
             stmt.setString(4, json);
             stmt.execute();
@@ -208,12 +208,12 @@ public class sqlServer {
         }
     }
 
-    public static void InsertMission(String name, int num) {
+    public static void InsertMission(String name, String missionNum) {
         try {
             PreparedStatement stmt = c
                     .prepareStatement("INSERT into MISSION (MISSIONNUMBER, MISSIONNAME) "
                             + "VALUES(?,?)");
-            stmt.setInt(1, num);
+            stmt.setString(1, missionNum);
             stmt.setString(2, name);
             stmt.execute();
         } catch (Exception e) {
@@ -230,20 +230,20 @@ public class sqlServer {
 
     /* for querying comlog table */
     public static List<DBPushParams> SelectFromCommLog(String date,
-            int missionnum) {
+            String missionnum) {
         List<DBPushParams> results = new ArrayList<>();
         DBPushParams current;
         try {
             ResultSet result;
             PreparedStatement stmt = c
                     .prepareStatement("SELECT * FROM COMMLOG WHERE MISSIONNUMBER = ? AND DATE = ?");
-            stmt.setInt(1, missionnum);
+            stmt.setString(1, missionnum);
             stmt.setString(2, date);
             result = stmt.executeQuery();
             while (result.next()) {
                 current = new DBPushParams(FormType.CL,
                         result.getString("JSONDATA"), result.getInt("COMMID"),
-                        result.getInt("MISSIONNUMBER"),
+                        result.getString("MISSIONNUMBER"),
                         result.getString("DATE"));
                 results.add(current);
             }
@@ -254,7 +254,7 @@ public class sqlServer {
         return null;
     }
 
-    public static List<DBPushParams> SelectFromCommLog(String date) {
+    public static List<DBPushParams> SelectFromCommLogWithDate(String date) {
         List<DBPushParams> results = new ArrayList<>();
         DBPushParams current;
         try {
@@ -266,7 +266,7 @@ public class sqlServer {
             while (result.next()) {
                 current = new DBPushParams(FormType.CL,
                         result.getString("JSONDATA"), result.getInt("COMMID"),
-                        result.getInt("MISSIONNUMBER"),
+                        result.getString("MISSIONNUMBER"),
                         result.getString("DATE"));
                 results.add(current);
             }
@@ -277,19 +277,19 @@ public class sqlServer {
         return null;
     }
 
-    public static List<DBPushParams> SelectFromCommLog(int missionnum) {
+    public static List<DBPushParams> SelectFromCommLogWithMissionNum(String missionnum) {
         List<DBPushParams> results = new ArrayList<>();
         DBPushParams current;
         try {
             ResultSet result;
             PreparedStatement stmt = c
                     .prepareStatement("SELECT * FROM COMMLOG WHERE MISSIONNUMBER = ?");
-            stmt.setInt(1, missionnum);
+            stmt.setString(1, missionnum);
             result = stmt.executeQuery();
             while (result.next()) {
                 current = new DBPushParams(FormType.CL,
                         result.getString("JSONDATA"), result.getInt("COMMID"),
-                        result.getInt("MISSIONNUMBER"),
+                        result.getString("MISSIONNUMBER"),
                         result.getString("DATE"));
                 results.add(current);
             }
@@ -301,20 +301,20 @@ public class sqlServer {
     }
 
     /* for querying sar table */
-    public static List<DBPushParams> SelectFromSAR(String date, int missionnum) {
+    public static List<DBPushParams> SelectFromSAR(String date, String missionnum) {
         List<DBPushParams> results = new ArrayList<>();
         DBPushParams current;
         try {
             ResultSet result;
             PreparedStatement stmt = c
                     .prepareStatement("SELECT * FROM SAR WHERE MISSIONNUMBER = ? AND DATE = ?");
-            stmt.setInt(1, missionnum);
+            stmt.setString(1, missionnum);
             stmt.setString(2, date);
             result = stmt.executeQuery();
             while (result.next()) {
                 current = new DBPushParams(FormType.SAR,
                         result.getString("JSONDATA"), result.getInt("SARID"),
-                        result.getInt("MISSIONNUMBER"),
+                        result.getString("MISSIONNUMBER"),
                         result.getString("DATE"));
                 results.add(current);
             }
@@ -325,7 +325,7 @@ public class sqlServer {
         return null;
     }
 
-    public static List<DBPushParams> SelectFromSAR(String date) {
+    public static List<DBPushParams> SelectFromSARWithDate(String date) {
         List<DBPushParams> results = new ArrayList<>();
         DBPushParams current;
         try {
@@ -337,7 +337,7 @@ public class sqlServer {
             while (result.next()) {
                 current = new DBPushParams(FormType.SAR,
                         result.getString("JSONDATA"), result.getInt("SARID"),
-                        result.getInt("MISSIONNUMBER"),
+                        result.getString("MISSIONNUMBER"),
                         result.getString("DATE"));
                 results.add(current);
             }
@@ -348,19 +348,19 @@ public class sqlServer {
         return null;
     }
 
-    public static List<DBPushParams> SelectFromSAR(int missionnum) {
+    public static List<DBPushParams> SelectFromSARWithMissionNum(String missionnum) {
         List<DBPushParams> results = new ArrayList<>();
         DBPushParams current;
         try {
             ResultSet result;
             PreparedStatement stmt = c
                     .prepareStatement("SELECT * FROM SAR WHERE MISSIONNUMBER = ?");
-            stmt.setInt(1, missionnum);
+            stmt.setString(1, missionnum);
             result = stmt.executeQuery();
             while (result.next()) {
                 current = new DBPushParams(FormType.SAR,
                         result.getString("JSONDATA"), result.getInt("SARID"),
-                        result.getInt("MISSIONNUMBER"),
+                        result.getString("MISSIONNUMBER"),
                         result.getString("DATE"));
                 results.add(current);
             }
@@ -373,20 +373,20 @@ public class sqlServer {
 
     /* for querying rad table */
     public static List<DBPushParams> SelectFromRadMess(String date,
-            int missionnum) {
+            String missionnum) {
         List<DBPushParams> results = new ArrayList<>();
         DBPushParams current;
         try {
             ResultSet result;
             PreparedStatement stmt = c
                     .prepareStatement("SELECT * FROM RADIOMESS WHERE MISSIONNUMBER = ? AND DATE = ?");
-            stmt.setInt(1, missionnum);
+            stmt.setString(1, missionnum);
             stmt.setString(2, date);
             result = stmt.executeQuery();
             while (result.next()) {
                 current = new DBPushParams(FormType.RM,
                         result.getString("JSONDATA"), result.getInt("RADID"),
-                        result.getInt("MISSIONNUMBER"),
+                        result.getString("MISSIONNUMBER"),
                         result.getString("DATE"));
                 results.add(current);
             }
@@ -397,7 +397,7 @@ public class sqlServer {
         return null;
     }
 
-    public static List<DBPushParams> SelectFromRadMess(String date) {
+    public static List<DBPushParams> SelectFromRadMessWithDate(String date) {
         List<DBPushParams> results = new ArrayList<>();
         DBPushParams current;
         try {
@@ -409,7 +409,7 @@ public class sqlServer {
             while (result.next()) {
                 current = new DBPushParams(FormType.RM,
                         result.getString("JSONDATA"), result.getInt("RADID"),
-                        result.getInt("MISSIONNUMBER"),
+                        result.getString("MISSIONNUMBER"),
                         result.getString("DATE"));
                 results.add(current);
             }
@@ -420,19 +420,19 @@ public class sqlServer {
         return null;
     }
 
-    public static List<DBPushParams> SelectFromRadMess(int missionnum) {
+    public static List<DBPushParams> SelectFromRadMessWithMissionNum(String missionnum) {
         List<DBPushParams> results = new ArrayList<>();
         DBPushParams current;
         try {
             ResultSet result;
             PreparedStatement stmt = c
                     .prepareStatement("SELECT * FROM RADIOMESS WHERE MISSIONNUMBER = ?");
-            stmt.setInt(1, missionnum);
+            stmt.setString(1, missionnum);
             result = stmt.executeQuery();
             while (result.next()) {
                 current = new DBPushParams(FormType.RM,
                         result.getString("JSONDATA"), result.getInt("RADID"),
-                        result.getInt("MISSIONNUMBER"),
+                        result.getString("MISSIONNUMBER"),
                         result.getString("DATE"));
                 results.add(current);
             }
@@ -448,12 +448,12 @@ public class sqlServer {
      * updates------------------------------------------
      */
     // TODO implement the update methods for updating a form in progress.
-    public static void UpdateCommLog(String json, int id, int missionnum,
+    public static void UpdateCommLog(String json, int id, String missionnum,
             String date) {
         try {
             PreparedStatement stmt = c
                     .prepareStatement("UPDATE COMMLOG set MISSIONNUMBER = ?, JSONDATA = ?, DATE = ?  WHERE COMMID = ?");
-            stmt.setInt(1, missionnum);
+            stmt.setString(1, missionnum);
             stmt.setString(2, json);
             stmt.setString(3, date);
             stmt.setInt(4, id);
@@ -463,12 +463,12 @@ public class sqlServer {
         }
     }
 
-    public static void UpdateSAR(String json, int id, int missionnum,
+    public static void UpdateSAR(String json, int id, String missionnum,
             String date) {
         try {
             PreparedStatement stmt = c
                     .prepareStatement("UPDATE SAR set MISSIONNUMBER = ?, JSONDATA = ?, DATE = ?  WHERE SARID = ?");
-            stmt.setInt(1, missionnum);
+            stmt.setString(1, missionnum);
             stmt.setString(2, json);
             stmt.setString(3, date);
             stmt.setInt(4, id);
@@ -478,12 +478,12 @@ public class sqlServer {
         }
     }
 
-    public static void UpdateRADMESS(String json, int id, int missionnum,
+    public static void UpdateRADMESS(String json, int id, String missionnum,
             String date) {
         try {
             PreparedStatement stmt = c
                     .prepareStatement("UPDATE RADIOMESS set MISSIONNUMBER = ?, JSONDATA = ?, DATE = ?  WHERE RADID = ?");
-            stmt.setInt(1, missionnum);
+            stmt.setString(1, missionnum);
             stmt.setString(2, json);
             stmt.setString(3, date);
             stmt.setInt(4, id);

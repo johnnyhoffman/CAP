@@ -1,8 +1,5 @@
 package mvc;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import mvc.DataContainers.CommunicationsLog.ComLogEntry;
 
 import com.google.gson.Gson;
@@ -17,7 +14,7 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
     public CommLogModel(int id, String name) {
         super();
         this.id = id;
-        database.sqlServer.InsertCommLog("{}", id, -1, "DATE"); // XXX: Temp
+        database.sqlServer.InsertCommLog("{}", id, "-1", "DATE"); // XXX: Temp
         data = new DataContainers.CommunicationsLog(name);
         gson = new Gson();
         // for debugging revert to creation method below
@@ -38,19 +35,13 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
     public CommLogModel(int id, String name, String missionNo, String date) {
         super();
         this.id = id;
-        int missionNoInt = -1;
-        try {
-            missionNoInt = Integer.parseInt(missionNo);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
         data = new DataContainers.CommunicationsLog(name);
         data.missionNum = missionNo;
         data.date = date;
         gson = new Gson();
         // for debugging revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();
-        database.sqlServer.InsertCommLog(gson.toJson(data), id, missionNoInt, date);
+        database.sqlServer.InsertCommLog(gson.toJson(data), id, missionNo, date);
     }
 
     public int getID() {
@@ -159,13 +150,7 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
     @Override
     public DBPushParams prepareForPush() {
         String json = gson.toJson(data);
-        int missionNo = -1;
-        try {
-            missionNo = Integer.parseInt(data.missionNum);
-        } catch (NumberFormatException e) {
-            e.printStackTrace(); // TODO : Handle error more appropriately
-        }
-        return new DBPushParams(FormType.CL, json, id, missionNo, data.date);
+        return new DBPushParams(FormType.CL, json, id, data.missionNum, data.date);
     }
 
     public void jsonDeserialize(JsonObject json) {
