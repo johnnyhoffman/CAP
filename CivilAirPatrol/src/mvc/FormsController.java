@@ -142,4 +142,10 @@ public class FormsController implements IController {
         }
 
     }
+
+    public void onClose() {
+        for (FormComponent c : model.getTabs()) {
+            c.onClose();
+        }
+    }
 }

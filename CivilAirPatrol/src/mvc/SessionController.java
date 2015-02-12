@@ -2,12 +2,12 @@ package mvc;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import userInterface.SearchWindow;
-
 import mvc.SessionView.NewFormListener;
+import userInterface.SearchWindow;
 import database.sqlServer;
 
 public class SessionController {
@@ -80,6 +80,19 @@ public class SessionController {
                 }
             }
         });
+        
+        // On window close
+        view.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(WindowEvent winEvt) {
+                onClose();
+            }
+        });
+    }
+    
+    public void onClose() {
+        formsController.onClose();
+        AssetsController.onClose();
+        chatController.onClose();
     }
 
 }

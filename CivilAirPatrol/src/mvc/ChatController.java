@@ -22,38 +22,40 @@ public class ChatController implements IController {
     public Component getViewComponent() {
         return view;
     }
-    
-    public void setListeners(){
-        view.addActionListenChatEntry(new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-                //What do i do when the user hits enter
-                //TODO this is where we need to send the chat message to server
-                //instead of just printing to the chatArea
+
+    public void setListeners() {
+        view.addActionListenChatEntry(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                // What do i do when the user hits enter
+                // TODO this is where we need to send the chat message to server
+                // instead of just printing to the chatArea
                 String textArea = view.getTextChatArea();
                 String textEntry = view.getTextChatEntry();
-                
-                if (textEntry.isEmpty()) return; 
-                
+
+                if (textEntry.isEmpty())
+                    return;
+
                 int textTest = 1;
                 if (textArea == "") {
-                	textTest = 0;
+                    textTest = 0;
                 }
-                switch (textTest){
-                    case 0:
-                        view.setTextChatArea(textEntry);
-                        break;
-                        
-                    default:
-                        view.setTextChatArea(textArea + "\n" + textEntry);
+                switch (textTest) {
+                case 0:
+                    view.setTextChatArea(textEntry);
+                    break;
+
+                default:
+                    view.setTextChatArea(textArea + "\n" + textEntry);
                 }
-                
-         
+
                 view.setTextChatEntry("");
-                
-                
+
             }
-        });   
-        
+        });
+
+    }
+
+    public void onClose() {
     }
 
 }

@@ -18,4 +18,7 @@ public class AssetsController implements IController {
         return view;
     }
 
+    public static void onClose() {
+    }
+
 }

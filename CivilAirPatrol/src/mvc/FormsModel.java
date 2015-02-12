@@ -38,8 +38,8 @@ public class FormsModel {
         return null;
     }
 
-    public List<Component> getTabs() {
-        List<Component> tabs = new ArrayList<Component>();
+    public List<FormComponent> getTabs() {
+        List<FormComponent> tabs = new ArrayList<FormComponent>();
         for (IFormController c : formControllers) {
             tabs.add(c.getViewComponent());
         }
