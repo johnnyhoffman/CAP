@@ -1,5 +1,7 @@
 package mvc;
 
+import common.GlobalConstants;
+
 public class DataContainers {
 
     public static class CommunicationsLog {

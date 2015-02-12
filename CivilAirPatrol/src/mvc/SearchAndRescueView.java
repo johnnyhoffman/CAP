@@ -4,6 +4,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.event.CaretListener;
 
+import common.GlobalConstants;
+
 import mvc.DateTimePicker.DateTimePickerChangeListener;
 
 /*

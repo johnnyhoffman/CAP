@@ -1,4 +1,4 @@
-package mvc;
+package common;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,4 +28,8 @@ public class GlobalConstants {
     public static final String YEAR_FORMAT = "yyyy";
     public static final String TIME_FORMAT = "HH:mm";
     public static final String DATETIME_FORMAT = DAY_FORMAT + " " + MONTH_FORMAT + ". " + YEAR_FORMAT + ", " + TIME_FORMAT;
+    
+    //network
+    public static final int DEFAULT_PORT = 8117;
+    public static final String DEFAULT_ADDRESS = "224.6.3.33";
 }

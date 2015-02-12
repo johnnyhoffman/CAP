@@ -1,6 +1,8 @@
 package network;
 import java.io.IOException;
 import java.net.*;
+
+import common.GlobalConstants;
 /**
  * Created for CAP project.  
  * This object lets messages be sent between a network,
@@ -16,9 +18,6 @@ import java.net.*;
  */
 
 public class NetworkSender {
-
-	public static final int DEFAULT_PORT = 8117;
-	public static final String DEFAULT_ADDRESS = "224.6.3.33";
 
 	private int port;
 	private InetAddress address;
@@ -59,20 +58,20 @@ public class NetworkSender {
 	}
 
 	public NetworkSender(String currentAddress) throws IOException {
-		port = DEFAULT_PORT;
+		port = GlobalConstants.DEFAULT_PORT;
 		address = InetAddress.getByName(currentAddress);
 		commonConstructorDetails();
 	}
 
 	public NetworkSender(int currentPort) throws IOException {
 		port = currentPort;
-		address = InetAddress.getByName(DEFAULT_ADDRESS);
+		address = InetAddress.getByName(GlobalConstants.DEFAULT_ADDRESS);
 		commonConstructorDetails();
 	}
 
 	public NetworkSender() throws IOException {
-		port = DEFAULT_PORT;
-		address = InetAddress.getByName(DEFAULT_ADDRESS);
+		port = GlobalConstants.DEFAULT_PORT;
+		address = InetAddress.getByName(GlobalConstants.DEFAULT_ADDRESS);
 		commonConstructorDetails();
 	}
 	

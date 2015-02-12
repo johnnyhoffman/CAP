@@ -2,6 +2,8 @@ package mvc;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
+import common.GlobalConstants;
+
 public abstract class ScheduledPushModelAbstraction {
 
     public enum FormType {

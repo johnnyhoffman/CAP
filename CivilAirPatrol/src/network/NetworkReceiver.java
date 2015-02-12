@@ -2,6 +2,8 @@ package network;
 import java.io.IOException;
 import java.net.*;
 
+import common.GlobalConstants;
+
 
 /**
  * Created for CAP project.  
@@ -36,19 +38,19 @@ public class NetworkReceiver {
 
 	public NetworkReceiver(int currentPort) throws IOException {
 		port = currentPort;
-		address = InetAddress.getByName(NetworkSender.DEFAULT_ADDRESS);
+		address = InetAddress.getByName(GlobalConstants.DEFAULT_ADDRESS);
 		commonConstructorDetails();
 	}
 
 	public NetworkReceiver(String currentAddress) throws IOException {
-		port = NetworkSender.DEFAULT_PORT;
+		port = GlobalConstants.DEFAULT_PORT;
 		address = InetAddress.getByName(currentAddress);
 		commonConstructorDetails();
 	}
 
 	public NetworkReceiver() throws IOException {
-		port = NetworkSender.DEFAULT_PORT;
-		address = InetAddress.getByName(NetworkSender.DEFAULT_ADDRESS);
+		port = GlobalConstants.DEFAULT_PORT;
+		address = InetAddress.getByName(GlobalConstants.DEFAULT_ADDRESS);
 		commonConstructorDetails();
 	}
 	

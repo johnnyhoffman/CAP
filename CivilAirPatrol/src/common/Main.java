@@ -1,4 +1,6 @@
-package mvc;
+package common;
+
+import mvc.SessionController;
 
 public class Main {
 

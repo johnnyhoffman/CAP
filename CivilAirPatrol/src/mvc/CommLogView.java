@@ -2,6 +2,8 @@ package mvc;
 
 import javax.swing.event.CaretListener;
 
+import common.GlobalConstants;
+
 import mvc.DataContainers.CommunicationsLog.ComLogEntry;
 import mvc.DateTimePicker.DateTimePickerChangeListener;
 

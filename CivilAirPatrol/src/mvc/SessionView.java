@@ -28,6 +28,9 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
+import common.AppPreferences;
+import common.GlobalConstants;
+
 public class SessionView extends JFrame {
 
     public interface NewFormListener {
@@ -39,7 +42,7 @@ public class SessionView extends JFrame {
     private JSplitPane hSplitPane;
     private JSplitPane vSplitPane;
     private JMenuItem newDialog;
-    // XXX: Temp for testing
+    private JMenuItem prefsDialog;
     private JMenuItem newItemFromJson;
     private JMenuItem searchDatabaseMenuItem;
     private JFrame thisFrame;
@@ -54,13 +57,13 @@ public class SessionView extends JFrame {
         JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
 
-        // XXX: Temp for testing
+        // XXX: Temp for Demo
         newItemFromJson = new JMenuItem("For demo: Open all saved forms with mission number 10");
         fileMenu.add(newItemFromJson);
         searchDatabaseMenuItem = new JMenuItem("Search/Open Forms");
         fileMenu.add(searchDatabaseMenuItem);
 
-        // XXX: Temp for testing
+        // New Forms
         newDialog = new JMenuItem("New Form");
         fileMenu.add(newDialog);
         newDialog.addActionListener(new ActionListener() {
@@ -70,7 +73,6 @@ public class SessionView extends JFrame {
                 JComboBox formTypeCombobox = new JComboBox(formNames);
                 JTextField missionNoField = new JTextField(5);
                 DateTimePicker dateTimePicker = new DateTimePicker();
-
 
                 JPanel dialogPanel = new JPanel();
                 dialogPanel.setLayout(new GridBagLayout());
@@ -90,7 +92,7 @@ public class SessionView extends JFrame {
 
                 dialogPanel.add(dateTimePicker, right);
 
-                int result = JOptionPane.showOptionDialog(thisFrame, dialogPanel, "NewForm",
+                int result = JOptionPane.showOptionDialog(thisFrame, dialogPanel, "New Form",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[] {
                                 "Create Form", "Cancel" }, "default");
 
@@ -109,6 +111,64 @@ public class SessionView extends JFrame {
                         break;
                     default:
                         break;
+                    }
+                }
+            }
+
+        });
+
+        // Preference changing dialog
+        prefsDialog = new JMenuItem("Preferences");
+        fileMenu.add(prefsDialog);
+        prefsDialog.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel dialogPanel = new JPanel();
+                dialogPanel.setLayout(new GridBagLayout());
+                GridBagConstraints left = new GridBagConstraints();
+                left.anchor = GridBagConstraints.EAST;
+                GridBagConstraints right = new GridBagConstraints();
+                right.fill = GridBagConstraints.HORIZONTAL;
+                right.anchor = GridBagConstraints.WEST;
+                right.gridwidth = GridBagConstraints.REMAINDER;
+
+                final JTextField ipField = new JTextField(15);
+                ipField.setText(AppPreferences.getIP());
+                final JTextField portField = new JTextField(15);
+                portField.setText(AppPreferences.getPort() + "");
+                dialogPanel.add(new JLabel("Server IP Adress: "), left);
+                dialogPanel.add(ipField, right);
+                dialogPanel.add(Box.createVerticalStrut(15), right); // a spacer
+                dialogPanel.add(new JLabel("Server Port Number: "), left);
+                dialogPanel.add(portField, right);
+
+                JButton resetButton = new JButton("Reset to Default");
+                resetButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ipField.setText(GlobalConstants.DEFAULT_ADDRESS);
+                        portField.setText(GlobalConstants.DEFAULT_PORT + "");
+                    }
+                });
+                dialogPanel.add(Box.createVerticalStrut(15), right); // a spacer
+                dialogPanel.add(new JLabel(""), left); //hacky spacing
+                dialogPanel.add(resetButton, right);
+
+                int result = JOptionPane.showOptionDialog(thisFrame, dialogPanel, "Preferences",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[] { "Apply",
+                                "Cancel" }, "default");
+
+                if (result == JOptionPane.OK_OPTION) {
+                    String ip = ipField.getText();
+                    String portStr = portField.getText();
+                    int portInt;
+                    AppPreferences.setIP(ip);
+                    try {
+                        portInt = Integer.parseInt(portStr);
+                        AppPreferences.setPort(portInt);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(dialogPanel, "Cannot set port to \"" + portStr
+                                + "\". Must be a number.");
                     }
                 }
             }

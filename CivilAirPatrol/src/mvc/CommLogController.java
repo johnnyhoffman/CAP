@@ -8,6 +8,7 @@ import mvc.DateTimePicker.DateTimePickerChangeListener;
 import mvc.ScheduledPushModelAbstraction.OnModelLoadListener;
 
 import com.google.gson.JsonObject;
+import common.GlobalConstants;
 
 /* Placeholder for demonstrating Session MVC */
 public class CommLogController implements IFormController {
