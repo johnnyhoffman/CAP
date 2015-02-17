@@ -12,7 +12,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import mvc.DBPushParams;
+
+import common.DBPushParams;
 
 /**
  *

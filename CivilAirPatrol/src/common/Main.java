@@ -1,6 +1,6 @@
 package common;
 
-import mvc.SessionController;
+import session.SessionController;
 
 public class Main {
 

@@ -3,9 +3,11 @@ package database;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
-import mvc.DBPushParams;
-import mvc.ScheduledPushModelAbstraction.FormType;
 import java.util.List;
+
+import common.DBPushParams;
+
+import forms.ScheduledPushModelAbstraction.FormType;
 
 public class sqlServer {
     private static Connection c = null;

@@ -20,7 +20,8 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-import mvc.DateTimePicker;
+import common.DateTimePicker;
+
 
 /**
  * Here we have a class that lets us search the database for forms

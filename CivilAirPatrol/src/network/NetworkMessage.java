@@ -6,7 +6,8 @@
 package network;
 
 import java.io.Serializable;
-import mvc.DBPushParams;
+
+import common.DBPushParams;
 
 /**
  *
