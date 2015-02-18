@@ -233,7 +233,7 @@ public class sqlServer {
     /* for querying comlog table */
     public static List<DBPushParams> SelectFromCommLog(String date,
             String missionnum) {
-        List<DBPushParams> results = new ArrayList<>();
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
             ResultSet result;
@@ -257,7 +257,7 @@ public class sqlServer {
     }
 
     public static List<DBPushParams> SelectFromCommLogWithDate(String date) {
-        List<DBPushParams> results = new ArrayList<>();
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
             ResultSet result;
@@ -280,7 +280,7 @@ public class sqlServer {
     }
 
     public static List<DBPushParams> SelectFromCommLogWithMissionNum(String missionnum) {
-        List<DBPushParams> results = new ArrayList<>();
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
             ResultSet result;
@@ -304,7 +304,7 @@ public class sqlServer {
 
     /* for querying sar table */
     public static List<DBPushParams> SelectFromSAR(String date, String missionnum) {
-        List<DBPushParams> results = new ArrayList<>();
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
             ResultSet result;
@@ -328,7 +328,7 @@ public class sqlServer {
     }
 
     public static List<DBPushParams> SelectFromSARWithDate(String date) {
-        List<DBPushParams> results = new ArrayList<>();
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
             ResultSet result;
@@ -351,7 +351,7 @@ public class sqlServer {
     }
 
     public static List<DBPushParams> SelectFromSARWithMissionNum(String missionnum) {
-        List<DBPushParams> results = new ArrayList<>();
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
             ResultSet result;
@@ -376,7 +376,7 @@ public class sqlServer {
     /* for querying rad table */
     public static List<DBPushParams> SelectFromRadMess(String date,
             String missionnum) {
-        List<DBPushParams> results = new ArrayList<>();
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
             ResultSet result;
@@ -400,7 +400,7 @@ public class sqlServer {
     }
 
     public static List<DBPushParams> SelectFromRadMessWithDate(String date) {
-        List<DBPushParams> results = new ArrayList<>();
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
             ResultSet result;
@@ -423,7 +423,7 @@ public class sqlServer {
     }
 
     public static List<DBPushParams> SelectFromRadMessWithMissionNum(String missionnum) {
-        List<DBPushParams> results = new ArrayList<>();
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
             ResultSet result;

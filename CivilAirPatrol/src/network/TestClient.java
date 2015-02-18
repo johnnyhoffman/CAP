@@ -50,9 +50,11 @@ public class TestClient {
         try{
             NetworkMessage netMess = (NetworkMessage)this.input.readObject();
             System.out.println(netMess.getMessage());
-        }catch (IOException | ClassNotFoundException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(TestClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TestClient.class.getName()).log(Level.SEVERE, null, ex);
+		}
     }
     public static void main(String argv []){
         try {

@@ -6,22 +6,32 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractButton;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumn;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-import common.DateTimePicker;
+import database.sqlServer;
 
+import common.DBPushParams;
+import common.DateTimePicker;
+import forms.FormsController;
 
 /**
  * Here we have a class that lets us search the database for forms
@@ -35,24 +45,32 @@ public class SearchWindow {
 	 * 
 	 */
 	private static final long serialVersionUID = 7658371200547895945L;
-	private static final int SEARCH_WIDTH = 580; //was 480
+	private static final int SEARCH_WIDTH = 480; //was 480
 	private static final int SEARCH_HEIGHT = 240;
-	private static final int RESULTS_WIDTH = 420;
-	private static final int RESULTS_HEIGHT = 480;
+	private static final int RESULTS_WIDTH = 480;
+	private static final int RESULTS_HEIGHT = 520;
 	private static final int X_DISPLACE = 60;
 	private static final int Y_DISPLACE = 40;
+
+	private static final String FORM_TYPE_COMM_LOG = "Comm. Log";
+	private static final String FORM_TYPE_RADIO_MSG = "Radio Message";
+	private static final String FORM_TYPE_SAR = "S.A.R.";
+
+	private static final int FORM_TYPE_ID_COMM_LOG = 0;
+	private static final int FORM_TYPE_ID_RADIO_MSG = 1;
+	private static final int FORM_TYPE_ID_SAR = 2;
 	
 	
 	/* Dana, I left what you had but commented it out.
 	 * to get the min and max date values just use 
 	 * min/maxDateTime.getDate() or .getDateString().
 	 * I also change SEARCH_WIDTH to 580 to fit it */
-//	private JTextField minDay;
-//	private JTextField minMonth;
-//	private JTextField minYear;
-//	private JTextField maxDay;
-//	private JTextField maxMonth;
-//	private JTextField maxYear;
+	//	private JTextField minDay;
+	//	private JTextField minMonth;
+	//	private JTextField minYear;
+	//	private JTextField maxDay;
+	//	private JTextField maxMonth;
+	//	private JTextField maxYear;
     private DateTimePicker minDateTime;
     private DateTimePicker maxDateTime;
 
@@ -65,17 +83,22 @@ public class SearchWindow {
 	private JCheckBox searchAndRescueCheckbox;
 
 	private JButton cancelButton;
-	private JButton searchButton;
+	private JButton goButton;
 	
 	private SearchWindowJFrame mainFrame;
 	
+	private FormsController formsController;
+	
+	// variables for showing the results of a search
+	JList resultsList;
+	JScrollPane resultsListScroller;
+	
 	private boolean dead;
 	
-	private JTable searchResultsTable;
-	
-	public SearchWindow(int x, int y) {
+	public SearchWindow(int x, int y, FormsController formsController) {
 		dead = true;
 		setSearchWindow();
+		this.formsController = formsController;
 	}
 	
 	private void setSearchWindow() {
@@ -93,9 +116,12 @@ public class SearchWindow {
 		tooltip.setSize(100,60);
 		
 		// dates
-		JPanel dateRangePanel = new JPanel();
-		dateRangePanel.setLayout(new FlowLayout());
-		dateRangePanel.setBackground(new Color(200,200,220));
+		JPanel dateRangePanel1 = new JPanel();
+		dateRangePanel1.setLayout(new FlowLayout());
+		dateRangePanel1.setBackground(new Color(200,200,220));
+		JPanel dateRangePanel2 = new JPanel();
+		dateRangePanel2.setLayout(new FlowLayout());
+		dateRangePanel2.setBackground(new Color(200,200,220));
 		JLabel dateHeader = new JLabel("Created between ",JLabel.CENTER);
 //		JLabel date1slash1 = new JLabel("/",JLabel.CENTER);
 //		JLabel date1slash2 = new JLabel("/",JLabel.CENTER);
@@ -134,13 +160,14 @@ public class SearchWindow {
 //		dateRangePanel.add(maxYear);
         minDateTime = new DateTimePicker();
         maxDateTime = new DateTimePicker();
-        dateRangePanel.add(dateHeader);
-        dateRangePanel.add(minDateTime);
-        dateRangePanel.add(date1to2label);
-        dateRangePanel.add(maxDateTime);
+        dateRangePanel1.add(dateHeader);
+        dateRangePanel1.add(minDateTime);
+        dateRangePanel2.add(date1to2label);
+        dateRangePanel2.add(maxDateTime);
 		
 		mainFrame.add(tooltip);
-		mainFrame.add(dateRangePanel);
+		mainFrame.add(dateRangePanel1);
+		mainFrame.add(dateRangePanel2);
 		
 		// second row
 		JPanel formIDandMissionName = new JPanel();
@@ -176,9 +203,9 @@ public class SearchWindow {
 		JPanel formTypePanel = new JPanel();
 		formTypePanel.setLayout(new FlowLayout());
 		formTypePanel.setBackground(new Color(220,200,200));
-		commLogCheckbox = new JCheckBox("Comm. Log",true);
-		radioMessageCheckbox = new JCheckBox("Radio Message",true);
-		searchAndRescueCheckbox = new JCheckBox("S.A.R.",true);
+		commLogCheckbox = new JCheckBox(FORM_TYPE_COMM_LOG,true);
+		radioMessageCheckbox = new JCheckBox(FORM_TYPE_RADIO_MSG,true);
+		searchAndRescueCheckbox = new JCheckBox(FORM_TYPE_SAR,true);
 		formTypePanel.add(commLogCheckbox);
 		formTypePanel.add(radioMessageCheckbox);
 		formTypePanel.add(searchAndRescueCheckbox);
@@ -188,11 +215,11 @@ public class SearchWindow {
 		// create buttons
 		JPanel buttonPanel = new JPanel();
 		cancelButton = new JButton("Cancel");
-		searchButton = new JButton("Search");
+		goButton = new JButton("Search");
 		buttonPanel.add(cancelButton);
-		buttonPanel.add(searchButton);
+		buttonPanel.add(goButton);
 		cancelButton.addActionListener(new CancelSearchListener());
-		searchButton.addActionListener(new StartSearchListener());
+		goButton.addActionListener(new StartSearchListener());
 		mainFrame.add(buttonPanel);
 		
 		
@@ -206,30 +233,73 @@ public class SearchWindow {
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 		
+		
+		
+		
 	}
 	
-	
+	/**
+	 * This shows the results of a search.
+	 */
 	public void setResultsWindow() {
+		// removes existing frame
 		mainFrame.dispose();
 		dead = false;
 		mainFrame = new SearchWindowJFrame();
 
+		// new frame is added, in place of the old one
 		mainFrame = new SearchWindowJFrame();
 		
 		mainFrame.setSize(RESULTS_WIDTH, RESULTS_HEIGHT);
-		mainFrame.setLayout(new GridLayout(6,1));
+		mainFrame.setLayout(new GridLayout(2,1));
 		mainFrame.setBackground(new Color(230,230,230));
 
-		searchResultsTable = new JTable();
-		TableColumn IDs = new TableColumn(10);
-		TableColumn missionNames = new TableColumn(10);
-		TableColumn formTypes = new TableColumn(10);
-		TableColumn dates = new TableColumn(10);
-		searchResultsTable.addColumn(IDs);
-		searchResultsTable.addColumn(missionNames);
-		searchResultsTable.addColumn(formTypes);
-		searchResultsTable.addColumn(dates);
-		mainFrame.add(searchResultsTable);
+		DefaultListModel resultsListModel = new DefaultListModel();
+		//for (int i = 0; i < results.size(); i++) {
+		String n = "10";
+		int d = 1;
+		int m = 1;
+		int y = 2015;
+		int t1 = 0;
+		int t2 = 0;
+		int t3 = 0;
+		
+		String missionNo = "10";
+		String date = "1/1/2015";
+		String time = "00:00";
+		String formType = FORM_TYPE_COMM_LOG;
+		
+		String f = FORM_TYPE_COMM_LOG;
+		resultsListModel.addElement(n+" ; "+date+" ; "+time+"  ; "+formType);
+		f = FORM_TYPE_RADIO_MSG;
+		resultsListModel.addElement(n+" ; "+d+"/"+m+"/"+y  +" ; "+t1+";"+t2+":"+t3+"  ; "+f);
+		f = FORM_TYPE_SAR;
+		resultsListModel.addElement(n+" ; "+d+"/"+m+"/"+y  +" ; "+t1+";"+t2+":"+t3+"  ; "+f);
+		resultsListModel.addElement(n+" ; "+d+"/"+m+"/"+y  +" ; "+t1+";"+t2+":"+t3+"  ; "+f);
+		resultsListModel.addElement(n+" ; "+d+"/"+m+"/"+y  +" ; "+t1+";"+t2+":"+t3+"  ; "+f);
+		resultsListModel.addElement(n+" ; "+d+"/"+m+"/"+y  +" ; "+t1+";"+t2+":"+t3+"  ; "+f);
+		
+		
+		resultsList = new JList(resultsListModel);
+		resultsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		resultsList.setLayoutOrientation(JList.VERTICAL);
+		resultsList.setVisibleRowCount(-1);
+		resultsListScroller = new JScrollPane(resultsList);
+		resultsListScroller.setPreferredSize(new Dimension(250, 80));
+		mainFrame.add(resultsListScroller);
+
+		int[] formTypes = {0,1,2,0,1,1,2};
+		String[] missionNumbers = {"10","10","10","1","1","2","3"};
+
+		// create buttons
+		JPanel buttonPanel = new JPanel();
+		cancelButton = new JButton("Cancel");
+		goButton = new JButton("Open Selected Forms");
+		buttonPanel.add(cancelButton);
+		buttonPanel.add(goButton);
+		cancelButton.addActionListener(new CancelSearchListener());
+		goButton.addActionListener(new LoadFormsFromSearchListener(formTypes,missionNumbers));
+		mainFrame.add(buttonPanel);
 		
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.setTitle("Form Retrieval Results");
@@ -251,7 +321,7 @@ public class SearchWindow {
 	
 	private void removeAllListeners() {
 		removeListeners(cancelButton);
-		removeListeners(searchButton);
+		removeListeners(goButton);
 		dead = true;
 	}
 	
@@ -266,7 +336,7 @@ public class SearchWindow {
 	    	c.removeActionListener(l);
 	    }
 	}
-	
+
 	private class CancelSearchListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			dispose();	
@@ -278,15 +348,56 @@ public class SearchWindow {
 		}		
 	}
 	
+	private class LoadFormsFromSearchListener implements ActionListener{
+		private String[] formNames;
+		private int[] formTypes;
+		
+		public LoadFormsFromSearchListener(int[] formTypes, String[] formNames) {
+			super();
+			this.formNames = formNames;
+			this.formTypes = formTypes;
+			
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			// loading selected forms
+			int[] indices = resultsList.getSelectedIndices();
+			for (int i = 0; i < indices.length; i++) {
+				System.out.println("attempting to load something else...");
+				List<DBPushParams> formPushParams = new ArrayList<DBPushParams>();
+				if (formTypes[indices[i]] == FORM_TYPE_ID_COMM_LOG) {
+					System.out.println("CHECK 1");
+					formPushParams.addAll(sqlServer
+		                    .SelectFromCommLogWithMissionNum(formNames[indices[i]]));
+				} else if (formTypes[indices[i]] == FORM_TYPE_ID_RADIO_MSG) {
+					System.out.println("CHECK 2");
+					formPushParams.addAll(sqlServer
+		                    .SelectFromRadMessWithMissionNum(formNames[indices[i]]));
+				} else {
+					System.out.println("CHECK 3");
+					formPushParams.addAll(sqlServer
+		                    .SelectFromSARWithMissionNum(formNames[indices[i]]));
+				}
+				for (int j = 0; j < formPushParams.size(); j++) {
+					System.out.println("attempting to load "+formPushParams.get(j));
+					formsController.fromDBPushParams(formPushParams.get(j));
+				}
+			}
+			
+			dispose();
+		}	
+	}
+	
 	private class SearchWindowJFrame extends JFrame {
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 5188445703046822084L;
+
 		public void dispose() {
 			super.dispose();
 			removeAllListeners();
-		}
-		
-		public void quietDispose() {
-			super.dispose();
 		}
 	}
 }
