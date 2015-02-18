@@ -74,9 +74,7 @@ public class SearchWindow {
     private DateTimePicker minDateTime;
     private DateTimePicker maxDateTime;
 
-	private JTextField formID;
-
-	private JTextField missionName;
+	private JTextField tMissionNo;
 
 	private JCheckBox commLogCheckbox;
 	private JCheckBox radioMessageCheckbox;
@@ -89,7 +87,7 @@ public class SearchWindow {
 	
 	private FormsController formsController;
 	
-	// variables for showing the results of a search
+	// variables for displaying the results of a search
 	JList resultsList;
 	JScrollPane resultsListScroller;
 	
@@ -123,41 +121,7 @@ public class SearchWindow {
 		dateRangePanel2.setLayout(new FlowLayout());
 		dateRangePanel2.setBackground(new Color(200,200,220));
 		JLabel dateHeader = new JLabel("Created between ",JLabel.CENTER);
-//		JLabel date1slash1 = new JLabel("/",JLabel.CENTER);
-//		JLabel date1slash2 = new JLabel("/",JLabel.CENTER);
 		JLabel date1to2label = new JLabel("  and  ",JLabel.CENTER);
-//		JLabel date2slash1 = new JLabel("/",JLabel.CENTER);
-//		JLabel date2slash2 = new JLabel("/",JLabel.CENTER);
-//		minDay = new javax.swing.JTextField();
-//		minDay.setDocument(new TextDocumentForLimitedTextFields(2,true));
-//		minDay.setPreferredSize(new Dimension(32,24));
-//		maxDay = new javax.swing.JTextField();
-//		maxDay.setDocument(new TextDocumentForLimitedTextFields(2,true));
-//		maxDay.setPreferredSize(new Dimension(32,24));
-//		minMonth = new javax.swing.JTextField();
-//		minMonth.setDocument(new TextDocumentForLimitedTextFields(2,true));
-//		minMonth.setPreferredSize(new Dimension(32,24));
-//		maxMonth = new javax.swing.JTextField();
-//		maxMonth.setDocument(new TextDocumentForLimitedTextFields(2,true));
-//		maxMonth.setPreferredSize(new Dimension(32,24));
-//		minYear = new javax.swing.JTextField();
-//		minYear.setDocument(new TextDocumentForLimitedTextFields(4,true));
-//		minYear.setPreferredSize(new Dimension(48,24));
-//		maxYear = new javax.swing.JTextField();
-//		maxYear.setDocument(new TextDocumentForLimitedTextFields(4,true));
-//		maxYear.setPreferredSize(new Dimension(48,24));
-//		dateRangePanel.add(dateHeader);
-//		dateRangePanel.add(minDay);
-//		dateRangePanel.add(date1slash1);
-//		dateRangePanel.add(minMonth);
-//		dateRangePanel.add(date1slash2);
-//		dateRangePanel.add(minYear);
-//		dateRangePanel.add(date1to2label);
-//		dateRangePanel.add(maxDay);
-//		dateRangePanel.add(date2slash1);
-//		dateRangePanel.add(maxMonth);
-//		dateRangePanel.add(date2slash2);
-//		dateRangePanel.add(maxYear);
         minDateTime = new DateTimePicker();
         maxDateTime = new DateTimePicker();
         dateRangePanel1.add(dateHeader);
@@ -170,34 +134,19 @@ public class SearchWindow {
 		mainFrame.add(dateRangePanel2);
 		
 		// second row
-		JPanel formIDandMissionName = new JPanel();
-		formIDandMissionName.setLayout(new GridLayout(1,2));
 		
 		// form id no
-		JPanel formIDPanel = new JPanel();
-		formIDPanel.setLayout(new FlowLayout());
-		formIDPanel.setBackground(new Color(230,230,230));
-		JLabel formIDHeader = new JLabel("Form ID: ",JLabel.CENTER);
-		formID = new javax.swing.JTextField();
-		formID.setDocument(new TextDocumentForLimitedTextFields(18,true));
-		formID.setPreferredSize(new Dimension(64,24));
-		formIDPanel.add(formIDHeader);
-		formIDPanel.add(formID);
-		formIDandMissionName.add(formIDPanel);
+		JPanel missionNoPanel = new JPanel();
+		missionNoPanel.setLayout(new FlowLayout());
+		missionNoPanel.setBackground(new Color(230,230,230));
+		JLabel formIDHeader = new JLabel("Mission Number: ",JLabel.CENTER);
+		tMissionNo = new javax.swing.JTextField();
+		tMissionNo.setDocument(new TextDocumentForLimitedTextFields(18,false));
+		tMissionNo.setPreferredSize(new Dimension(96,24));
+		missionNoPanel.add(formIDHeader);
+		missionNoPanel.add(tMissionNo);
 		
-		// mission name
-		JPanel missionNamePanel = new JPanel();
-		missionNamePanel.setLayout(new FlowLayout());
-		missionNamePanel.setBackground(new Color(200,220,200));
-		JLabel missionNameHeader = new JLabel("Mission name: ",JLabel.CENTER);
-		missionName = new javax.swing.JTextField();
-		missionName.setDocument(new TextDocumentForLimitedTextFields(60,false));
-		missionName.setPreferredSize(new Dimension(128,24));
-		missionNamePanel.add(missionNameHeader);
-		missionNamePanel.add(missionName);
-		formIDandMissionName.add(missionNamePanel);
-		
-		mainFrame.add(formIDandMissionName);
+		mainFrame.add(missionNoPanel);
 		
 		// checkboxes
 		JPanel formTypePanel = new JPanel();
@@ -241,43 +190,38 @@ public class SearchWindow {
 	/**
 	 * This shows the results of a search.
 	 */
-	public void setResultsWindow() {
+	public void setResultsWindow(List<DBPushParams> formPushParams) {
 		// removes existing frame
 		mainFrame.dispose();
 		dead = false;
 		mainFrame = new SearchWindowJFrame();
-
+		
 		// new frame is added, in place of the old one
 		mainFrame = new SearchWindowJFrame();
 		
 		mainFrame.setSize(RESULTS_WIDTH, RESULTS_HEIGHT);
 		mainFrame.setLayout(new GridLayout(2,1));
 		mainFrame.setBackground(new Color(230,230,230));
-
+		
 		DefaultListModel resultsListModel = new DefaultListModel();
-		//for (int i = 0; i < results.size(); i++) {
-		String n = "10";
-		int d = 1;
-		int m = 1;
-		int y = 2015;
-		int t1 = 0;
-		int t2 = 0;
-		int t3 = 0;
-		
-		String missionNo = "10";
-		String date = "1/1/2015";
-		String time = "00:00";
-		String formType = FORM_TYPE_COMM_LOG;
-		
-		String f = FORM_TYPE_COMM_LOG;
-		resultsListModel.addElement(n+" ; "+date+" ; "+time+"  ; "+formType);
-		f = FORM_TYPE_RADIO_MSG;
-		resultsListModel.addElement(n+" ; "+d+"/"+m+"/"+y  +" ; "+t1+";"+t2+":"+t3+"  ; "+f);
-		f = FORM_TYPE_SAR;
-		resultsListModel.addElement(n+" ; "+d+"/"+m+"/"+y  +" ; "+t1+";"+t2+":"+t3+"  ; "+f);
-		resultsListModel.addElement(n+" ; "+d+"/"+m+"/"+y  +" ; "+t1+";"+t2+":"+t3+"  ; "+f);
-		resultsListModel.addElement(n+" ; "+d+"/"+m+"/"+y  +" ; "+t1+";"+t2+":"+t3+"  ; "+f);
-		resultsListModel.addElement(n+" ; "+d+"/"+m+"/"+y  +" ; "+t1+";"+t2+":"+t3+"  ; "+f);
+
+		for (int i = 0; i < formPushParams.size(); i++) {
+			DBPushParams p = formPushParams.get(i);
+			String type = "";
+			switch (p.type) {
+		        case CL:
+		            type = FORM_TYPE_COMM_LOG;
+		            break;
+		        case RM:
+		        	type = FORM_TYPE_RADIO_MSG;
+		            break;
+		        case SAR:
+		        	type = FORM_TYPE_SAR;
+		            break;
+	        }
+			resultsListModel.addElement(p.missionNo +" ; "+p.date+" ; "+type);
+			
+		}
 		
 		
 		resultsList = new JList(resultsListModel);
@@ -288,9 +232,6 @@ public class SearchWindow {
 		resultsListScroller.setPreferredSize(new Dimension(250, 80));
 		mainFrame.add(resultsListScroller);
 
-		int[] formTypes = {0,1,2,0,1,1,2};
-		String[] missionNumbers = {"10","10","10","1","1","2","3"};
-
 		// create buttons
 		JPanel buttonPanel = new JPanel();
 		cancelButton = new JButton("Cancel");
@@ -298,7 +239,7 @@ public class SearchWindow {
 		buttonPanel.add(cancelButton);
 		buttonPanel.add(goButton);
 		cancelButton.addActionListener(new CancelSearchListener());
-		goButton.addActionListener(new LoadFormsFromSearchListener(formTypes,missionNumbers));
+		goButton.addActionListener(new LoadFormsFromSearchListener(formPushParams));
 		mainFrame.add(buttonPanel);
 		
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -344,44 +285,50 @@ public class SearchWindow {
 	}
 	private class StartSearchListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			setResultsWindow();
+
+			String missionNo = tMissionNo.getText();
+			
+			List<DBPushParams> formPushParams = new ArrayList<DBPushParams>();
+			if (commLogCheckbox.isSelected()) {
+				System.out.println("CHECK 1");
+				formPushParams.addAll(sqlServer.SelectFromCommLogWithMissionNum(missionNo));
+			}
+			if (radioMessageCheckbox.isSelected()) {
+				System.out.println("CHECK 2");
+				formPushParams.addAll(sqlServer
+	                    .SelectFromRadMessWithMissionNum(missionNo));
+			}
+			if (searchAndRescueCheckbox.isSelected()) {
+				System.out.println("CHECK 3");
+				formPushParams.addAll(sqlServer.SelectFromSARWithMissionNum(missionNo));
+			}
+			
+			setResultsWindow(formPushParams);
 		}		
 	}
 	
+	/**
+	 * Listener for when you hit the "load forms" button, from the search results window.
+	 * 
+	 * @author danavold
+	 *
+	 */
 	private class LoadFormsFromSearchListener implements ActionListener{
-		private String[] formNames;
-		private int[] formTypes;
+		private List<DBPushParams> formPushParams;
 		
-		public LoadFormsFromSearchListener(int[] formTypes, String[] formNames) {
+		public LoadFormsFromSearchListener(List<DBPushParams> formPushParams) {
 			super();
-			this.formNames = formNames;
-			this.formTypes = formTypes;
+			this.formPushParams = formPushParams;
 			
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-			// loading selected forms
+			// load forms that were selected
 			int[] indices = resultsList.getSelectedIndices();
+			
 			for (int i = 0; i < indices.length; i++) {
-				System.out.println("attempting to load something else...");
-				List<DBPushParams> formPushParams = new ArrayList<DBPushParams>();
-				if (formTypes[indices[i]] == FORM_TYPE_ID_COMM_LOG) {
-					System.out.println("CHECK 1");
-					formPushParams.addAll(sqlServer
-		                    .SelectFromCommLogWithMissionNum(formNames[indices[i]]));
-				} else if (formTypes[indices[i]] == FORM_TYPE_ID_RADIO_MSG) {
-					System.out.println("CHECK 2");
-					formPushParams.addAll(sqlServer
-		                    .SelectFromRadMessWithMissionNum(formNames[indices[i]]));
-				} else {
-					System.out.println("CHECK 3");
-					formPushParams.addAll(sqlServer
-		                    .SelectFromSARWithMissionNum(formNames[indices[i]]));
-				}
-				for (int j = 0; j < formPushParams.size(); j++) {
-					System.out.println("attempting to load "+formPushParams.get(j));
-					formsController.fromDBPushParams(formPushParams.get(j));
-				}
+				DBPushParams currentPushParams = formPushParams.get(indices[i]);
+				formsController.fromDBPushParams(currentPushParams);
 			}
 			
 			dispose();
