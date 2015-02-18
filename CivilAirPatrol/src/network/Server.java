@@ -34,12 +34,12 @@ public class Server extends Thread{
         }
     }
     //Function to check credentials against db
-    private boolean validate(NetworkMessage attempt){
+    private UserType validate(NetworkMessage attempt){
         if (attempt.getType() == MessageType.LOGIN){
             //TODO check against the DB information
-            return true;
+            return UserType.READER;
         }
-        return false;
+        return UserType.NONE;
     }
     //What will continue to run, handle new connections and spawn threads to handle the new connection
     @Override
@@ -47,6 +47,7 @@ public class Server extends Thread{
         ObjectInputStream input;
         ObjectOutputStream output;
         ClientConnection client;
+        UserType type;
         try{
             while(run){
                 
@@ -59,9 +60,10 @@ public class Server extends Thread{
                 //They should have sent a login message with the connection attempt.
                 NetworkMessage loginattempt = (NetworkMessage)input.readObject();
                 
-                if (validate(loginattempt)){
+                if ((type = validate(loginattempt)) != UserType.NONE){
                     //create the client connection
-                    client = new ClientConnection(input,output,server,((LoginMessage)loginattempt).getUser());
+                    
+                    client = new ClientConnection(input,output,server,((LoginMessage)loginattempt).getUser(),type);
                     allClients.add(client);
                     client.start();
                     System.out.println("Accepted client connection.");
@@ -83,4 +85,6 @@ public class Server extends Thread{
         Server server = new Server(4444);
         server.start();
     }
+
+   
 }

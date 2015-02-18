@@ -24,12 +24,14 @@ public class ClientConnection extends Thread {
     private ObjectOutputStream output;
     private Socket socket;
     private String user;
+    private UserType userType;
     
-    public ClientConnection(ObjectInputStream in, ObjectOutputStream out, Socket socket, String user){
+    public ClientConnection(ObjectInputStream in, ObjectOutputStream out, Socket socket, String user, UserType type){
         this.input = in;
         this.output = out;
         this.socket = socket;
         this.user = user;
+        this.userType = type;
     }
     public ObjectInputStream getInputStream(){
         return this.input;
@@ -100,6 +102,7 @@ public class ClientConnection extends Thread {
     private void handleGuiPush(NetworkMessage message){
         //TODO echo the message to all non-radio officer connections...and update db
         //will start with just pushing to the db
+        //TODO TEST THIS?
         DBPushParams pushParams = ((GuiMessage)message).getParams();
         System.out.println(pushParams.json + "\n" + pushParams.id + "\n"
                 + pushParams.missionNo + "\n" + pushParams.date);
@@ -117,6 +120,14 @@ public class ClientConnection extends Thread {
             database.sqlServer.UpdateSAR(pushParams.json, pushParams.id,
                     pushParams.missionNo, pushParams.date);
             break;
+        }
+        for(ClientConnection c : Server.allClients){
+            try {
+                System.out.println("sending message to " + c.getUserName()); //For debug purposes
+                if (c.userType != UserType.WRITER) c.output.writeObject(message);
+            } catch (IOException ex) {
+                Logger.getLogger(ClientConnection.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     private void handleLogin(NetworkMessage message){
