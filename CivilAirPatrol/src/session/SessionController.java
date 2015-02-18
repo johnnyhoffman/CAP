@@ -41,19 +41,19 @@ public class SessionController {
         view.setChatComponent(chatController.getViewComponent());
 
         view.addNewComLogMenuItemActionListener(new NewFormListener() {
-            public void createForm(String missionNo, String date) {
+            public void createForm(String missionNo, long date) {
                 formsController.newComLog(missionNo, date);;
             }
         });
 
         view.addNewSearchAndRescueMenuItemActionListener(new NewFormListener() {
-            public void createForm(String missionNo, String date) {
+            public void createForm(String missionNo, long date) {
                 formsController.newSearchAndRescue(missionNo, date);
             }
         });
 
         view.addNewRadioMessageMenuItemActionListener(new NewFormListener() {
-            public void createForm(String missionNo, String date) {
+            public void createForm(String missionNo, long date) {
                 formsController.newRadioMessage(missionNo, date);
             }
         });

@@ -18,7 +18,7 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
     public SearchAndRescueModel(int id, String name) {
         super();
         this.id = id;
-        database.sqlServer.InsertSAR("{}", id, "-1", "DATE"); // XXX: Temp
+        database.sqlServer.InsertSAR("{}", id, "-1", 0); // XXX: Temp
         data = new DataContainers.SearchAndRescue(name);
         gson = new Gson();
         // for debugging revert to above creation method later
@@ -34,7 +34,7 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         jsonDeserialize(json);
     }
 
-    public SearchAndRescueModel(int id, String name, String missionNo, String date) {
+    public SearchAndRescueModel(int id, String name, String missionNo, long date) {
         super();
         this.id = id;
         data = new DataContainers.SearchAndRescue(name);
@@ -66,7 +66,7 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         schedulePush();
     }
 
-    public void updateHeaderDateTime(String s) {
+    public void updateHeaderDateTime(long s) {
         data.header.dateTime = s;
         schedulePush();
     }
@@ -379,7 +379,7 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         return data.header.reportedBy;
     }
 
-    public String getHeaderDateTime() {
+    public long getHeaderDateTime() {
         return data.header.dateTime;
     }
 

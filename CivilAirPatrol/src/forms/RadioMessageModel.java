@@ -17,7 +17,7 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
 
     public RadioMessageModel(int id, String name) {
         this.id = id;
-        database.sqlServer.InsertRADIOMESS("{}", id, "-1", "DATE"); // XXX: Temp
+        database.sqlServer.InsertRADIOMESS("{}", id, "-1", 0); // XXX: Temp
         data = new DataContainers.RadioMessage(name);
         gson = new Gson();
         // for debugging revert to creation method below
@@ -34,11 +34,11 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
         jsonDeserialize(json);
     }
 
-    public RadioMessageModel(int id, String name, String missionNo, String date) {
+    public RadioMessageModel(int id, String name, String missionNo, long date) {
         this.id = id;
         data = new DataContainers.RadioMessage(name);
         data.header.missionNo = missionNo;
-        data.header.date = date;
+        data.header.dtg = date;
         gson = new Gson();
         // for debugging revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();
@@ -64,8 +64,8 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
         schedulePush();
     }
 
-    public void updateHeaderDtg(String s) {
-        data.header.dtg = s;
+    public void updateHeaderDtg(long l) {
+        data.header.dtg = l;
         schedulePush();
     }
 
@@ -141,7 +141,7 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
         return data.header.precedence;
     }
 
-    public String getHeaderDtg() {
+    public long getHeaderDtg() {
         return data.header.dtg;
     }
 
@@ -201,6 +201,6 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
     @Override
     public DBPushParams prepareForPush() {
         String json = gson.toJson(data);
-        return new DBPushParams(FormType.RM, json, id, data.header.missionNo, data.header.date);
+        return new DBPushParams(FormType.RM, json, id, data.header.missionNo, data.header.dtg);
     }
 }

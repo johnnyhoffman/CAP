@@ -55,7 +55,7 @@ public class FormsModel {
         return comCont;
     }
 
-    public CommLogController newComLog(String missionNo, String date) {
+    public CommLogController newComLog(String missionNo, long date) {
         int id = sqlServer.RetrieveNextFormId();
         CommLogController comCont = new CommLogController(id, "Com Log " + id, missionNo, date);
         formControllers.add(comCont);
@@ -69,7 +69,7 @@ public class FormsModel {
         return searchRescCont;
     }
 
-    public SearchAndRescueController newSearchAndRescue(String missionNo, String date) {
+    public SearchAndRescueController newSearchAndRescue(String missionNo, long date) {
         int id = sqlServer.RetrieveNextFormId();
         SearchAndRescueController searchRescCont = new SearchAndRescueController(id, "Search and Rescue " + id,
                 missionNo, date);
@@ -84,7 +84,7 @@ public class FormsModel {
         return radMesCont;
     }
 
-    public RadioMessageController newRadioMessage(String missionNo, String date) {
+    public RadioMessageController newRadioMessage(String missionNo, long date) {
         int id = sqlServer.RetrieveNextFormId();
         RadioMessageController radMesCont = new RadioMessageController(id, "Radio Message " + id, missionNo, date);
         formControllers.add(radMesCont);

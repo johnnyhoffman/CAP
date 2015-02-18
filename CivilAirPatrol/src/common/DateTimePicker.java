@@ -84,6 +84,10 @@ public class DateTimePicker extends JPanel {
         }
     }
 
+    public void setDate(long dateLong) {
+        setDate(new Date(dateLong));
+    }
+
     public Date getDate() {
         Calendar c = new GregorianCalendar();
         c.setTime((Date) daySpinner.getValue());
@@ -104,6 +108,11 @@ public class DateTimePicker extends JPanel {
         return new SimpleDateFormat(GlobalConstants.DATETIME_FORMAT).format(d);
     }
 
+    public long getDateLong() {
+        Date d = getDate();
+        return d.getTime();
+    }
+
     public void setChangeListener(DateTimePickerChangeListener l) {
         this.changeListener = l;
     }
@@ -113,4 +122,5 @@ public class DateTimePicker extends JPanel {
             changeListener.onChange();
         }
     }
+
 }

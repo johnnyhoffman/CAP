@@ -29,7 +29,7 @@ public class CommLogController implements IFormController {
         setListeners();
     }
 
-    public CommLogController(int id, String name, String missionNo, String date) {
+    public CommLogController(int id, String name, String missionNo, long date) {
         view = new CommLogView();
         view.setName(name);
         model = new CommLogModel(id, name, missionNo, date);

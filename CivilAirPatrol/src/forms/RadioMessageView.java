@@ -707,8 +707,9 @@ public class RadioMessageView extends FormComponent {
         return jTextField2.getText();
     }
 
-    public String getHeaderDtgText() {
-        return datePicker.getDateString();
+    //TODO: Change name to getDateLong
+    public long getHeaderDtgText() {
+        return datePicker.getDateLong();
     }
 
     public String getHeaderFromText() {
@@ -771,8 +772,8 @@ public class RadioMessageView extends FormComponent {
         jTextField2.setText(s);
     }
 
-    public void setHeaderDtgText(String s) {
-        datePicker.setDate(s);
+    public void setHeaderDtgText(long l) {
+        datePicker.setDate(l);
     }
 
     public void setHeaderFromText(String s) {

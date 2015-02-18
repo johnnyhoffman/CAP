@@ -36,7 +36,7 @@ public class SearchAndRescueController implements IFormController {
     }
 
     public SearchAndRescueController(int id, String name, String missionNo,
-            String date) {
+            long date) {
         view = new SearchAndRescueView();
         view.setName(name);
         model = new SearchAndRescueModel(id, name, missionNo, date);

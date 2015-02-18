@@ -379,8 +379,9 @@ public class CommLogView extends FormComponent {
         return jTextField2.getText();
     }
 
-    public String getDateText() {
-        return datePicker.getDateString();
+    //TODO: Change name to getDateLong
+    public Long getDateText() {
+        return datePicker.getDateLong();
     }
 
     public String getAText() {
@@ -447,8 +448,8 @@ public class CommLogView extends FormComponent {
         jTextField2.setText(s);
     }
 
-    public void setDateText(String s) {
-        datePicker.setDate(s);
+    public void setDateText(long l) {
+        datePicker.setDate(l);
     }
 
     public void setAText(String s) {

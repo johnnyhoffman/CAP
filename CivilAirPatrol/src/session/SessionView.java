@@ -35,7 +35,7 @@ import common.GlobalConstants;
 public class SessionView extends JFrame {
 
     public interface NewFormListener {
-        public void createForm(String missionNo, String date);
+        public void createForm(String missionNo, long date);
     }
 
     private JMenuBar menuBar;
@@ -99,7 +99,7 @@ public class SessionView extends JFrame {
 
                 if (result == JOptionPane.OK_OPTION) {
                     String missionNo = missionNoField.getText();
-                    String date = dateTimePicker.getDateString();
+                    long date = dateTimePicker.getDateLong();
                     switch (formTypeCombobox.getSelectedIndex()) {
                     case (0):
                         newComLogMenuListener.createForm(missionNo, date);

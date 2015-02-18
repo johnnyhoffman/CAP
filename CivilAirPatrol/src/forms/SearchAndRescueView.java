@@ -1746,8 +1746,9 @@ public class SearchAndRescueView extends FormComponent {
         return jTextField3.getText();
     }
 
-    public String getHeaderDateTimeText() {
-        return datePicker.getDateString();
+    //TODO: Change name to getDateLong
+    public long getHeaderDateTimeText() {
+        return datePicker.getDateLong();
     }
 
     public String getAlphaNameOfSearchOrg1Text() {
@@ -2011,8 +2012,8 @@ public class SearchAndRescueView extends FormComponent {
         jTextField3.setText(s);
     }
 
-    public void setHeaderDateTimeText(String s) {
-        datePicker.setDate(s);
+    public void setHeaderDateTimeText(long l) {
+        datePicker.setDate(l);
     }
 
     public void setAlphaNameOfSearchOrg1Text(String s) {

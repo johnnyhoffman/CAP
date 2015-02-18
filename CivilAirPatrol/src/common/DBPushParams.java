@@ -16,10 +16,10 @@ import forms.ScheduledPushModelAbstraction;
         public String json;
         public int id;
         public String missionNo;
-        public String date;
+        public long date;
 
         public DBPushParams(ScheduledPushModelAbstraction.FormType type, String json, int id, String missionNo,
-                String date) {
+                long date) {
             this.type = type;
             this.json = json;
             this.id = id;

@@ -75,7 +75,7 @@ public class FormsController implements IController {
         addTab(model.newComLog());
     }
 
-    public void newComLog(String missionNo, String date) {
+    public void newComLog(String missionNo, long date) {
         addTab(model.newComLog(missionNo, date));
     }
 
@@ -83,7 +83,7 @@ public class FormsController implements IController {
         addTab(model.newSearchAndRescue());
     }
 
-    public void newSearchAndRescue(String missionNo, String date) {
+    public void newSearchAndRescue(String missionNo, long date) {
         addTab(model.newSearchAndRescue(missionNo, date));
     }
 
@@ -91,7 +91,7 @@ public class FormsController implements IController {
         addTab(model.newRadioMessage());
     }
 
-    public void newRadioMessage(String missionNo, String date) {
+    public void newRadioMessage(String missionNo, long date) {
         addTab(model.newRadioMessage(missionNo, date));
     }
 

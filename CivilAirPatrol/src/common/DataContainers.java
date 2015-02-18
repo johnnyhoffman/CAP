@@ -9,7 +9,7 @@ public class DataContainers {
         public String type = GlobalConstants.COMMUNICATIONS_LOG_TYPE;
         public String missionNum;
         public String stationFunctionalDesignator;
-        public String date;
+        public long date;
         public String A;
         public String B;
         public String C;
@@ -22,7 +22,7 @@ public class DataContainers {
             this.name = name;
             missionNum = "";
             stationFunctionalDesignator = "";
-            date = "";
+            date = 0;
             A = "";
             B = "";
             C = "";
@@ -68,10 +68,9 @@ public class DataContainers {
 
         public static class Header {
             public String missionNo;
-            public String date; // XXX: Should this be DTG?
             public String msgNum;
             public String precedence;
-            public String dtg; // XXX: Is this the date
+            public long dtg; // XXX: Is this the date
             public String from;
             public String to;
             public String info;
@@ -80,10 +79,9 @@ public class DataContainers {
 
             public Header() {
                 missionNo = "";
-                date = "";
                 msgNum = "";
                 precedence = "";
-                dtg = "";
+                dtg = 0;
                 from = "";
                 to = "";
                 info = "";
@@ -145,13 +143,13 @@ public class DataContainers {
             public String missionNumber;
             public String activityForDateOf;
             public String reportedBy;
-            public String dateTime;
+            public long dateTime;
 
             public Header() {
                 missionNumber = "";
                 activityForDateOf = "";
                 reportedBy = "";
-                dateTime = "";
+                dateTime = 0;
             }
         }
 

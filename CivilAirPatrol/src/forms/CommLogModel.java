@@ -19,7 +19,7 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
     public CommLogModel(int id, String name) {
         super();
         this.id = id;
-        database.sqlServer.InsertCommLog("{}", id, "-1", "DATE"); // XXX: Temp
+        database.sqlServer.InsertCommLog("{}", id, "-1", 0); // XXX: Temp
         data = new DataContainers.CommunicationsLog(name);
         gson = new Gson();
         // for debugging revert to creation method below
@@ -37,7 +37,7 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
         jsonDeserialize(json);
     }
 
-    public CommLogModel(int id, String name, String missionNo, String date) {
+    public CommLogModel(int id, String name, String missionNo, long date) {
         super();
         this.id = id;
         data = new DataContainers.CommunicationsLog(name);
@@ -68,7 +68,7 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
         schedulePush();
     }
 
-    public void updateDate(String s) {
+    public void updateDate(long s) {
         data.date = s;
         schedulePush();
     }
@@ -120,7 +120,7 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
         return data.stationFunctionalDesignator;
     }
 
-    public String getDate() {
+    public long getDate() {
         return data.date;
     }
 
