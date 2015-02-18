@@ -48,10 +48,14 @@ public class ClientListenerThread extends Thread{
                     break;
             }
             
-        } catch (IOException | ClassNotFoundException ex) {
+        } catch (IOException ex) {
             this.run = false;
             TestClient.run = false;
             Logger.getLogger(ClientListenerThread.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (ClassNotFoundException ex) {
+            this.run = false;
+            TestClient.run = false;
+            Logger.getLogger(ClientListenerThread.class.getName()).log(Level.SEVERE, null, ex);
+		}
     }
 }

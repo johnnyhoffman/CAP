@@ -63,7 +63,7 @@ public class SessionController {
             @Override
             public void actionPerformed(ActionEvent e) {
             	if (searchWindow == null || searchWindow.isDead()) {
-            		searchWindow = new SearchWindow(view.getX(),view.getY());
+            		searchWindow = new SearchWindow(view.getX(),view.getY(),formsController);
             	} else {
             		searchWindow.moveToTop();
             	}

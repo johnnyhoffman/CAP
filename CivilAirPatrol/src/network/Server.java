@@ -25,7 +25,7 @@ public class Server extends Thread{
     
     public Server(int p){
         
-        allClients = new ArrayList<>();
+        allClients = new ArrayList<ClientConnection>();
         try{
             this.socket = new ServerSocket(p);
             this.socket.setReuseAddress(true);
