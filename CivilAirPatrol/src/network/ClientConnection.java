@@ -71,7 +71,7 @@ public class ClientConnection extends Thread {
                         handleGuiPush(message);
                         break;
                     case LOGIN:
-                        handleLogin(message.getMessage());
+                        handleLogin(message);
                         break;
                     default:
                         break;
@@ -99,8 +99,27 @@ public class ClientConnection extends Thread {
     }
     private void handleGuiPush(NetworkMessage message){
         //TODO echo the message to all non-radio officer connections...and update db
+        //will start with just pushing to the db
+        DBPushParams pushParams = ((GuiMessage)message).getParams();
+        System.out.println(pushParams.json + "\n" + pushParams.id + "\n"
+                + pushParams.missionNo + "\n" + pushParams.date);
+
+        switch (pushParams.type) {
+        case CL:
+            database.sqlServer.UpdateCommLog(pushParams.json, pushParams.id,
+                    pushParams.missionNo, pushParams.date);
+            break;
+        case RM:
+            database.sqlServer.UpdateRADMESS(pushParams.json, pushParams.id,
+                    pushParams.missionNo, pushParams.date);
+            break;
+        case SAR:
+            database.sqlServer.UpdateSAR(pushParams.json, pushParams.id,
+                    pushParams.missionNo, pushParams.date);
+            break;
+        }
     }
-    private void handleLogin(String message){
+    private void handleLogin(NetworkMessage message){
         //TODO this should actually never happen, if it does client is doing something strange..
         //decided to make login the first message and is required to be validated before starting clientConnection
     }

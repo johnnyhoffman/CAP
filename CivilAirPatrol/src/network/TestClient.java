@@ -46,26 +46,19 @@ public class TestClient {
         }
     }
     
-    public void recMessage(){
-        try{
-            NetworkMessage netMess = (NetworkMessage)this.input.readObject();
-            System.out.println(netMess.getMessage());
-        }catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(TestClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+
     public static void main(String argv []){
         try {
             TestClient client = new TestClient(address, port);
             client.startListener();
-            client.sendMessage(new NetworkMessage(MessageType.LOGIN, "Robert", null, "password"));
-            client.sendMessage(new NetworkMessage(MessageType.CHAT, "This is only a test", null, ""));
+            client.sendMessage(new LoginMessage("Robert", "password"));
+            client.sendMessage(new ChatMessage("This is only a test"));
             int count = 1;
             while(run){
                 try {
                     //SIT AND WAIT
                     Thread.sleep(2000);
-                    client.sendMessage(new NetworkMessage(MessageType.CHAT, "This is only a test " + count++, null, ""));
+                    client.sendMessage(new ChatMessage("This is only a test " + count++));
                 } catch (InterruptedException ex) {
                     Logger.getLogger(TestClient.class.getName()).log(Level.SEVERE, null, ex);
                 }

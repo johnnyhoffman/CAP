@@ -45,6 +45,10 @@ public abstract class ScheduledPushModelAbstraction {
         // TODO: HERE IS WHERE WE HOOK IN DATABASE CONNECTION.
         // INSTEAD OF PRINTING THE JSON, PUSH IT TO THE DATABASE.
         DBPushParams pushParams = prepareForPush();
+        
+        //This will be the hook for sending the network push...i believe? check with johnny
+        //create a  new GuiMessage(pushParams); and send the guiMessage to server
+        
         System.out.println(pushParams.json + "\n" + pushParams.id + "\n"
                 + pushParams.missionNo + "\n" + pushParams.date);
 

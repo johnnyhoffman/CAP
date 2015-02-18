@@ -61,7 +61,7 @@ public class Server extends Thread{
                 
                 if (validate(loginattempt)){
                     //create the client connection
-                    client = new ClientConnection(input,output,server,loginattempt.getMessage());
+                    client = new ClientConnection(input,output,server,((LoginMessage)loginattempt).getUser());
                     allClients.add(client);
                     client.start();
                     System.out.println("Accepted client connection.");

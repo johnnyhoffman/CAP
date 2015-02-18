@@ -13,32 +13,18 @@ import common.DBPushParams;
  *
  * @author Robert
  */
-public class NetworkMessage implements Serializable {
+public abstract class NetworkMessage implements Serializable {
     protected static final long serialVersionUID = 1112122200L;
     
     private MessageType type;
-    private String message;
-    private String password;
-    private DBPushParams pushParams;
+
     
-    public NetworkMessage(MessageType t, String m, DBPushParams p, String pass){
+    public NetworkMessage(MessageType t){
         this.type = t;
-        this.message = m;
-        this.pushParams = p;
-        this.password = pass;
     }
     
     public MessageType getType(){
         return this.type;
     }
-    
-    public String getMessage(){
-        return this.message;
-    }
-    public DBPushParams getPushParams(){
-        return this.pushParams;
-    }
-    public String getPassword(){
-        return this.password;
-    }
+    //public abstract String getMessage();
 }

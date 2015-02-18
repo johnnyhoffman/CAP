@@ -34,7 +34,7 @@ public class ClientListenerThread extends Thread{
                 case CHAT:
                     //TODO This is where we would need to handle the update of the chat GUI
                     //currently just outputs to STD OUT
-                    System.out.println(message.getMessage());
+                    System.out.println(((ChatMessage)message).getMessage());
                     break;
                 case GUI:
                     //TODO if a client recieves a GUI message, it will be to update a form they are viewing.
