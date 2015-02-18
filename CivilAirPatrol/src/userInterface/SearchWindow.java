@@ -6,31 +6,31 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.TableColumn;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-import database.sqlServer;
-
 import common.DBPushParams;
 import common.DateTimePicker;
+import common.GlobalConstants;
+
+import database.sqlServer;
 import forms.FormsController;
 
 /**
@@ -219,7 +219,7 @@ public class SearchWindow {
 		        	type = FORM_TYPE_SAR;
 		            break;
 	        }
-			resultsListModel.addElement(p.missionNo +" ; "+p.date+" ; "+type);
+			resultsListModel.addElement(p.missionNo +" ; "+ new SimpleDateFormat(GlobalConstants.DATETIME_FORMAT).format( new Date(p.date))+" ; "+type);
 			
 		}
 		
