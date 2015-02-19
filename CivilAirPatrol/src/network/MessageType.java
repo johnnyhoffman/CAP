@@ -12,5 +12,6 @@ package network;
 public enum MessageType {
     GUI,
     CHAT,
-    LOGIN
+    LOGIN,
+    GET
 }

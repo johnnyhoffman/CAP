@@ -75,6 +75,9 @@ public class ClientConnection extends Thread {
                     case LOGIN:
                         handleLogin(message);
                         break;
+                    case GET:
+                        handleGet(message);
+                        break;
                     default:
                         break;
                 }
@@ -133,5 +136,11 @@ public class ClientConnection extends Thread {
     private void handleLogin(NetworkMessage message){
         //TODO this should actually never happen, if it does client is doing something strange..
         //decided to make login the first message and is required to be validated before starting clientConnection
+    }
+
+    private void handleGet(NetworkMessage message) {
+        //TODO this is where i will need to handle a request from the db and send back a response
+        //can just send it back out on socket...cause it came from this connection =)
+        
     }
 }
