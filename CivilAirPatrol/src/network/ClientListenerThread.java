@@ -5,6 +5,7 @@
  */
 package network;
 
+import chat.ChatController;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.logging.Level;
@@ -34,7 +35,8 @@ public class ClientListenerThread extends Thread{
                 case CHAT:
                     //TODO This is where we would need to handle the update of the chat GUI
                     //currently just outputs to STD OUT
-                    System.out.println(((ChatMessage)message).getMessage());
+                    //System.out.println(((ChatMessage)message).getMessage());
+                    ChatController.writeChat(((ChatMessage)message).getUser() + " : " + ((ChatMessage)message).getMessage());
                     break;
                 case GUI:
                     //TODO if a client recieves a GUI message, it will be to update a form they are viewing.

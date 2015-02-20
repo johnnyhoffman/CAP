@@ -255,6 +255,59 @@ public class sqlServer {
         return null;
     }
 
+    /* for querying comlog table , all search criteria given*/
+    public static List<DBPushParams> SelectFromCommLogInitialSearch(long startdate,
+            long enddate,String missionnum) {
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
+        DBPushParams current;
+        try {
+            ResultSet result;
+            PreparedStatement stmt = c
+                    .prepareStatement("SELECT * FROM COMMLOG WHERE MISSIONNUMBER = ? AND DATE BETWEEN ?  AND ?");
+            stmt.setString(1, missionnum);
+            stmt.setLong(2, startdate);
+            stmt.setLong(3, enddate);
+            result = stmt.executeQuery();
+            while (result.next()) {
+                current = new DBPushParams(FormType.CL,
+                        null, result.getInt("COMMID"),
+                        result.getString("MISSIONNUMBER"),
+                        result.getLong("DATE"));
+                results.add(current);
+            }
+            return results;
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+    }
+    /* for querying comlog table , no missionno given*/
+    public static List<DBPushParams> SelectFromCommLogInitialSearch(long startdate,
+            long enddate) {
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
+        DBPushParams current;
+        try {
+            ResultSet result;
+            PreparedStatement stmt = c
+                    .prepareStatement("SELECT * FROM COMMLOG WHERE DATE BETWEEN ?  AND ?");
+            stmt.setLong(1, startdate);
+            stmt.setLong(2, enddate);
+            result = stmt.executeQuery();
+            while (result.next()) {
+                current = new DBPushParams(FormType.CL,
+                        null, result.getInt("COMMID"),
+                        result.getString("MISSIONNUMBER"),
+                        result.getLong("DATE"));
+                results.add(current);
+            }
+            return results;
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+    }
+    
+    
     public static List<DBPushParams> SelectFromCommLogWithDate(long date) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
@@ -302,6 +355,59 @@ public class sqlServer {
     }
 
     /* for querying sar table */
+    /* for querying sar table , all search criteria given*/
+    public static List<DBPushParams> SelectFromSARInitialSearch(long startdate,
+            long enddate,String missionnum) {
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
+        DBPushParams current;
+        try {
+            ResultSet result;
+            PreparedStatement stmt = c
+                    .prepareStatement("SELECT * FROM SAR WHERE MISSIONNUMBER = ? AND DATE BETWEEN ?  AND ?");
+            stmt.setString(1, missionnum);
+            stmt.setLong(2, startdate);
+            stmt.setLong(3, enddate);
+            result = stmt.executeQuery();
+            while (result.next()) {
+                current = new DBPushParams(FormType.CL,
+                        null, result.getInt("SARID"),
+                        result.getString("MISSIONNUMBER"),
+                        result.getLong("DATE"));
+                results.add(current);
+            }
+            return results;
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+    }
+    /* for querying sar table , no mission no given*/
+    public static List<DBPushParams> SelectFromSARInitialSearch(long startdate,
+            long enddate) {
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
+        DBPushParams current;
+        try {
+            ResultSet result;
+            PreparedStatement stmt = c
+                    .prepareStatement("SELECT * FROM SAR WHERE DATE BETWEEN ?  AND ?");
+            
+            stmt.setLong(1, startdate);
+            stmt.setLong(2, enddate);
+            result = stmt.executeQuery();
+            while (result.next()) {
+                current = new DBPushParams(FormType.CL,
+                        null, result.getInt("SARID"),
+                        result.getString("MISSIONNUMBER"),
+                        result.getLong("DATE"));
+                results.add(current);
+            }
+            return results;
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+    }
+    
     public static List<DBPushParams> SelectFromSAR(long date, String missionnum) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
@@ -372,7 +478,61 @@ public class sqlServer {
         return null;
     }
 
-    /* for querying rad table */
+   
+
+    /* for querying sar table */
+    /* for querying sar table , all search criteria given*/
+    public static List<DBPushParams> SelectFromRADInitialSearch(long startdate,
+            long enddate,String missionnum) {
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
+        DBPushParams current;
+        try {
+            ResultSet result;
+            PreparedStatement stmt = c
+                    .prepareStatement("SELECT * FROM RADIOMESS WHERE MISSIONNUMBER = ? AND DATE BETWEEN ?  AND ?");
+            stmt.setString(1, missionnum);
+            stmt.setLong(2, startdate);
+            stmt.setLong(3, enddate);
+            result = stmt.executeQuery();
+            while (result.next()) {
+                current = new DBPushParams(FormType.CL,
+                        null, result.getInt("RADID"),
+                        result.getString("MISSIONNUMBER"),
+                        result.getLong("DATE"));
+                results.add(current);
+            }
+            return results;
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+    }
+    /* for querying sar table , no mission no given*/
+    public static List<DBPushParams> SelectFromRADInitialSearch(long startdate,
+            long enddate) {
+        List<DBPushParams> results = new ArrayList<DBPushParams>();
+        DBPushParams current;
+        try {
+            ResultSet result;
+            PreparedStatement stmt = c
+                    .prepareStatement("SELECT * FROM RADIOMESS WHERE DATE BETWEEN ?  AND ?");
+            
+            stmt.setLong(1, startdate);
+            stmt.setLong(2, enddate);
+            result = stmt.executeQuery();
+            while (result.next()) {
+                current = new DBPushParams(FormType.CL,
+                        null, result.getInt("RADID"),
+                        result.getString("MISSIONNUMBER"),
+                        result.getLong("DATE"));
+                results.add(current);
+            }
+            return results;
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+    }
     public static List<DBPushParams> SelectFromRadMess(long date,
             String missionnum) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();

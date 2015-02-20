@@ -13,5 +13,6 @@ public enum MessageType {
     GUI,
     CHAT,
     LOGIN,
-    GET
+    GET,
+    RESULT
 }

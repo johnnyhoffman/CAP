@@ -5,6 +5,7 @@
  */
 package network;
 
+import common.GlobalConstants;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class TestClient {
     static String address = "localhost";
-    static int port = 4444;
+    static int port = GlobalConstants.DEFAULT_PORT;
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
@@ -52,13 +53,13 @@ public class TestClient {
             TestClient client = new TestClient(address, port);
             client.startListener();
             client.sendMessage(new LoginMessage("Robert", "password"));
-            client.sendMessage(new ChatMessage("This is only a test"));
+            client.sendMessage(new ChatMessage("This is only a test", "USER"));
             int count = 1;
             while(run){
                 try {
                     //SIT AND WAIT
                     Thread.sleep(2000);
-                    client.sendMessage(new ChatMessage("This is only a test " + count++));
+                    client.sendMessage(new ChatMessage("This is only a test " + count++, "USER"));
                 } catch (InterruptedException ex) {
                     Logger.getLogger(TestClient.class.getName()).log(Level.SEVERE, null, ex);
                 }

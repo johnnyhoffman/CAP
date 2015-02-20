@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import common.DBPushParams;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -141,6 +143,40 @@ public class ClientConnection extends Thread {
     private void handleGet(NetworkMessage message) {
         //TODO this is where i will need to handle a request from the db and send back a response
         //can just send it back out on socket...cause it came from this connection =)
+        DBRequest request = ((GetMessage)message).getRequest();
+        List<DBPushParams> resultsList = new ArrayList<DBPushParams>();
+        
+        if (request.COMM){
+            if (request.missionNo == null){
+                resultsList.addAll(database.sqlServer.SelectFromCommLogInitialSearch(request.startDate, request.endDate));
+            }else{
+                resultsList.addAll(database.sqlServer.SelectFromCommLogInitialSearch(request.startDate, request.endDate, request.missionNo));
+            }
+        }
+        if (request.RAD){
+            if (request.missionNo == null){
+                resultsList.addAll(database.sqlServer.SelectFromRADInitialSearch(request.startDate, request.endDate));
+            }else{
+                resultsList.addAll(database.sqlServer.SelectFromRADInitialSearch(request.startDate, request.endDate, request.missionNo));
+            }
+        }
+        if (request.SAR){
+            if (request.missionNo == null){
+                resultsList.addAll(database.sqlServer.SelectFromSARInitialSearch(request.startDate, request.endDate));
+            }else{
+                resultsList.addAll(database.sqlServer.SelectFromSARInitialSearch(request.startDate, request.endDate, request.missionNo));
+            }
+        }
+        
+        //send the results back to the client
+        //TODO RESULTS MESSAGE TO BUNDLE THE RESULTS BACK UP, distinguish between a search result and actual forms coming back, 1 has json 1 doesnt
+        ResultMessage result = new ResultMessage(resultsList, false);
+        try{
+            this.output.writeObject(result);
+        }catch(Exception e){
+            
+        }
+        
         
     }
 }

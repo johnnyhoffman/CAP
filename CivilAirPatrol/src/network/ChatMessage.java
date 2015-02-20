@@ -12,13 +12,18 @@ package network;
 public class ChatMessage extends NetworkMessage{
     
     private String message;
+    private String user;
     
-    public ChatMessage(String message){
+    public ChatMessage(String message, String user){
         super(MessageType.CHAT);
         this.message = message;
+        this.user = user;
     }
     
     public String getMessage(){
         return this.message;
+    }
+    public String getUser(){
+        return this.user;
     }
 }

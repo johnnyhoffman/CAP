@@ -11,11 +11,17 @@ import common.DBPushParams;
 import chat.ChatController;
 
 import assets.AssetsController;
+import common.GlobalConstants;
 
 import session.SessionView.NewFormListener;
 import userInterface.SearchWindow;
 import database.sqlServer;
 import forms.FormsController;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import network.ClientSocket;
+import network.LoginMessage;
 
 public class SessionController {
 
@@ -29,6 +35,13 @@ public class SessionController {
     private SearchWindow searchWindow;
 
     public SessionController() {
+        ClientSocket.getInstance().startListener();
+        try {
+            ClientSocket.getInstance().output.writeObject(new LoginMessage(GlobalConstants.USERNAME, "password"));
+        } catch (IOException ex) {
+            Logger.getLogger(SessionController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         view = new SessionView();
         model = new SessionModel();
 
