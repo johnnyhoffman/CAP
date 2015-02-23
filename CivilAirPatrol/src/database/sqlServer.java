@@ -258,7 +258,7 @@ public class sqlServer {
         try {
             ResultSet resultSet;
             PreparedStatement stmt = c
-                    .prepareStatement("SELECT * FROM RADMESS WHERE RADID = ?");
+                    .prepareStatement("SELECT * FROM RADIOMESS WHERE RADID = ?");
             stmt.setInt(1, id);
             resultSet = stmt.executeQuery();
             if (resultSet.next()) {
@@ -285,7 +285,7 @@ public class sqlServer {
             stmt.setInt(1, id);
             resultSet = stmt.executeQuery();
             if (resultSet.next()) {
-                return new DBPushParams(FormType.CL,
+                return new DBPushParams(FormType.SAR,
                         resultSet.getString("JSONDATA"),
                         resultSet.getInt("SARID"),
                         resultSet.getString("MISSIONNUMBER"),
@@ -440,7 +440,7 @@ public class sqlServer {
             stmt.setLong(3, enddate);
             result = stmt.executeQuery();
             while (result.next()) {
-                current = new DBPushParams(FormType.CL, null,
+                current = new DBPushParams(FormType.SAR, null,
                         result.getInt("SARID"),
                         result.getString("MISSIONNUMBER"),
                         result.getLong("DATE"));
@@ -467,7 +467,7 @@ public class sqlServer {
             stmt.setLong(2, enddate);
             result = stmt.executeQuery();
             while (result.next()) {
-                current = new DBPushParams(FormType.CL, null,
+                current = new DBPushParams(FormType.SAR, null,
                         result.getInt("SARID"),
                         result.getString("MISSIONNUMBER"),
                         result.getLong("DATE"));
@@ -566,7 +566,7 @@ public class sqlServer {
             stmt.setLong(3, enddate);
             result = stmt.executeQuery();
             while (result.next()) {
-                current = new DBPushParams(FormType.CL, null,
+                current = new DBPushParams(FormType.RM, null,
                         result.getInt("RADID"),
                         result.getString("MISSIONNUMBER"),
                         result.getLong("DATE"));
@@ -593,7 +593,7 @@ public class sqlServer {
             stmt.setLong(2, enddate);
             result = stmt.executeQuery();
             while (result.next()) {
-                current = new DBPushParams(FormType.CL, null,
+                current = new DBPushParams(FormType.RM, null,
                         result.getInt("RADID"),
                         result.getString("MISSIONNUMBER"),
                         result.getLong("DATE"));
