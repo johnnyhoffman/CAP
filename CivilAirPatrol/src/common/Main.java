@@ -1,11 +1,15 @@
 package common;
 
+import javax.swing.JFrame;
+
 import session.SessionController;
+import userInterface.PrefsWindow;
 
 public class Main {
 
     public static void main(String[] args) {
-        AppPreferences.setIP("140.160.60.151");
+        JFrame f = new JFrame();
+        new PrefsWindow(f);
         new SessionController();
     }
 }
