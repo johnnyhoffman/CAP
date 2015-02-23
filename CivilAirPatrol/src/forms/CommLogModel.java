@@ -1,30 +1,21 @@
 package forms;
 
+import java.io.IOException;
+
+import network.ClientSocket;
+import network.GuiMessage;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import common.DBPushParams;
 import common.DataContainers;
-import common.DataContainers.CommunicationsLog;
 import common.DataContainers.CommunicationsLog.ComLogEntry;
-import forms.ScheduledPushModelAbstraction.FormType;
 
 public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
 
     private DataContainers.CommunicationsLog data;
     private Gson gson;
     private int id;
-
-    public CommLogModel(int id, String name) {
-        super();
-        this.id = id;
-        database.sqlServer.InsertCommLog("{}", id, "-1", 0); // XXX: Temp
-        data = new DataContainers.CommunicationsLog(name);
-        gson = new Gson();
-        // for debugging revert to creation method below
-        // gson = new GsonBuilder().setPrettyPrinting().create();
-    }
 
     /* methods for updating fields */
 
@@ -46,7 +37,14 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
         gson = new Gson();
         // for debugging revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();
-        database.sqlServer.InsertCommLog(gson.toJson(data), id, missionNo, date);
+        try {
+            ClientSocket.getInstance().output.writeObject(new GuiMessage(
+                    new DBPushParams(FormType.CL, gson.toJson(data), id,
+                            missionNo, date)));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public int getID() {
@@ -155,7 +153,8 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
     @Override
     public DBPushParams prepareForPush() {
         String json = gson.toJson(data);
-        return new DBPushParams(FormType.CL, json, id, data.missionNum, data.date);
+        return new DBPushParams(FormType.CL, json, id, data.missionNum,
+                data.date);
     }
 
     public void jsonDeserialize(JsonObject json) {

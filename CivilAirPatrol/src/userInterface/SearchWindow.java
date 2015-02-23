@@ -30,6 +30,7 @@ import javax.swing.text.PlainDocument;
 import network.ClientSocket;
 import network.DBRequest;
 import network.GetMessage;
+import network.GetSingleMessage;
 import common.DBPushParams;
 import common.DateTimePicker;
 import common.GlobalConstants;
@@ -85,6 +86,7 @@ public class SearchWindow {
 
     private JButton cancelButton;
     private JButton goButton;
+    private JLabel statusLabel;
 
     private SearchWindowJFrame mainFrame;
 
@@ -98,6 +100,7 @@ public class SearchWindow {
 
     public SearchWindow(int x, int y, FormsController formsController) {
         dead = true;
+        statusLabel = new JLabel("");
         setSearchWindow();
         this.formsController = formsController;
     }
@@ -171,6 +174,9 @@ public class SearchWindow {
         goButton = new JButton("Search");
         buttonPanel.add(cancelButton);
         buttonPanel.add(goButton);
+        
+        buttonPanel.add(statusLabel);
+        
         cancelButton.addActionListener(new CancelSearchListener());
         goButton.addActionListener(new StartSearchListener());
         mainFrame.add(buttonPanel);
@@ -311,29 +317,13 @@ public class SearchWindow {
                     commLogCheckbox.isSelected(), missionNo, startDate, endDate));
             try {
                 ClientSocket.getInstance().output.writeObject(getMessage);
+                //Response will call setResultsWindow(...)
+                statusLabel.setText("Loading...");
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
+                statusLabel.setText("Error contacting server.");
                 e1.printStackTrace();
             }
-
-            List<DBPushParams> formPushParams = new ArrayList<DBPushParams>();
-            if (commLogCheckbox.isSelected()) {
-                System.out.println("CHECK 1");
-                formPushParams.addAll(sqlServer
-                        .SelectFromCommLogWithMissionNum(missionNo));
-            }
-            if (radioMessageCheckbox.isSelected()) {
-                System.out.println("CHECK 2");
-                formPushParams.addAll(sqlServer
-                        .SelectFromRadMessWithMissionNum(missionNo));
-            }
-            if (searchAndRescueCheckbox.isSelected()) {
-                System.out.println("CHECK 3");
-                formPushParams.addAll(sqlServer
-                        .SelectFromSARWithMissionNum(missionNo));
-            }
-
-            setResultsWindow(formPushParams);
         }
     }
 
@@ -358,7 +348,12 @@ public class SearchWindow {
 
             for (int i = 0; i < indices.length; i++) {
                 DBPushParams currentPushParams = formPushParams.get(indices[i]);
-                formsController.fromDBPushParams(currentPushParams);
+                try {
+                    ClientSocket.getInstance().output.writeObject(new GetSingleMessage(currentPushParams.id, currentPushParams.type));
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
 
             dispose();

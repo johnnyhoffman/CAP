@@ -1,15 +1,17 @@
 package forms;
 
-import java.awt.Component;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import network.ClientSocket;
+import network.NewFormMessage;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import common.DBPushParams;
 
-import database.sqlServer;
+import forms.ScheduledPushModelAbstraction.FormType;
 
 /* Placeholder for demonstrating Session MVC */
 public class FormsModel {
@@ -48,66 +50,55 @@ public class FormsModel {
         return tabs;
     }
 
-    public CommLogController newComLog() {
-        int id = sqlServer.RetrieveNextFormId();
-        CommLogController comCont = new CommLogController(id, "Com Log " + id);
-        formControllers.add(comCont);
-        return comCont;
+    public void newComLog(String missionNo, long date) {
+        try {
+            ClientSocket.getInstance().output.writeObject(new NewFormMessage(
+                    FormType.CL, missionNo, date));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
-    public CommLogController newComLog(String missionNo, long date) {
-        int id = sqlServer.RetrieveNextFormId();
-        CommLogController comCont = new CommLogController(id, "Com Log " + id, missionNo, date);
-        formControllers.add(comCont);
-        return comCont;
+    public void newSearchAndRescue(String missionNo, long date) {
+        try {
+            ClientSocket.getInstance().output.writeObject(new NewFormMessage(
+                    FormType.SAR, missionNo, date));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
-    public SearchAndRescueController newSearchAndRescue() {
-        int id = sqlServer.RetrieveNextFormId();
-        SearchAndRescueController searchRescCont = new SearchAndRescueController(id, "Search and Rescue " + id);
-        formControllers.add(searchRescCont);
-        return searchRescCont;
-    }
-
-    public SearchAndRescueController newSearchAndRescue(String missionNo, long date) {
-        int id = sqlServer.RetrieveNextFormId();
-        SearchAndRescueController searchRescCont = new SearchAndRescueController(id, "Search and Rescue " + id,
-                missionNo, date);
-        formControllers.add(searchRescCont);
-        return searchRescCont;
-    }
-
-    public RadioMessageController newRadioMessage() {
-        int id = sqlServer.RetrieveNextFormId();
-        RadioMessageController radMesCont = new RadioMessageController(id, "Radio Message " + id);
-        formControllers.add(radMesCont);
-        return radMesCont;
-    }
-
-    public RadioMessageController newRadioMessage(String missionNo, long date) {
-        int id = sqlServer.RetrieveNextFormId();
-        RadioMessageController radMesCont = new RadioMessageController(id, "Radio Message " + id, missionNo, date);
-        formControllers.add(radMesCont);
-        return radMesCont;
+    public void newRadioMessage(String missionNo, long date) {
+        try {
+            ClientSocket.getInstance().output.writeObject(new NewFormMessage(
+                    FormType.RM, missionNo, date));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public RadioMessageController radioMessageFromJson(DBPushParams pushParams) {
-        RadioMessageController radMesCont = new RadioMessageController(pushParams.id,
-                (JsonObject) jsonParser.parse(pushParams.json));
+        RadioMessageController radMesCont = new RadioMessageController(
+                pushParams.id, (JsonObject) jsonParser.parse(pushParams.json));
         formControllers.add(radMesCont);
         return radMesCont;
     }
 
     public CommLogController comLogFromJson(DBPushParams pushParams) {
-        CommLogController comCont = new CommLogController(pushParams.id, (JsonObject) jsonParser.parse(pushParams.json));
+        CommLogController comCont = new CommLogController(pushParams.id,
+                (JsonObject) jsonParser.parse(pushParams.json));
 
         formControllers.add(comCont);
         return comCont;
     }
 
-    public SearchAndRescueController searchAndRescueFromJson(DBPushParams pushParams) {
-        SearchAndRescueController searchRescCont = new SearchAndRescueController(pushParams.id,
-                (JsonObject) jsonParser.parse(pushParams.json));
+    public SearchAndRescueController searchAndRescueFromJson(
+            DBPushParams pushParams) {
+        SearchAndRescueController searchRescCont = new SearchAndRescueController(
+                pushParams.id, (JsonObject) jsonParser.parse(pushParams.json));
         formControllers.add(searchRescCont);
         return searchRescCont;
     }

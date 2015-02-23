@@ -1,6 +1,11 @@
 package forms;
 
 
+import java.io.IOException;
+
+import network.ClientSocket;
+import network.GuiMessage;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -14,16 +19,6 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
     private DataContainers.SearchAndRescue data;
     private Gson gson;
     private int id;
-
-    public SearchAndRescueModel(int id, String name) {
-        super();
-        this.id = id;
-        database.sqlServer.InsertSAR("{}", id, "-1", 0); // XXX: Temp
-        data = new DataContainers.SearchAndRescue(name);
-        gson = new Gson();
-        // for debugging revert to above creation method later
-        // gson = new GsonBuilder().setPrettyPrinting().create();
-    }
 
     public SearchAndRescueModel(int id, JsonObject json) {
         super();
@@ -43,7 +38,12 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         gson = new Gson();
         // for debugging, revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();
-        database.sqlServer.InsertSAR(gson.toJson(data), id, missionNo, date);
+        try {
+            ClientSocket.getInstance().output.writeObject(new GuiMessage(new DBPushParams(FormType.SAR, gson.toJson(data), id, missionNo, date)));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public int getID() {

@@ -1,10 +1,11 @@
 package common;
 
+import com.google.gson.Gson;
+
 
 public class DataContainers {
 
     public static class CommunicationsLog {
-
         public String name;
         public String type = GlobalConstants.COMMUNICATIONS_LOG_TYPE;
         public String missionNum;

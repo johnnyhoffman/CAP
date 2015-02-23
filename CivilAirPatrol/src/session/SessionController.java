@@ -3,20 +3,16 @@ package session;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import network.ChatMessage;
 import network.ClientListenerThread.OnIncomingDataListener;
+import network.GuiMessage;
 import network.NetworkMessage;
+import network.ResultMessage;
 import session.SessionView.NewFormListener;
 import userInterface.SearchWindow;
 import assets.AssetsController;
 import chat.ChatController;
-
-import common.DBPushParams;
-
-import database.sqlServer;
 import forms.FormsController;
 
 public class SessionController {
@@ -53,11 +49,17 @@ public class SessionController {
                 case GET:
                     break;
                 case GUI:
+                    System.out.println("HERE");
+                    formsController.fromDBPushParams(((GuiMessage)networkMessage).getParams(), ((GuiMessage)networkMessage).getIsUpdate());
                     break;
                 case LOGIN:
                     break;
                 case RESULT:
-                    
+                    if (searchWindow != null) {
+                        searchWindow
+                                .setResultsWindow(((ResultMessage) networkMessage)
+                                        .getResults());
+                    }
                     break;
                 }
             }
@@ -90,24 +92,6 @@ public class SessionController {
                             formsController);
                 } else {
                     searchWindow.moveToTop();
-                }
-            }
-        });
-
-        // XXX: for demo
-        view.addIncomingJsonActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                String missionNo = "10";
-                List<DBPushParams> allThingsWithMissionNoX = new ArrayList<DBPushParams>();
-                allThingsWithMissionNoX.addAll(sqlServer
-                        .SelectFromCommLogWithMissionNum(missionNo));
-                allThingsWithMissionNoX.addAll(sqlServer
-                        .SelectFromRadMessWithMissionNum(missionNo));
-                allThingsWithMissionNoX.addAll(sqlServer
-                        .SelectFromSARWithMissionNum(missionNo));
-                for (DBPushParams dbpp : allThingsWithMissionNoX) {
-                    formsController.fromDBPushParams(dbpp);
                 }
             }
         });

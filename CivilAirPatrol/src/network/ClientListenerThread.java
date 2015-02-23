@@ -41,17 +41,20 @@ public class ClientListenerThread extends Thread {
             NetworkMessage message = (NetworkMessage) in.readObject();
             // Session instance will set an onIncoming message listener and
             // propagate the message to the correct place
+            System.out.println("MESSAGE IN CLIENT LISTENER: " + message);
             if (onIncomingDataListener != null) {
                 onIncomingDataListener.processNetworkMessage(message);
             }
         } catch (IOException ex) {
             this.run = false;
             TestClient.run = false;
+            ex.printStackTrace();
             Logger.getLogger(ClientListenerThread.class.getName()).log(
                     Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             this.run = false;
             TestClient.run = false;
+            ex.printStackTrace();
             Logger.getLogger(ClientListenerThread.class.getName()).log(
                     Level.SEVERE, null, ex);
         }

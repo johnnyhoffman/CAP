@@ -1,6 +1,11 @@
 package forms;
 
 
+import java.io.IOException;
+
+import network.ClientSocket;
+import network.GuiMessage;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -14,15 +19,6 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
     private DataContainers.RadioMessage data;
     private Gson gson;
     int id;
-
-    public RadioMessageModel(int id, String name) {
-        this.id = id;
-        database.sqlServer.InsertRADIOMESS("{}", id, "-1", 0); // XXX: Temp
-        data = new DataContainers.RadioMessage(name);
-        gson = new Gson();
-        // for debugging revert to creation method below
-        // gson = new GsonBuilder().setPrettyPrinting().create();
-    }
 
     /* methods for updating fields */
 
@@ -42,7 +38,12 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
         gson = new Gson();
         // for debugging revert to creation method below
         // gson = new GsonBuilder().setPrettyPrinting().create();
-        database.sqlServer.InsertRADIOMESS(gson.toJson(data), id, missionNo, date);
+        try {
+            ClientSocket.getInstance().output.writeObject(new GuiMessage(new DBPushParams(FormType.RM, gson.toJson(data), id, missionNo, date)));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public int getID() {

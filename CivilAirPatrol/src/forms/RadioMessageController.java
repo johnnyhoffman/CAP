@@ -16,13 +16,6 @@ public class RadioMessageController implements IFormController {
     private RadioMessageView view;
     private RadioMessageModel model;
 
-    public RadioMessageController(int id, String name) {
-        view = new RadioMessageView();
-        view.setName(name);
-        model = new RadioMessageModel(id, name);
-        setListeners();
-    }
-
     public RadioMessageController(int id, String name, String missionNo,
             long date) {
         view = new RadioMessageView();

@@ -1,8 +1,10 @@
 package forms;
 
+import java.io.IOException;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-
+import network.ClientSocket;
+import network.GuiMessage;
 import common.DBPushParams;
 import common.GlobalConstants;
 
@@ -45,27 +47,23 @@ public abstract class ScheduledPushModelAbstraction {
         // TODO: HERE IS WHERE WE HOOK IN DATABASE CONNECTION.
         // INSTEAD OF PRINTING THE JSON, PUSH IT TO THE DATABASE.
         DBPushParams pushParams = prepareForPush();
-        
-        //This will be the hook for sending the network push...i believe? check with johnny
-        //create a  new GuiMessage(pushParams); and send the guiMessage to server
-        
+
+        // This will be the hook for sending the network push...i believe? check
+        // with johnny
+        // create a new GuiMessage(pushParams); and send the guiMessage to
+        // server
+
         System.out.println(pushParams.json + "\n" + pushParams.id + "\n"
                 + pushParams.missionNo + "\n" + pushParams.date);
 
-        switch (pushParams.type) {
-        case CL:
-            database.sqlServer.UpdateCommLog(pushParams.json, pushParams.id,
-                    pushParams.missionNo, pushParams.date);
-            break;
-        case RM:
-            database.sqlServer.UpdateRADMESS(pushParams.json, pushParams.id,
-                    pushParams.missionNo, pushParams.date);
-            break;
-        case SAR:
-            database.sqlServer.UpdateSAR(pushParams.json, pushParams.id,
-                    pushParams.missionNo, pushParams.date);
-            break;
+        try {
+            ClientSocket.getInstance().output
+                    .writeObject(new GuiMessage(pushParams));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+
     }
 
     public void setOnModelLoadListener(OnModelLoadListener l) {

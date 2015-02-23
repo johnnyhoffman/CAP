@@ -67,32 +67,21 @@ public class FormsController implements IController {
         pnlTab.add(btnClose, gbc);
 
         view.setTabComponentAt(index, pnlTab);
-        btnClose.addActionListener(new RemoveTabListener(this, controller, component, scrollC));
+        btnClose.addActionListener(new RemoveTabListener(this, controller,
+                component, scrollC));
 
-    }
-
-    public void newComLog() {
-        addTab(model.newComLog());
     }
 
     public void newComLog(String missionNo, long date) {
-        addTab(model.newComLog(missionNo, date));
-    }
-
-    public void newSearchAndRescue() {
-        addTab(model.newSearchAndRescue());
+        model.newComLog(missionNo, date);
     }
 
     public void newSearchAndRescue(String missionNo, long date) {
-        addTab(model.newSearchAndRescue(missionNo, date));
-    }
-
-    public void newRadioMessage() {
-        addTab(model.newRadioMessage());
+        model.newSearchAndRescue(missionNo, date);
     }
 
     public void newRadioMessage(String missionNo, long date) {
-        addTab(model.newRadioMessage(missionNo, date));
+        model.newRadioMessage(missionNo, date);
     }
 
     public void removeTab(Component component, IFormController controller) {
@@ -100,25 +89,23 @@ public class FormsController implements IController {
         model.remove(controller);
     }
 
-    public void fromDBPushParams(DBPushParams pushParams) {
+    public void fromDBPushParams(DBPushParams pushParams, boolean isUpdate) {
         if (model.has(pushParams.id)) {
             IFormController c = model.get(pushParams.id);
-            if (c == null) {
-                System.out.println("null");
-            }
-            System.out.println("[[[[[" + pushParams.json + "]]]]]");
             c.updateFromJson((JsonObject) jsonParser.parse(pushParams.json));
         } else {
-            switch (pushParams.type) {
-            case CL:
-                addTab(model.comLogFromJson(pushParams));
-                break;
-            case RM:
-                addTab(model.radioMessageFromJson(pushParams));
-                break;
-            case SAR:
-                addTab(model.searchAndRescueFromJson(pushParams));
-                break;
+            if (!isUpdate) {
+                switch (pushParams.type) {
+                case CL:
+                    addTab(model.comLogFromJson(pushParams));
+                    break;
+                case RM:
+                    addTab(model.radioMessageFromJson(pushParams));
+                    break;
+                case SAR:
+                    addTab(model.searchAndRescueFromJson(pushParams));
+                    break;
+                }
             }
         }
     }
@@ -130,8 +117,9 @@ public class FormsController implements IController {
         JScrollPane componentAsScrollPane;
         IFormController innerController;
 
-        public RemoveTabListener(FormsController formsController, IFormController innerController,
-                FormComponent component, JScrollPane componentAsScollPane) {
+        public RemoveTabListener(FormsController formsController,
+                IFormController innerController, FormComponent component,
+                JScrollPane componentAsScollPane) {
             this.formsController = formsController;
             this.innerController = innerController;
             this.component = component;

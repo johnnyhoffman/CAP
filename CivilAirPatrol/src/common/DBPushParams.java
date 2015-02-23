@@ -5,25 +5,28 @@
  */
 package common;
 
+import java.io.Serializable;
+
 import forms.ScheduledPushModelAbstraction;
 
 /**
  *
  * @author Robert
  */
-    public class DBPushParams {
-        public ScheduledPushModelAbstraction.FormType type;
-        public String json;
-        public int id;
-        public String missionNo;
-        public long date;
+public class DBPushParams implements Serializable {
+    private static final long serialVersionUID = 1318721442843405476L;
+    public ScheduledPushModelAbstraction.FormType type;
+    public String json;
+    public int id;
+    public String missionNo;
+    public long date;
 
-        public DBPushParams(ScheduledPushModelAbstraction.FormType type, String json, int id, String missionNo,
-                long date) {
-            this.type = type;
-            this.json = json;
-            this.id = id;
-            this.missionNo = missionNo;
-            this.date = date;
-        }
+    public DBPushParams(ScheduledPushModelAbstraction.FormType type,
+            String json, int id, String missionNo, long date) {
+        this.type = type;
+        this.json = json;
+        this.id = id;
+        this.missionNo = missionNo;
+        this.date = date;
     }
+}

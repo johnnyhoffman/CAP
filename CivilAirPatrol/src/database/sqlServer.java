@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import common.DBPushParams;
-
 import forms.ScheduledPushModelAbstraction.FormType;
 
 public class sqlServer {
@@ -19,13 +18,14 @@ public class sqlServer {
         // Connection c = null;
         try {
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:CAPFormTracker.db"); // create DB
-                                                                    // if it
-                                                                    // does not
-                                                                    // exist,
-                                                                    // otherwise
-                                                                    // get
-                                                                    // connection
+            c = DriverManager.getConnection("jdbc:sqlite:CAPFormTracker.db"); // create
+                                                                              // DB
+            // if it
+            // does not
+            // exist,
+            // otherwise
+            // get
+            // connection
             Statement stmt = c.createStatement();
             // stmt.executeUpdate("CREATE TABLE IF NOT EXISTS MISSION "
             // + "(MISSIONNUMBER INT PRIMARY KEY NOT NULL,"
@@ -49,6 +49,7 @@ public class sqlServer {
                                                                 // saR table
                     + "(SARID         INT PRIMARY KEY NOT NULL,"
                     + "MISSIONNUMBER TEXT             NOT NULL,"
+                    + "DATE          INT            NOT NULL,"
                     + "JSONDATA      TEXT            NOT NULL)");
 
             System.out.println("Created SAR table successfully.");
@@ -161,8 +162,8 @@ public class sqlServer {
     // when inserting a Form, need to make sure that a mission exists for the
     // form
 
-    public static void InsertCommLog(String json, int commid, String missionnum,
-            long date) {
+    public static void InsertCommLog(String json, int commid,
+            String missionnum, long date) {
         try {
             PreparedStatement stmt = c
                     .prepareStatement("INSERT into COMMLOG (COMMID,MISSIONNUMBER,DATE,JSONDATA) "
@@ -193,8 +194,8 @@ public class sqlServer {
         }
     }
 
-    public static void InsertRADIOMESS(String json, int radid, String missionnum,
-            long date) {
+    public static void InsertRADIOMESS(String json, int radid,
+            String missionnum, long date) {
         try {
             PreparedStatement stmt = c
                     .prepareStatement("INSERT into RADIOMESS (RADID,MISSIONNUMBER,DATE,JSONDATA) "
@@ -229,6 +230,75 @@ public class sqlServer {
      */
     /* The following are selects */
 
+    /* for querying comlog table with just uid */
+    public static DBPushParams SelectFromCommLogWithID(int id) {
+        try {
+            ResultSet resultSet;
+            PreparedStatement stmt = c
+                    .prepareStatement("SELECT * FROM COMMLOG WHERE COMMID = ?");
+            stmt.setInt(1, id);
+            resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                return new DBPushParams(FormType.CL,
+                        resultSet.getString("JSONDATA"),
+                        resultSet.getInt("COMMID"),
+                        resultSet.getString("MISSIONNUMBER"),
+                        resultSet.getLong("DATE"));
+            } else {
+                System.err.println("No value found for id " + id);
+            }
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+    }
+
+    /* for querying radio message table with just uid */
+    public static DBPushParams SelectFromRADWithID(int id) {
+        try {
+            ResultSet resultSet;
+            PreparedStatement stmt = c
+                    .prepareStatement("SELECT * FROM SAR WHERE SARID = ?");
+            stmt.setInt(1, id);
+            resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                return new DBPushParams(FormType.RM,
+                        resultSet.getString("JSONDATA"),
+                        resultSet.getInt("SARID"),
+                        resultSet.getString("MISSIONNUMBER"),
+                        resultSet.getLong("DATE"));
+            } else {
+                System.err.println("No value found for id " + id);
+            }
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+    }
+
+    /* for querying sar table with just uid */
+    public static DBPushParams SelectFromSARWithID(int id) {
+        try {
+            ResultSet resultSet;
+            PreparedStatement stmt = c
+                    .prepareStatement("SELECT * FROM RADIOMESS WHERE RADID = ?");
+            stmt.setInt(1, id);
+            resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                return new DBPushParams(FormType.CL,
+                        resultSet.getString("JSONDATA"),
+                        resultSet.getInt("RADID"),
+                        resultSet.getString("MISSIONNUMBER"),
+                        resultSet.getLong("DATE"));
+            } else {
+                System.err.println("No value found for id " + id);
+            }
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+    }
+
     /* for querying comlog table */
     public static List<DBPushParams> SelectFromCommLog(long date,
             String missionnum) {
@@ -255,9 +325,9 @@ public class sqlServer {
         return null;
     }
 
-    /* for querying comlog table , all search criteria given*/
-    public static List<DBPushParams> SelectFromCommLogInitialSearch(long startdate,
-            long enddate,String missionnum) {
+    /* for querying comlog table , all search criteria given */
+    public static List<DBPushParams> SelectFromCommLogInitialSearch(
+            long startdate, long enddate, String missionnum) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
@@ -269,8 +339,8 @@ public class sqlServer {
             stmt.setLong(3, enddate);
             result = stmt.executeQuery();
             while (result.next()) {
-                current = new DBPushParams(FormType.CL,
-                        null, result.getInt("COMMID"),
+                current = new DBPushParams(FormType.CL, null,
+                        result.getInt("COMMID"),
                         result.getString("MISSIONNUMBER"),
                         result.getLong("DATE"));
                 results.add(current);
@@ -281,9 +351,10 @@ public class sqlServer {
         }
         return null;
     }
-    /* for querying comlog table , no missionno given*/
-    public static List<DBPushParams> SelectFromCommLogInitialSearch(long startdate,
-            long enddate) {
+
+    /* for querying comlog table , no missionno given */
+    public static List<DBPushParams> SelectFromCommLogInitialSearch(
+            long startdate, long enddate) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
@@ -294,8 +365,8 @@ public class sqlServer {
             stmt.setLong(2, enddate);
             result = stmt.executeQuery();
             while (result.next()) {
-                current = new DBPushParams(FormType.CL,
-                        null, result.getInt("COMMID"),
+                current = new DBPushParams(FormType.CL, null,
+                        result.getInt("COMMID"),
                         result.getString("MISSIONNUMBER"),
                         result.getLong("DATE"));
                 results.add(current);
@@ -306,8 +377,7 @@ public class sqlServer {
         }
         return null;
     }
-    
-    
+
     public static List<DBPushParams> SelectFromCommLogWithDate(long date) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
@@ -331,7 +401,8 @@ public class sqlServer {
         return null;
     }
 
-    public static List<DBPushParams> SelectFromCommLogWithMissionNum(String missionnum) {
+    public static List<DBPushParams> SelectFromCommLogWithMissionNum(
+            String missionnum) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
@@ -355,9 +426,9 @@ public class sqlServer {
     }
 
     /* for querying sar table */
-    /* for querying sar table , all search criteria given*/
+    /* for querying sar table , all search criteria given */
     public static List<DBPushParams> SelectFromSARInitialSearch(long startdate,
-            long enddate,String missionnum) {
+            long enddate, String missionnum) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
@@ -369,8 +440,8 @@ public class sqlServer {
             stmt.setLong(3, enddate);
             result = stmt.executeQuery();
             while (result.next()) {
-                current = new DBPushParams(FormType.CL,
-                        null, result.getInt("SARID"),
+                current = new DBPushParams(FormType.CL, null,
+                        result.getInt("SARID"),
                         result.getString("MISSIONNUMBER"),
                         result.getLong("DATE"));
                 results.add(current);
@@ -381,7 +452,8 @@ public class sqlServer {
         }
         return null;
     }
-    /* for querying sar table , no mission no given*/
+
+    /* for querying sar table , no mission no given */
     public static List<DBPushParams> SelectFromSARInitialSearch(long startdate,
             long enddate) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
@@ -390,13 +462,13 @@ public class sqlServer {
             ResultSet result;
             PreparedStatement stmt = c
                     .prepareStatement("SELECT * FROM SAR WHERE DATE BETWEEN ?  AND ?");
-            
+
             stmt.setLong(1, startdate);
             stmt.setLong(2, enddate);
             result = stmt.executeQuery();
             while (result.next()) {
-                current = new DBPushParams(FormType.CL,
-                        null, result.getInt("SARID"),
+                current = new DBPushParams(FormType.CL, null,
+                        result.getInt("SARID"),
                         result.getString("MISSIONNUMBER"),
                         result.getLong("DATE"));
                 results.add(current);
@@ -407,7 +479,7 @@ public class sqlServer {
         }
         return null;
     }
-    
+
     public static List<DBPushParams> SelectFromSAR(long date, String missionnum) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
@@ -455,7 +527,8 @@ public class sqlServer {
         return null;
     }
 
-    public static List<DBPushParams> SelectFromSARWithMissionNum(String missionnum) {
+    public static List<DBPushParams> SelectFromSARWithMissionNum(
+            String missionnum) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
@@ -478,12 +551,10 @@ public class sqlServer {
         return null;
     }
 
-   
-
     /* for querying sar table */
-    /* for querying sar table , all search criteria given*/
+    /* for querying sar table , all search criteria given */
     public static List<DBPushParams> SelectFromRADInitialSearch(long startdate,
-            long enddate,String missionnum) {
+            long enddate, String missionnum) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {
@@ -495,8 +566,8 @@ public class sqlServer {
             stmt.setLong(3, enddate);
             result = stmt.executeQuery();
             while (result.next()) {
-                current = new DBPushParams(FormType.CL,
-                        null, result.getInt("RADID"),
+                current = new DBPushParams(FormType.CL, null,
+                        result.getInt("RADID"),
                         result.getString("MISSIONNUMBER"),
                         result.getLong("DATE"));
                 results.add(current);
@@ -507,7 +578,8 @@ public class sqlServer {
         }
         return null;
     }
-    /* for querying sar table , no mission no given*/
+
+    /* for querying sar table , no mission no given */
     public static List<DBPushParams> SelectFromRADInitialSearch(long startdate,
             long enddate) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
@@ -516,13 +588,13 @@ public class sqlServer {
             ResultSet result;
             PreparedStatement stmt = c
                     .prepareStatement("SELECT * FROM RADIOMESS WHERE DATE BETWEEN ?  AND ?");
-            
+
             stmt.setLong(1, startdate);
             stmt.setLong(2, enddate);
             result = stmt.executeQuery();
             while (result.next()) {
-                current = new DBPushParams(FormType.CL,
-                        null, result.getInt("RADID"),
+                current = new DBPushParams(FormType.CL, null,
+                        result.getInt("RADID"),
                         result.getString("MISSIONNUMBER"),
                         result.getLong("DATE"));
                 results.add(current);
@@ -533,6 +605,7 @@ public class sqlServer {
         }
         return null;
     }
+
     public static List<DBPushParams> SelectFromRadMess(long date,
             String missionnum) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
@@ -581,7 +654,8 @@ public class sqlServer {
         return null;
     }
 
-    public static List<DBPushParams> SelectFromRadMessWithMissionNum(String missionnum) {
+    public static List<DBPushParams> SelectFromRadMessWithMissionNum(
+            String missionnum) {
         List<DBPushParams> results = new ArrayList<DBPushParams>();
         DBPushParams current;
         try {

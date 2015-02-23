@@ -44,7 +44,6 @@ public class SessionView extends JFrame {
     private JSplitPane vSplitPane;
     private JMenuItem newDialog;
     private JMenuItem prefsDialog;
-    private JMenuItem newItemFromJson;
     private JMenuItem searchDatabaseMenuItem;
     private JFrame thisFrame;
     private NewFormListener newComLogMenuListener;
@@ -58,9 +57,6 @@ public class SessionView extends JFrame {
         JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
 
-        // XXX: Temp for Demo
-        newItemFromJson = new JMenuItem("For demo: Open all saved forms with mission number 10");
-        fileMenu.add(newItemFromJson);
         searchDatabaseMenuItem = new JMenuItem("Search/Open Forms");
         fileMenu.add(searchDatabaseMenuItem);
 
@@ -70,7 +66,8 @@ public class SessionView extends JFrame {
         newDialog.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] formNames = { "Communication Log", "Search And Rescue", "Radio Message" };
+                String[] formNames = { "Communication Log",
+                        "Search And Rescue", "Radio Message" };
                 JComboBox formTypeCombobox = new JComboBox(formNames);
                 JTextField missionNoField = new JTextField(5);
                 DateTimePicker dateTimePicker = new DateTimePicker();
@@ -93,8 +90,9 @@ public class SessionView extends JFrame {
 
                 dialogPanel.add(dateTimePicker, right);
 
-                int result = JOptionPane.showOptionDialog(thisFrame, dialogPanel, "New Form",
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[] {
+                int result = JOptionPane.showOptionDialog(thisFrame,
+                        dialogPanel, "New Form", JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE, null, new String[] {
                                 "Create Form", "Cancel" }, "default");
 
                 if (result == JOptionPane.OK_OPTION) {
@@ -152,12 +150,14 @@ public class SessionView extends JFrame {
                     }
                 });
                 dialogPanel.add(Box.createVerticalStrut(15), right); // a spacer
-                dialogPanel.add(new JLabel(""), left); //hacky spacing
+                dialogPanel.add(new JLabel(""), left); // hacky spacing
                 dialogPanel.add(resetButton, right);
 
-                int result = JOptionPane.showOptionDialog(thisFrame, dialogPanel, "Preferences",
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[] { "Apply",
-                                "Cancel" }, "default");
+                int result = JOptionPane.showOptionDialog(thisFrame,
+                        dialogPanel, "Preferences",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE, null, new String[] {
+                                "Apply", "Cancel" }, "default");
 
                 if (result == JOptionPane.OK_OPTION) {
                     String ip = ipField.getText();
@@ -168,8 +168,9 @@ public class SessionView extends JFrame {
                         portInt = Integer.parseInt(portStr);
                         AppPreferences.setPort(portInt);
                     } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(dialogPanel, "Cannot set port to \"" + portStr
-                                + "\". Must be a number.");
+                        JOptionPane.showMessageDialog(dialogPanel,
+                                "Cannot set port to \"" + portStr
+                                        + "\". Must be a number.");
                     }
                 }
             }
@@ -216,72 +217,6 @@ public class SessionView extends JFrame {
 
     public void addNewSearchAndRescueMenuItemActionListener(NewFormListener l) {
         newSearchAndRescueListener = l;
-    }
-
-    // XXX: temp for testing
-    public void addIncomingJsonActionListener(ActionListener l) {
-        newItemFromJson.addActionListener(l);
-    }
-
-    public class MyJDialog extends JDialog {
-        private static final long serialVersionUID = 1L;
-
-        public MyJDialog(JFrame parent, String title, String message) {
-            super(parent, title);
-            System.out.println("creating the window..");
-            // set the position of the window
-            Point p = new Point(400, 400);
-            setLocation(p.x, p.y);
-            // Create a message
-            JPanel messagePane = new JPanel();
-            messagePane.add(new JLabel(message));
-            // get content pane, which is usually the
-            // Container of all the dialog's components.
-            getContentPane().add(messagePane);
-            // Create a button
-            JPanel buttonPane = new JPanel();
-            JButton button = new JButton("Close me");
-            buttonPane.add(button);
-            // set action listener on the button
-            button.addActionListener(new MyActionListener());
-            getContentPane().add(buttonPane, BorderLayout.PAGE_END);
-            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            pack();
-            setVisible(true);
-        }
-
-        // override the createRootPane inherited by the JDialog, to create the
-        // rootPane.
-        // create functionality to close the window when "Escape" button is
-        // pressed
-        public JRootPane createRootPane() {
-            JRootPane rootPane = new JRootPane();
-            KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
-            Action action = new AbstractAction() {
-                private static final long serialVersionUID = 1L;
-
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("escaping..");
-                    setVisible(false);
-                    dispose();
-                }
-            };
-            InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-            inputMap.put(stroke, "ESCAPE");
-            rootPane.getActionMap().put("ESCAPE", action);
-            return rootPane;
-        }
-
-        // an action listener to be used when an action is performed
-        // (e.g. button is pressed)
-        class MyActionListener implements ActionListener {
-            // close and dispose of the window.
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("disposing the window..");
-                setVisible(false);
-                dispose();
-            }
-        }
     }
 
     public void addRetrieveFormsActionListener(ActionListener actionListener) {
