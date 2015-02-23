@@ -258,13 +258,13 @@ public class sqlServer {
         try {
             ResultSet resultSet;
             PreparedStatement stmt = c
-                    .prepareStatement("SELECT * FROM SAR WHERE SARID = ?");
+                    .prepareStatement("SELECT * FROM RADMESS WHERE RADID = ?");
             stmt.setInt(1, id);
             resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 return new DBPushParams(FormType.RM,
                         resultSet.getString("JSONDATA"),
-                        resultSet.getInt("SARID"),
+                        resultSet.getInt("RADID"),
                         resultSet.getString("MISSIONNUMBER"),
                         resultSet.getLong("DATE"));
             } else {
@@ -281,13 +281,13 @@ public class sqlServer {
         try {
             ResultSet resultSet;
             PreparedStatement stmt = c
-                    .prepareStatement("SELECT * FROM RADIOMESS WHERE RADID = ?");
+                    .prepareStatement("SELECT * FROM SAR WHERE SARID = ?");
             stmt.setInt(1, id);
             resultSet = stmt.executeQuery();
             if (resultSet.next()) {
                 return new DBPushParams(FormType.CL,
                         resultSet.getString("JSONDATA"),
-                        resultSet.getInt("RADID"),
+                        resultSet.getInt("SARID"),
                         resultSet.getString("MISSIONNUMBER"),
                         resultSet.getLong("DATE"));
             } else {

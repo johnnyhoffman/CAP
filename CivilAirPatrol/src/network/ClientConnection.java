@@ -179,7 +179,6 @@ public class ClientConnection extends Thread {
         NewFormMessage newFormMessage = (NewFormMessage) message;
         DBPushParams params = null;
         int id = sqlServer.RetrieveNextFormId();
-        System.out.println("NEWFORMMESSSSSSSAGE:::::: " + newFormMessage);
         switch (newFormMessage.getFormType()) {
         case CL:
             CommunicationsLog cl;
