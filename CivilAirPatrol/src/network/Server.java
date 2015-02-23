@@ -5,7 +5,9 @@
  */
 package network;
 
+import common.AppPreferences;
 import common.GlobalConstants;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
@@ -83,7 +85,7 @@ public class Server extends Thread{
     }
     
     public static void main(String argv []){
-        Server server = new Server(GlobalConstants.DEFAULT_PORT);
+        Server server = new Server(AppPreferences.getPort());
         server.start();
     }
 

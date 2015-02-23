@@ -5,7 +5,9 @@
  */
 package network;
 
+import common.AppPreferences;
 import common.GlobalConstants;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -25,7 +27,7 @@ public class ClientSocket {
     
     private ClientSocket() {
         try{
-            this.socket = new Socket(GlobalConstants.DEFAULT_ADDRESS,GlobalConstants.DEFAULT_PORT);
+            this.socket = new Socket(AppPreferences.getIP(),AppPreferences.getPort());
             this.output = new ObjectOutputStream(this.socket.getOutputStream());
             this.output.flush();
             this.input = new ObjectInputStream(this.socket.getInputStream());
