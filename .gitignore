@@ -21,4 +21,4 @@ hs_err_pid*
 /CivilAirPatrol/dist/
 
 # Files Created by application
-/CivilAirPatrol/test.db
+/CivilAirPatrol/CAPFormTracker.db

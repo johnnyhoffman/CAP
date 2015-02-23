@@ -27,88 +27,102 @@ public class ClientConnection extends Thread {
     private Socket socket;
     private String user;
     private UserType userType;
-    
-    public ClientConnection(ObjectInputStream in, ObjectOutputStream out, Socket socket, String user, UserType type){
+
+    public ClientConnection(ObjectInputStream in, ObjectOutputStream out,
+            Socket socket, String user, UserType type) {
         this.input = in;
         this.output = out;
         this.socket = socket;
         this.user = user;
         this.userType = type;
     }
-    public ObjectInputStream getInputStream(){
+
+    public ObjectInputStream getInputStream() {
         return this.input;
     }
-    public ObjectOutputStream getOutputStream(){
+
+    public ObjectOutputStream getOutputStream() {
         return this.output;
     }
-    public String getUserName(){
+
+    public String getUserName() {
         return this.user;
     }
-    public Socket getSocket(){
+
+    public Socket getSocket() {
         return this.socket;
     }
-    public boolean closeConnection(){
-        try{
+
+    public boolean closeConnection() {
+        try {
             this.input.close();
             this.output.close();
             this.socket.close();
             Server.allClients.remove(this);
             return true;
-        }catch(Exception e){
+        } catch (Exception e) {
             System.err.println(e.toString());
             return false;
         }
     }
+
     @Override
-    public void run(){
-        //TODO this will be where i handle the input coming from the clients
+    public void run() {
+        // TODO this will be where i handle the input coming from the clients
         NetworkMessage message;
         boolean run = true;
-        while (run){
-            try{
-                message = (NetworkMessage)this.input.readObject();
-                switch(message.getType()){
-                    case CHAT:
-                        handleChat(message);
-                        break;
-                    case GUI:
-                        handleGuiPush(message);
-                        break;
-                    case LOGIN:
-                        handleLogin(message);
-                        break;
-                    case GET:
-                        handleGet(message);
-                        break;
-                    default:
-                        break;
+        while (run) {
+            try {
+                message = (NetworkMessage) this.input.readObject();
+                switch (message.getType()) {
+                case CHAT:
+                    handleChat(message);
+                    break;
+                case GUI:
+                    handleGuiPush(message);
+                    break;
+                case LOGIN:
+                    handleLogin(message);
+                    break;
+                case GET:
+                    handleGet(message);
+                    break;
+                default:
+                    break;
                 }
-            }catch(IOException e){
+            } catch (IOException e) {
                 closeConnection();
                 System.err.println(e.toString());
                 return;
-            }catch (ClassNotFoundException ex) {
-                Logger.getLogger(ClientConnection.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ClientConnection.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
     }
-    private void handleChat(NetworkMessage message){
-        //TODO echo the message to all authenticated clients....
-        for(ClientConnection c : Server.allClients){
+
+    private void handleChat(NetworkMessage message) {
+        // TODO echo the message to all authenticated clients....
+        for (ClientConnection c : Server.allClients) {
             try {
-                System.out.println("sending message to " + c.getUserName()); //For debug purposes
+                System.out.println("sending message to " + c.getUserName()); // For
+                                                                             // debug
+                                                                             // purposes
                 c.output.writeObject(message);
             } catch (IOException ex) {
-                Logger.getLogger(ClientConnection.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ClientConnection.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
-        
+
     }
-    private void handleGuiPush(NetworkMessage message){
-        //TODO echo the message to all non-radio officer connections...and update db
-        //will start with just pushing to the db
-        //TODO TEST THIS?
-        DBPushParams pushParams = ((GuiMessage)message).getParams();
+
+    private void handleGuiPush(NetworkMessage message) {
+        // TODO echo the message to all non-radio officer connections...and
+        // update db
+        // will start with just pushing to the db
+        // TODO TEST THIS?
+        DBPushParams pushParams = ((GuiMessage) message).getParams();
         System.out.println(pushParams.json + "\n" + pushParams.id + "\n"
                 + pushParams.missionNo + "\n" + pushParams.date);
 
@@ -126,57 +140,79 @@ public class ClientConnection extends Thread {
                     pushParams.missionNo, pushParams.date);
             break;
         }
-        for(ClientConnection c : Server.allClients){
+        for (ClientConnection c : Server.allClients) {
             try {
-                System.out.println("sending message to " + c.getUserName()); //For debug purposes
-                if (c.userType != UserType.WRITER) c.output.writeObject(message);
+                System.out.println("sending message to " + c.getUserName()); // For
+                                                                             // debug
+                                                                             // purposes
+                if (c.userType != UserType.WRITER)
+                    c.output.writeObject(message);
             } catch (IOException ex) {
-                Logger.getLogger(ClientConnection.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ClientConnection.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
     }
-    private void handleLogin(NetworkMessage message){
-        //TODO this should actually never happen, if it does client is doing something strange..
-        //decided to make login the first message and is required to be validated before starting clientConnection
+
+    private void handleLogin(NetworkMessage message) {
+        // TODO this should actually never happen, if it does client is doing
+        // something strange..
+        // decided to make login the first message and is required to be
+        // validated before starting clientConnection
     }
 
     private void handleGet(NetworkMessage message) {
-        //TODO this is where i will need to handle a request from the db and send back a response
-        //can just send it back out on socket...cause it came from this connection =)
-        DBRequest request = ((GetMessage)message).getRequest();
+        // TODO this is where i will need to handle a request from the db and
+        // send back a response
+        // can just send it back out on socket...cause it came from this
+        // connection =)
+        DBRequest request = ((GetMessage) message).getRequest();
         List<DBPushParams> resultsList = new ArrayList<DBPushParams>();
-        
-        if (request.COMM){
-            if (request.missionNo == null){
-                resultsList.addAll(database.sqlServer.SelectFromCommLogInitialSearch(request.startDate, request.endDate));
-            }else{
-                resultsList.addAll(database.sqlServer.SelectFromCommLogInitialSearch(request.startDate, request.endDate, request.missionNo));
+
+        if (request.COMM) {
+            if (request.missionNo == null) {
+                resultsList.addAll(database.sqlServer
+                        .SelectFromCommLogInitialSearch(request.startDate,
+                                request.endDate));
+            } else {
+                resultsList.addAll(database.sqlServer
+                        .SelectFromCommLogInitialSearch(request.startDate,
+                                request.endDate, request.missionNo));
             }
         }
-        if (request.RAD){
-            if (request.missionNo == null){
-                resultsList.addAll(database.sqlServer.SelectFromRADInitialSearch(request.startDate, request.endDate));
-            }else{
-                resultsList.addAll(database.sqlServer.SelectFromRADInitialSearch(request.startDate, request.endDate, request.missionNo));
+        if (request.RAD) {
+            if (request.missionNo == null) {
+                resultsList.addAll(database.sqlServer
+                        .SelectFromRADInitialSearch(request.startDate,
+                                request.endDate));
+            } else {
+                resultsList.addAll(database.sqlServer
+                        .SelectFromRADInitialSearch(request.startDate,
+                                request.endDate, request.missionNo));
             }
         }
-        if (request.SAR){
-            if (request.missionNo == null){
-                resultsList.addAll(database.sqlServer.SelectFromSARInitialSearch(request.startDate, request.endDate));
-            }else{
-                resultsList.addAll(database.sqlServer.SelectFromSARInitialSearch(request.startDate, request.endDate, request.missionNo));
+        if (request.SAR) {
+            if (request.missionNo == null) {
+                resultsList.addAll(database.sqlServer
+                        .SelectFromSARInitialSearch(request.startDate,
+                                request.endDate));
+            } else {
+                resultsList.addAll(database.sqlServer
+                        .SelectFromSARInitialSearch(request.startDate,
+                                request.endDate, request.missionNo));
             }
         }
-        
-        //send the results back to the client
-        //TODO RESULTS MESSAGE TO BUNDLE THE RESULTS BACK UP, distinguish between a search result and actual forms coming back, 1 has json 1 doesnt
+
+        // send the results back to the client
+        // TODO RESULTS MESSAGE TO BUNDLE THE RESULTS BACK UP, distinguish
+        // between a search result and actual forms coming back, 1 has json 1
+        // doesnt
         ResultMessage result = new ResultMessage(resultsList, false);
-        try{
+        try {
             this.output.writeObject(result);
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
-        
+
     }
 }

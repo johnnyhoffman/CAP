@@ -19,7 +19,7 @@ public class sqlServer {
         // Connection c = null;
         try {
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:test.db"); // create DB
+            c = DriverManager.getConnection("jdbc:sqlite:CAPFormTracker.db"); // create DB
                                                                     // if it
                                                                     // does not
                                                                     // exist,

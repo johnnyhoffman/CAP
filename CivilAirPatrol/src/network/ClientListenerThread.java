@@ -5,7 +5,6 @@
  */
 package network;
 
-import chat.ChatController;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.logging.Level;
@@ -15,49 +14,51 @@ import java.util.logging.Logger;
  *
  * @author Robert
  */
-public class ClientListenerThread extends Thread{
+public class ClientListenerThread extends Thread {
+
+    private OnIncomingDataListener onIncomingDataListener;
+
+    public interface OnIncomingDataListener {
+        public void processNetworkMessage(NetworkMessage networkMessage);
+    }
+
     private ObjectInputStream in;
     private boolean run = true;
-    public ClientListenerThread(ObjectInputStream in){
+
+    public ClientListenerThread(ObjectInputStream in) {
         this.in = in;
     }
+
     @Override
-    public void run(){
-        while(run){
+    public void run() {
+        while (run) {
             recvMessage();
         }
     }
-    
-    private void recvMessage(){
+
+    private void recvMessage() {
         try {
-            NetworkMessage message = (NetworkMessage)in.readObject();
-            switch(message.getType()){
-                case CHAT:
-                    //TODO This is where we would need to handle the update of the chat GUI
-                    //currently just outputs to STD OUT
-                    //System.out.println(((ChatMessage)message).getMessage());
-                    ChatController.writeChat(((ChatMessage)message).getUser() + " : " + ((ChatMessage)message).getMessage());
-                    break;
-                case GUI:
-                    //TODO if a client recieves a GUI message, it will be to update a form they are viewing.
-                    //This will not ever happen if they are logged in as a radio officer
-                    break;
-                case LOGIN:
-                    //TODO this will be a confirmation message (hopefully), from the server 
-                    //telling whether or not their connection attempt was successful
-                    break;
-                default:
-                    break;
+            NetworkMessage message = (NetworkMessage) in.readObject();
+            // Session instance will set an onIncoming message listener and
+            // propagate the message to the correct place
+            if (onIncomingDataListener != null) {
+                onIncomingDataListener.processNetworkMessage(message);
             }
-            
         } catch (IOException ex) {
             this.run = false;
             TestClient.run = false;
-            Logger.getLogger(ClientListenerThread.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientListenerThread.class.getName()).log(
+                    Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             this.run = false;
             TestClient.run = false;
-            Logger.getLogger(ClientListenerThread.class.getName()).log(Level.SEVERE, null, ex);
-		}
+            Logger.getLogger(ClientListenerThread.class.getName()).log(
+                    Level.SEVERE, null, ex);
+        }
+    }
+
+    public void setOnIncomingDataListener(
+            OnIncomingDataListener onIncomingDataListener) {
+        this.onIncomingDataListener = onIncomingDataListener;
     }
 }

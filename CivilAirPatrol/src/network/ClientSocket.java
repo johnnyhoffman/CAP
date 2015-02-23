@@ -5,57 +5,64 @@
  */
 package network;
 
-import common.AppPreferences;
-import common.GlobalConstants;
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+
+import network.ClientListenerThread.OnIncomingDataListener;
+
+import common.AppPreferences;
 
 /**
  *
  * @author Robert
  */
 
-//This is a singleton class, only one instance allowed
+// This is a singleton class, only one instance allowed
 public class ClientSocket {
-    
+
     private Socket socket;
     public ObjectInputStream input;
     public ObjectOutputStream output;
     private ClientListenerThread listener;
-    
+
     private ClientSocket() {
-        try{
-            this.socket = new Socket(AppPreferences.getIP(),AppPreferences.getPort());
+        try {
+            this.socket = new Socket(AppPreferences.getIP(),
+                    AppPreferences.getPort());
             this.output = new ObjectOutputStream(this.socket.getOutputStream());
             this.output.flush();
             this.input = new ObjectInputStream(this.socket.getInputStream());
             this.listener = new ClientListenerThread(input);
-        }catch(Exception e){
+        } catch (Exception e) {
             System.err.println(e.toString());
         }
     }
-    
-    public void closeSocket(){
-        try{
+
+    public void closeSocket() {
+        try {
             input.close();
             output.close();
             socket.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.err.println(e.toString());
         }
     }
-    public void startListener(){
+
+    public void startListener() {
         listener.start();
     }
-    
+
     public static ClientSocket getInstance() {
         return ClientSocketHolder.INSTANCE;
     }
-    
-    private static class ClientSocketHolder {
 
+    private static class ClientSocketHolder {
         private static final ClientSocket INSTANCE = new ClientSocket();
+    }
+
+    public void setOnIncomingDataListener(
+            OnIncomingDataListener onIncomingDataListener) {
+        listener.setOnIncomingDataListener(onIncomingDataListener);
     }
 }

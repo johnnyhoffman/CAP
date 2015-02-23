@@ -15,7 +15,7 @@ import network.ClientSocket;
 /* Placeholder for demonstrating Session MVC */
 public class ChatController implements IController {
 
-    private static ChatView view; //is this acceptable as static......
+    private ChatView view;
     private ChatModel model;
 
     public ChatController() {
@@ -52,10 +52,10 @@ public class ChatController implements IController {
                 view.setTextChatEntry(""); //Reset the chat entry line
             }
         });
-
     }
+
     //provide access to write to the chat area
-    public static void writeChat(String message){
+    public void writeChat(String message){
         //TODO write to the chat area of the client
         String textArea = view.getTextChatArea();
         int textTest = 1;
@@ -70,7 +70,10 @@ public class ChatController implements IController {
         default:
             view.setTextChatArea(textArea + "\n" + message);
         }
-        
+    }
+    
+    public void processChatMessage(ChatMessage m) {
+        writeChat(m.getUser() + " : " + m.getMessage());
     }
 
     public void onClose() {

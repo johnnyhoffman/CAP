@@ -6,22 +6,18 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import common.DBPushParams;
-
-import chat.ChatController;
-
-import assets.AssetsController;
-import common.GlobalConstants;
-
+import network.ChatMessage;
+import network.ClientListenerThread.OnIncomingDataListener;
+import network.NetworkMessage;
 import session.SessionView.NewFormListener;
 import userInterface.SearchWindow;
+import assets.AssetsController;
+import chat.ChatController;
+
+import common.DBPushParams;
+
 import database.sqlServer;
 import forms.FormsController;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import network.ClientSocket;
-import network.LoginMessage;
 
 public class SessionController {
 
@@ -31,17 +27,10 @@ public class SessionController {
     private FormsController formsController;
     private ChatController chatController;
     private AssetsController assetsController;
-    
+
     private SearchWindow searchWindow;
 
     public SessionController() {
-        ClientSocket.getInstance().startListener();
-        try {
-            ClientSocket.getInstance().output.writeObject(new LoginMessage(GlobalConstants.USERNAME, "password"));
-        } catch (IOException ex) {
-            Logger.getLogger(SessionController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
         view = new SessionView();
         model = new SessionModel();
 
@@ -53,9 +42,31 @@ public class SessionController {
         view.setAssetsComponent(assetsController.getViewComponent());
         view.setChatComponent(chatController.getViewComponent());
 
+        model.setIncomingDataListener(new OnIncomingDataListener() {
+            @Override
+            public void processNetworkMessage(NetworkMessage networkMessage) {
+                switch (networkMessage.getType()) {
+                case CHAT:
+                    chatController
+                            .processChatMessage((ChatMessage) networkMessage);
+                    break;
+                case GET:
+                    break;
+                case GUI:
+                    break;
+                case LOGIN:
+                    break;
+                case RESULT:
+                    
+                    break;
+                }
+            }
+        });
+
         view.addNewComLogMenuItemActionListener(new NewFormListener() {
             public void createForm(String missionNo, long date) {
-                formsController.newComLog(missionNo, date);;
+                formsController.newComLog(missionNo, date);
+                ;
             }
         });
 
@@ -70,16 +81,16 @@ public class SessionController {
                 formsController.newRadioMessage(missionNo, date);
             }
         });
-        
-        
+
         view.addRetrieveFormsActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	if (searchWindow == null || searchWindow.isDead()) {
-            		searchWindow = new SearchWindow(view.getX(),view.getY(),formsController);
-            	} else {
-            		searchWindow.moveToTop();
-            	}
+                if (searchWindow == null || searchWindow.isDead()) {
+                    searchWindow = new SearchWindow(view.getX(), view.getY(),
+                            formsController);
+                } else {
+                    searchWindow.moveToTop();
+                }
             }
         });
 
@@ -100,7 +111,7 @@ public class SessionController {
                 }
             }
         });
-        
+
         // On window close
         view.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(WindowEvent winEvt) {
@@ -108,7 +119,7 @@ public class SessionController {
             }
         });
     }
-    
+
     public void onClose() {
         formsController.onClose();
         AssetsController.onClose();
