@@ -32,5 +32,6 @@ public class GlobalConstants {
     //network
     public static final int DEFAULT_PORT = 8117;
     public static final String DEFAULT_ADDRESS = "localhost";//"224.6.3.33";
+    public static final long ASSET_TRACKER_PERIOD = 3000;
     public static String USERNAME = "DEFAULT USER";
 }
