@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package network;
+package applications;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,6 +11,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+
+import network.ClientConnection;
+import network.LoginMessage;
+import network.MessageType;
+import network.NetworkMessage;
+import network.UserType;
 
 import common.AppPreferences;
 
