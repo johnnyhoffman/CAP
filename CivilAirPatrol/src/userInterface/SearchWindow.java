@@ -130,7 +130,7 @@ public class SearchWindow {
         dateRangePanel2.setBackground(new Color(200, 200, 220));
         JLabel dateHeader = new JLabel("Created between ", JLabel.CENTER);
         JLabel date1to2label = new JLabel("  and  ", JLabel.CENTER);
-        minDateTime = new DateTimePicker();
+        minDateTime = new DateTimePicker(new Date(28800000));
         maxDateTime = new DateTimePicker();
         dateRangePanel1.add(dateHeader);
         dateRangePanel1.add(minDateTime);
@@ -202,6 +202,7 @@ public class SearchWindow {
         mainFrame.dispose();
         dead = false;
         mainFrame = new SearchWindowJFrame();
+        System.out.println(formPushParams);
 
         // new frame is added, in place of the old one
         mainFrame = new SearchWindowJFrame();
@@ -209,9 +210,9 @@ public class SearchWindow {
         mainFrame.setSize(RESULTS_WIDTH, RESULTS_HEIGHT);
         mainFrame.setLayout(new GridLayout(2, 1));
         mainFrame.setBackground(new Color(230, 230, 230));
-
+        
         DefaultListModel resultsListModel = new DefaultListModel();
-
+        
         for (int i = 0; i < formPushParams.size(); i++) {
             DBPushParams p = formPushParams.get(i);
             String type = "";

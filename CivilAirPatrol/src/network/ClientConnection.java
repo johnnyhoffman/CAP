@@ -310,7 +310,7 @@ public class ClientConnection extends Thread {
         List<DBPushParams> resultsList = new ArrayList<DBPushParams>();
 
         if (request.COMM) {
-            if (request.missionNo == null) {
+            if (request.missionNo.equals("")) {
                 resultsList.addAll(database.sqlServer
                         .SelectFromCommLogInitialSearch(request.startDate,
                                 request.endDate));
@@ -321,7 +321,7 @@ public class ClientConnection extends Thread {
             }
         }
         if (request.RAD) {
-            if (request.missionNo == null) {
+            if (request.missionNo.equals("")) {
                 resultsList.addAll(database.sqlServer
                         .SelectFromRADInitialSearch(request.startDate,
                                 request.endDate));
@@ -332,7 +332,7 @@ public class ClientConnection extends Thread {
             }
         }
         if (request.SAR) {
-            if (request.missionNo == null) {
+            if (request.missionNo.equals("")) {
                 resultsList.addAll(database.sqlServer
                         .SelectFromSARInitialSearch(request.startDate,
                                 request.endDate));
