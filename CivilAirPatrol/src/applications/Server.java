@@ -113,7 +113,6 @@ public class Server extends Thread {
         } catch (IOException e) {
             System.err.println(e.toString());
         } catch (ClassNotFoundException e) {
-            System.err.println(e.toString());
         }
     }
 

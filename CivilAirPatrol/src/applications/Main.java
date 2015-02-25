@@ -21,7 +21,6 @@ import session.SessionController;
 import userInterface.LoginWindow;
 
 public class Main {
-
     public static void main(String[] args) {
         final JFrame f = new JFrame();
         LoginWindow loginWindow = new LoginWindow(f);
