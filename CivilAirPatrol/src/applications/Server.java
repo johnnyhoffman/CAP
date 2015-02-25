@@ -53,6 +53,10 @@ public class Server extends Thread {
         }
         this.start();
     }
+    
+    public void quit() {
+    	run = false;
+    }
 
     // Function to check credentials against db
     private UserType validate(NetworkMessage attempt) {
@@ -114,6 +118,7 @@ public class Server extends Thread {
             System.err.println(e.toString());
         } catch (ClassNotFoundException e) {
         }
+        System.exit(0);
     }
 
     public static void main(String argv[]) {
