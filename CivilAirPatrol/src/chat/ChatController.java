@@ -1,6 +1,7 @@
 package chat;
 
 import common.GlobalConstants;
+import common.ClientGlobalVariables;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,7 +43,7 @@ public class ChatController implements IController {
 
                 if (textEntry.isEmpty())
                     return;
-                ChatMessage message = new ChatMessage(textEntry, GlobalConstants.USERNAME);
+                ChatMessage message = new ChatMessage(textEntry, ClientGlobalVariables.USERNAME);
 
                 try {
                     ClientSocket.getInstance().output.writeObject(message);
