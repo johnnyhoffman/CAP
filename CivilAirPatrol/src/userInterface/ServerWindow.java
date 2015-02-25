@@ -46,6 +46,7 @@ public class ServerWindow {
 		mainFrame.setSize(SERVER_VIEW_WIDTH, SERVER_VIEW_HEIGHT);
         mainFrame.setLayout(new GridLayout(3, 1));
         mainFrame.setBackground(new Color(230, 230, 230));
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JLabel tooltip = new JLabel(
                 "CAP Forms Database Server",
                 JLabel.CENTER);
@@ -85,28 +86,12 @@ public class ServerWindow {
 	private class ServerGoButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
         	if (!busy) {
+        		server.activateServer(Integer.parseInt(portTextField.getText()));
         		goButton.setEnabled(false);
-        		busy = true;
-        		if (server.isRunning()) {
-        			server.stopServer();
-        		} else {
-            		System.out.println(portTextField.getText());
-            		System.out.println(Integer.parseInt(portTextField.getText()));
-        			server.startServer(Integer.parseInt(portTextField.getText()));
-        		}
+        		goButton.setText("Server is Running");
+        		portTextField.setEnabled(false);
         	}
         }
     }
-
-	public void setActive(boolean active) {
-		serverActive = active;
-		busy = false;
-    	goButton.setEnabled(true);
-    	if (active) {
-    		goButton.setText("Stop Server");
-    	} else {
-    		goButton.setText("Start Server");
-    	}
-	}
 
 }

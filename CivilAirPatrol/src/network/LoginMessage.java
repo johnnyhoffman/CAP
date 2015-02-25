@@ -12,10 +12,12 @@ package network;
 public class LoginMessage extends NetworkMessage{
     private String user;
     private String pass;
-    public LoginMessage(String user, String password){
+    private UserType userType; 
+    public LoginMessage(String user, String password, UserType userType){
         super(MessageType.LOGIN);
         this.user = user;
         this.pass = password;
+        this.userType = userType;
     }
     
     public String getUser(){
@@ -23,5 +25,8 @@ public class LoginMessage extends NetworkMessage{
     }
     public String getPass(){
         return this.pass;
+    }
+    public UserType getUserType(){
+        return this.userType;
     }
 }

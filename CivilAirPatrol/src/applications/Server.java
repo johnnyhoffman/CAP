@@ -5,15 +5,12 @@
  */
 package applications;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-
-import userInterface.ServerWindow;
 
 import network.ClientConnection;
 import network.LoginMessage;
@@ -22,6 +19,10 @@ import network.NetworkMessage;
 import network.UserType;
 
 import common.AppPreferences;
+import common.User;
+import java.io.IOException;
+
+import userInterface.ServerWindow;
 
 /**
  *
@@ -30,59 +31,40 @@ import common.AppPreferences;
 public class Server extends Thread {
 
     private ServerSocket socket;
-    private boolean run = true;
-    private boolean active;
+    boolean run = true;
     public static List<ClientConnection> allClients;
     
-    public ServerWindow UI;
-    
-    public int socketNo;
+    ServerWindow serverWindow;
 
     public Server(int p) {
-
-    	socketNo = p;
-    	UI = new ServerWindow(this,socketNo);
-
-        allClients = new ArrayList<ClientConnection>();
-        active = false;
-        this.start();
+    	//activateServer(p);
+    	serverWindow = new ServerWindow(this,p);
     }
     
-    public void startServer(int currentPort) {
-    	System.out.println(currentPort);
+    public void activateServer(int p) {
+
+    	allClients = new ArrayList<ClientConnection>();
         try {
-            this.socket = new ServerSocket(socketNo);
+            this.socket = new ServerSocket(p);
             this.socket.setReuseAddress(true);
+            System.out.println("Server activated");
         } catch (Exception e) {
             System.err.println(e.toString());
         }
-        active = true;
-        UI.setActive(true);
-        System.out.println("Server has been activated");
-    }
-
-    public void stopServer() {
-    	try {
-			this.socket.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    	this.active = false;
-        UI.setActive(false);
-        System.out.println("Server has been deactivated");
-    	
-    }
-    
-    
-    public boolean isRunning() {
-    	return active;
+        this.start();
     }
 
     // Function to check credentials against db
     private UserType validate(NetworkMessage attempt) {
         if (attempt.getType() == MessageType.LOGIN) {
             // TODO check against the DB information
-            return UserType.READER;
+            User user = database.sqlServer.SelectFromUsersWithUserName(((LoginMessage)attempt).getUser());
+            if (user != null && user.getPass().equals(((LoginMessage)attempt).getPass())){
+                return user.getType();
+            }else{
+                return UserType.NONE;
+            }
+            
         }
         return UserType.NONE;
     }
@@ -97,44 +79,47 @@ public class Server extends Thread {
         UserType type;
         try {
             while (run) {
-            	if (active) {
-	                Socket server = socket.accept();
-	                output = new ObjectOutputStream(server.getOutputStream());
-	                output.flush();
-	                input = new ObjectInputStream(server.getInputStream());
-	
-	                // TODO before addin the client to the list of accepted
-	                // connection need to validate them
-	                // They should have sent a login message with the connection
-	                // attempt.
-	                NetworkMessage loginattempt = (NetworkMessage) input
-	                        .readObject();
-	
-	                if ((type = validate(loginattempt)) != UserType.NONE) {
-	                    // create the client connection
-	
-	                    client = new ClientConnection(input, output, server,
-	                            ((LoginMessage) loginattempt).getUser(), type);
-	                    allClients.add(client);
-	                    client.start();
-	                    System.out.println("Accepted client connection.");
-	                } else {
-	                    // Did not have correct credentials, drop them
-	                    input.close();
-	                    output.close();
-	                    server.close();
-	                }
-            	}
+                Socket server = socket.accept();
+                output = new ObjectOutputStream(server.getOutputStream());
+                output.flush();
+                input = new ObjectInputStream(server.getInputStream());
 
+                // TODO before addin the client to the list of accepted
+                // connection need to validate them
+                // They should have sent a login message with the connection
+                // attempt.
+                NetworkMessage loginattempt = (NetworkMessage) input
+                        .readObject();
+
+                if ((type = validate(loginattempt)) != UserType.NONE) {
+                    // create the client connection
+                    output.writeObject(new LoginMessage(((LoginMessage)loginattempt).getUser(),"",type));
+                    client = new ClientConnection(input, output, server,
+                            ((LoginMessage) loginattempt).getUser(), type);
+
+                    allClients.add(client);
+                    client.start();
+                    System.out.println("Accepted client connection.");
+                } else {
+                    // Did not have correct credentials, drop them
+                    output.writeObject(new LoginMessage("Did not provide correct credentials.","",UserType.NONE)); // send a message back with login type none if there was an error
+                    input.close();
+                    output.close();
+                    server.close();
+                
+            	}
             }
             socket.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
+            System.err.println(e.toString());
+        } catch (ClassNotFoundException e) {
             System.err.println(e.toString());
         }
     }
 
     public static void main(String argv[]) {
         database.sqlServer.CreateDatabase();
+        database.sqlServer.InsertUser("Robert", "testpass", "WRITER");
         Server server = new Server(AppPreferences.getPort());
     }
 

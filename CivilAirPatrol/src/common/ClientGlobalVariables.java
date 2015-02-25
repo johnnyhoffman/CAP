@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package network;
+package common;
+
+import network.UserType;
 
 /**
  *
  * @author Robert
  */
-public enum MessageType {
-    GUI, CHAT, LOGIN, GET, GET_SINGLE, RESULT, NEW_FORM
+public class ClientGlobalVariables {
+    public static String USERNAME;
+    public static UserType USERTYPE;
 }
