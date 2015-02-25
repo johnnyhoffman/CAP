@@ -1,18 +1,16 @@
 package forms;
 
+import java.awt.Color;
 import java.awt.Component;
 
-import javax.swing.JTable;
 import javax.swing.event.CaretListener;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
 
 import common.DataContainers.CommunicationsLog.ComLogEntry;
 import common.DateTimePicker;
 import common.DateTimePicker.DateTimePickerChangeListener;
 import common.GlobalConstants;
+import common.HourAndMin;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -68,7 +66,26 @@ public class CommLogView extends FormComponent {
         jSeparator3 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         // My oh-so-special table
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable() {
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer,
+                    int row, int col) {
+                Component comp = super.prepareRenderer(renderer, row, col);
+                String value = (String) getModel().getValueAt(row, col);
+                if (col == 0) {
+                    if (value.trim().equals("")) {
+                        comp.setBackground(Color.white);
+                    } else if (HourAndMin.isValidTimeColumnField(value)) {
+                        comp.setBackground(new Color(15136255));
+                    } else {
+                        comp.setBackground(new Color(16737350));
+                    }
+                } else {
+                    comp.setBackground(Color.white);
+                }
+                return comp;
+            }
+        };
 
         jLabel1.setText("COMMUNICATIONS LOG");
 
