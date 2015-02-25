@@ -1,5 +1,7 @@
 package applications;
 
+import common.ClientGlobalVariables;
+import common.User;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +23,7 @@ public class Main {
     public static void main(String[] args) {
         final JFrame f = new JFrame();
         LoginWindow loginWindow = new LoginWindow(f);
-        final User user = loginWindow.showOptions();
+        User user = loginWindow.showOptions();
         
         System.out.println("User: " + user.getUser()+ " pass: " + user.getPass());
         if (user != null){
@@ -49,7 +51,6 @@ public class Main {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 //TODO This is a fatal error....
             }
-        
             new SessionController();
         }
     }

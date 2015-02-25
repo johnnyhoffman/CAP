@@ -18,6 +18,8 @@ import network.MessageType;
 import network.NetworkMessage;
 import network.UserType;
 
+import security.BCrypt;
+
 import common.AppPreferences;
 import common.User;
 import java.io.IOException;
@@ -48,7 +50,7 @@ public class Server extends Thread {
         if (attempt.getType() == MessageType.LOGIN) {
             // TODO check against the DB information
             User user = database.sqlServer.SelectFromUsersWithUserName(((LoginMessage)attempt).getUser());
-            if (user != null && user.getPass().equals(((LoginMessage)attempt).getPass())){
+            if (user != null && BCrypt.checkpw(((LoginMessage)attempt).getPass(), user.getPass())){
                 return user.getType();
             }else{
                 return UserType.NONE;
@@ -107,7 +109,8 @@ public class Server extends Thread {
 
     public static void main(String argv[]) {
         database.sqlServer.CreateDatabase();
-        database.sqlServer.InsertUser("Robert", "testpass", "WRITER");
+        database.sqlServer.InsertUser("Robert", BCrypt.hashpw("testpass", BCrypt.gensalt()), "WRITER");
+        database.sqlServer.InsertUser("Reader", BCrypt.hashpw("passs", BCrypt.gensalt()), "READER");
         Server server = new Server(AppPreferences.getPort());
         server.start();
     }
