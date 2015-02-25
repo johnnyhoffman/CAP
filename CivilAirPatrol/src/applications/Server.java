@@ -24,6 +24,8 @@ import common.AppPreferences;
 import common.User;
 import java.io.IOException;
 
+import userInterface.ServerWindow;
+
 /**
  *
  * @author Robert
@@ -33,16 +35,29 @@ public class Server extends Thread {
     private ServerSocket socket;
     boolean run = true;
     public static List<ClientConnection> allClients;
+    
+    ServerWindow serverWindow;
 
     public Server(int p) {
+    	//activateServer(p);
+    	serverWindow = new ServerWindow(this,p);
+    }
+    
+    public void activateServer(int p) {
 
-        allClients = new ArrayList<ClientConnection>();
+    	allClients = new ArrayList<ClientConnection>();
         try {
             this.socket = new ServerSocket(p);
             this.socket.setReuseAddress(true);
+            System.out.println("Server activated");
         } catch (Exception e) {
             System.err.println(e.toString());
         }
+        this.start();
+    }
+    
+    public void quit() {
+    	run = false;
     }
 
     // Function to check credentials against db
@@ -70,7 +85,6 @@ public class Server extends Thread {
         UserType type;
         try {
             while (run) {
-
                 Socket server = socket.accept();
                 output = new ObjectOutputStream(server.getOutputStream());
                 output.flush();
@@ -98,13 +112,15 @@ public class Server extends Thread {
                     input.close();
                     output.close();
                     server.close();
-                }
-
+                
+            	}
             }
             socket.close();
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             System.err.println(e.toString());
+        } catch (ClassNotFoundException e) {
         }
+        System.exit(0);
     }
 
     public static void main(String argv[]) {
@@ -112,7 +128,6 @@ public class Server extends Thread {
         database.sqlServer.InsertUser("Robert", BCrypt.hashpw("testpass", BCrypt.gensalt()), "WRITER");
         database.sqlServer.InsertUser("Reader", BCrypt.hashpw("passs", BCrypt.gensalt()), "READER");
         Server server = new Server(AppPreferences.getPort());
-        server.start();
     }
 
 }

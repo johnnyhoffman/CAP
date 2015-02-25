@@ -7,6 +7,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import common.ClientGlobalVariables;
+import common.User;
+
 import network.ChatMessage;
 import network.ClientListenerThread.OnIncomingDataListener;
 import network.ClientSocket;
@@ -19,7 +23,6 @@ import session.SessionController;
 import userInterface.LoginWindow;
 
 public class Main {
-
     public static void main(String[] args) {
         final JFrame f = new JFrame();
         LoginWindow loginWindow = new LoginWindow(f);
@@ -47,10 +50,15 @@ public class Main {
                         break;
                 }
                 
-            } catch (IOException | ClassNotFoundException ex) {
+            } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 //TODO This is a fatal error....
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                //TODO This is a fatal error....
+
             }
+
             new SessionController();
         }
     }

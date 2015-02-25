@@ -24,7 +24,7 @@ public class AssetsView extends JPanel {
 
     private static final long serialVersionUID = 1513332921051650164L;
     private JTextField missionNoTF;
-    JList<String> list;
+    JList list;
 
     private class MyListRenderer extends DefaultListCellRenderer {
         private int overdueCount;
@@ -35,7 +35,7 @@ public class AssetsView extends JPanel {
             this.overdueCount = overdueCount;
         }
 
-        public Component getListCellRendererComponent(JList<?> list,
+        public Component getListCellRendererComponent(JList list,
                 Object value, int index, boolean isSelected,
                 boolean cellHasFocus) {
             super.getListCellRendererComponent(list, value, index, isSelected,
@@ -86,8 +86,8 @@ public class AssetsView extends JPanel {
         add(missionNoTF, gbc_textField);
         missionNoTF.setColumns(10);
 
-        DefaultListModel<String> model = new DefaultListModel<String>();
-        list = new JList<String>(model); // data has type Object[]
+        DefaultListModel model = new DefaultListModel();
+        list = new JList(model); // data has type Object[]
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setLayoutOrientation(JList.VERTICAL);
         list.setVisibleRowCount(10);
@@ -119,7 +119,7 @@ public class AssetsView extends JPanel {
         underdueTEMP.add("ud3");
         underdueTEMP.add("ud4");
         underdueTEMP.add("ud5");
-        DefaultListModel<String> model = new DefaultListModel<String>();
+        DefaultListModel model = new DefaultListModel();
         for (String s : overdueTEMP) {
             model.addElement(s);
         }

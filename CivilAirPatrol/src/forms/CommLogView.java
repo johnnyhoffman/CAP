@@ -1,14 +1,16 @@
 package forms;
 
+import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.event.CaretListener;
+import javax.swing.table.TableCellRenderer;
 
-import common.DataContainers;
-import common.DateTimePicker;
-import common.GlobalConstants;
-import common.DataContainers.CommunicationsLog;
 import common.DataContainers.CommunicationsLog.ComLogEntry;
+import common.DateTimePicker;
 import common.DateTimePicker.DateTimePickerChangeListener;
-
+import common.GlobalConstants;
+import common.HourAndMin;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -63,7 +65,27 @@ public class CommLogView extends FormComponent {
         jTextField9 = new javax.swing.JTextField();
         jSeparator3 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        // My oh-so-special table
+        jTable1 = new javax.swing.JTable() {
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer,
+                    int row, int col) {
+                Component comp = super.prepareRenderer(renderer, row, col);
+                String value = (String) getModel().getValueAt(row, col);
+                if (col == 0) {
+                    if (value.trim().equals("")) {
+                        comp.setBackground(Color.white);
+                    } else if (HourAndMin.isValidTimeColumnField(value)) {
+                        comp.setBackground(new Color(15136255));
+                    } else {
+                        comp.setBackground(new Color(16737350));
+                    }
+                } else {
+                    comp.setBackground(Color.white);
+                }
+                return comp;
+            }
+        };
 
         jLabel1.setText("COMMUNICATIONS LOG");
 
@@ -98,18 +120,24 @@ public class CommLogView extends FormComponent {
 
         jLabel11.setText("F");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(new Object[][] { { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null } }, new String[] { "TIME", "CALL", "CH REF",
-                "REMARKS" }));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][] { { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null }, { null, null, null, null },
+                        { null, null, null, null } }, new String[] { "TIME",
+                        "CALL", "CH REF", "REMARKS" }));
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
@@ -125,16 +153,22 @@ public class CommLogView extends FormComponent {
                         layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(
-                                        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        layout.createParallelGroup(
+                                                javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(
                                                         layout.createSequentialGroup()
-                                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                                .addGap(0,
+                                                                        0,
+                                                                        Short.MAX_VALUE)
                                                                 .addGroup(
                                                                         layout.createParallelGroup(
                                                                                 javax.swing.GroupLayout.Alignment.CENTER)
-                                                                                .addComponent(jLabel1)
-                                                                                .addComponent(jLabel5))
-                                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                .addComponent(
+                                                                                        jLabel1)
+                                                                                .addComponent(
+                                                                                        jLabel5))
+                                                                .addContainerGap(
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                         Short.MAX_VALUE))
                                                 .addGroup(
                                                         layout.createSequentialGroup()
@@ -150,13 +184,17 @@ public class CommLogView extends FormComponent {
                                                                                         javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                         javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                         Short.MAX_VALUE))
-                                                                .addGap(44, 44, 44)
+                                                                .addGap(44, 44,
+                                                                        44)
                                                                 .addGroup(
                                                                         layout.createParallelGroup(
                                                                                 javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                .addComponent(jTextField2)
-                                                                                .addComponent(jLabel3))
-                                                                .addGap(44, 44, 44)
+                                                                                .addComponent(
+                                                                                        jTextField2)
+                                                                                .addComponent(
+                                                                                        jLabel3))
+                                                                .addGap(44, 44,
+                                                                        44)
                                                                 .addGroup(
                                                                         layout.createParallelGroup(
                                                                                 javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,44 +203,86 @@ public class CommLogView extends FormComponent {
                                                                                         javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                         javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                         Short.MAX_VALUE)
-                                                                                .addComponent(datePicker, 
+                                                                                .addComponent(
+                                                                                        datePicker,
                                                                                         javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                         javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                                         javax.swing.GroupLayout.DEFAULT_SIZE))
-                                                                .addGap(28, 28, 28)
-                                                                )
+                                                                .addGap(28, 28,
+                                                                        28))
                                                 .addGroup(
                                                         layout.createSequentialGroup()
-                                                                .addComponent(jLabel6,
-                                                                        javax.swing.GroupLayout.DEFAULT_SIZE, 22,
+                                                                .addComponent(
+                                                                        jLabel6,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        22,
                                                                         Short.MAX_VALUE)
-                                                                .addGap(112, 112, 112)
-                                                                .addComponent(jLabel7,
-                                                                        javax.swing.GroupLayout.DEFAULT_SIZE, 21,
+                                                                .addGap(112,
+                                                                        112,
+                                                                        112)
+                                                                .addComponent(
+                                                                        jLabel7,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        21,
                                                                         Short.MAX_VALUE)
-                                                                .addGap(112, 112, 112)
-                                                                .addComponent(jLabel8,
-                                                                        javax.swing.GroupLayout.DEFAULT_SIZE, 22,
+                                                                .addGap(112,
+                                                                        112,
+                                                                        112)
+                                                                .addComponent(
+                                                                        jLabel8,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        22,
                                                                         Short.MAX_VALUE)
-                                                                .addGap(112, 112, 112)
-                                                                .addComponent(jLabel9,
-                                                                        javax.swing.GroupLayout.DEFAULT_SIZE, 22,
+                                                                .addGap(112,
+                                                                        112,
+                                                                        112)
+                                                                .addComponent(
+                                                                        jLabel9,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        22,
                                                                         Short.MAX_VALUE)
-                                                                .addGap(112, 112, 112)
-                                                                .addComponent(jLabel10,
-                                                                        javax.swing.GroupLayout.DEFAULT_SIZE, 21,
+                                                                .addGap(112,
+                                                                        112,
+                                                                        112)
+                                                                .addComponent(
+                                                                        jLabel10,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        21,
                                                                         Short.MAX_VALUE)
-                                                                .addGap(112, 112, 112)
-                                                                .addComponent(jLabel11,
-                                                                        javax.swing.GroupLayout.DEFAULT_SIZE, 22,
-                                                                        Short.MAX_VALUE).addGap(96, 96, 96))
+                                                                .addGap(112,
+                                                                        112,
+                                                                        112)
+                                                                .addComponent(
+                                                                        jLabel11,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        22,
+                                                                        Short.MAX_VALUE)
+                                                                .addGap(96, 96,
+                                                                        96))
                                                 .addGroup(
-                                                        layout.createSequentialGroup().addComponent(jTextField4)
-                                                                .addGap(30, 30, 30).addComponent(jTextField5)
-                                                                .addGap(45, 45, 45).addComponent(jTextField6)
-                                                                .addGap(51, 51, 51).addComponent(jTextField7)
-                                                                .addGap(51, 51, 51).addComponent(jTextField8)
-                                                                .addGap(45, 45, 45).addComponent(jTextField9)
+                                                        layout.createSequentialGroup()
+                                                                .addComponent(
+                                                                        jTextField4)
+                                                                .addGap(30, 30,
+                                                                        30)
+                                                                .addComponent(
+                                                                        jTextField5)
+                                                                .addGap(45, 45,
+                                                                        45)
+                                                                .addComponent(
+                                                                        jTextField6)
+                                                                .addGap(51, 51,
+                                                                        51)
+                                                                .addComponent(
+                                                                        jTextField7)
+                                                                .addGap(51, 51,
+                                                                        51)
+                                                                .addComponent(
+                                                                        jTextField8)
+                                                                .addGap(45, 45,
+                                                                        45)
+                                                                .addComponent(
+                                                                        jTextField9)
                                                                 .addContainerGap())
                                                 .addGroup(
                                                         javax.swing.GroupLayout.Alignment.TRAILING,
@@ -219,77 +299,128 @@ public class CommLogView extends FormComponent {
                                                                                 .addComponent(
                                                                                         jSeparator1,
                                                                                         javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                .addComponent(jSeparator2))
+                                                                                .addComponent(
+                                                                                        jSeparator2))
                                                                 .addContainerGap()))));
-        layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(
-                                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel2).addComponent(jLabel3).addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(
-                                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(datePicker, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(
-                                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel6).addComponent(jLabel7).addComponent(jLabel8)
-                                        .addComponent(jLabel9).addComponent(jLabel10).addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(
-                                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 506,
-                                javax.swing.GroupLayout.PREFERRED_SIZE)));
+        layout.setVerticalGroup(layout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(
+                        layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(
+                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator1,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        12,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(
+                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(
+                                        layout.createParallelGroup(
+                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel2)
+                                                .addComponent(jLabel3)
+                                                .addComponent(jLabel4))
+                                .addPreferredGap(
+                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(
+                                        layout.createParallelGroup(
+                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(
+                                                        jTextField1,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(
+                                                        jTextField2,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(
+                                                        datePicker,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE))
+                                .addPreferredGap(
+                                        javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jSeparator2,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        10,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(
+                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(
+                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(
+                                        layout.createParallelGroup(
+                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel6)
+                                                .addComponent(jLabel7)
+                                                .addComponent(jLabel8)
+                                                .addComponent(jLabel9)
+                                                .addComponent(jLabel10)
+                                                .addComponent(jLabel11))
+                                .addPreferredGap(
+                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(
+                                        layout.createParallelGroup(
+                                                javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(
+                                                        jTextField4,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(
+                                                        jTextField5,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(
+                                                        jTextField6,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(
+                                                        jTextField7,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(
+                                                        jTextField8,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(
+                                                        jTextField9,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(
+                                        javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jSeparator3,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        10,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(
+                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        506,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)));
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] { jTextField4, jTextField5,
-                jTextField6, jTextField7, jTextField8, jTextField9 });
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL,
+                new java.awt.Component[] { jTextField4, jTextField5,
+                        jTextField6, jTextField7, jTextField8, jTextField9 });
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] { jTextField1, jTextField2,
-                datePicker });
+        layout.linkSize(
+                javax.swing.SwingConstants.VERTICAL,
+                new java.awt.Component[] { jTextField1, jTextField2, datePicker });
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] { jLabel10, jLabel11, jLabel6,
-                jLabel7, jLabel8, jLabel9 });
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL,
+                new java.awt.Component[] { jLabel10, jLabel11, jLabel6,
+                        jLabel7, jLabel8, jLabel9 });
 
     }// </editor-fold>//GEN-END:initComponents
 
@@ -379,7 +510,7 @@ public class CommLogView extends FormComponent {
         return jTextField2.getText();
     }
 
-    //TODO: Change name to getDateLong
+    // TODO: Change name to getDateLong
     public Long getDateText() {
         return datePicker.getDateLong();
     }

@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,12 +18,13 @@ import java.util.logging.Logger;
 import applications.Server;
 
 import com.google.gson.Gson;
-
 import common.DBPushParams;
 import common.DataContainers;
 import common.DataContainers.CommunicationsLog;
 import common.DataContainers.RadioMessage;
 import common.DataContainers.SearchAndRescue;
+import common.GlobalConstants;
+
 import database.sqlServer;
 
 /**
@@ -30,12 +32,58 @@ import database.sqlServer;
  * @author Robert
  */
 public class ClientConnection extends Thread {
+
+    public interface OnAssetUpdateListener {
+        public void onAssetUpdate(List<String> overdue, List<String> underdue);
+    }
+
     private ObjectInputStream input;
     private ObjectOutputStream output;
     private Socket socket;
     private String user;
     private UserType userType;
     private Gson gson;
+
+    public class AssetTracker extends Thread {
+        private OnAssetUpdateListener onAssetUpdateListener;
+        private String missionNo;
+        private Gson gson;
+
+        public AssetTracker(OnAssetUpdateListener onAssetUpdateListener) {
+            gson = new Gson();
+            this.onAssetUpdateListener = onAssetUpdateListener;
+        }
+
+        // MissionNo and loop that checks for updates to that assets with that
+        // mission no must not execute at the same time
+        public synchronized void setMissionNo(String missionNo) {
+            this.missionNo = missionNo;
+        }
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    // missionNo can't be changed while this block executes
+                    synchronized (this) {
+                        List<DBPushParams> clPushParams = sqlServer.SelectFromCommLogWithMissionNum(missionNo);
+                        HashMap<String,Long> assetTimes = new HashMap<String,Long>();//TODO : JOHNNY WORKING HERE
+                        for (DBPushParams clPushParam : clPushParams) {
+                            CommunicationsLog cl = gson.fromJson(clPushParam.json, DataContainers.CommunicationsLog.class);
+                            for (int i = 0; i < cl.entries.length; i++) {
+//                                if (cl.entries[i].) {
+//                                    
+//                                }
+                            }
+                        }
+                    }
+                    this.sleep(GlobalConstants.ASSET_TRACKER_PERIOD);
+                } catch (InterruptedException e) {
+                    System.out.println("Asset tracker sleeping interupted.");
+                }
+            }
+        }
+    }
 
     public ClientConnection(ObjectInputStream in, ObjectOutputStream out,
             Socket socket, String user, UserType type) {
