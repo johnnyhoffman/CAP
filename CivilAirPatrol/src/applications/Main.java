@@ -3,18 +3,18 @@ package applications;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import network.ChatMessage;
-import network.ClientListenerThread.OnIncomingDataListener;
+
 import network.ClientSocket;
-import network.GuiMessage;
 import network.LoginMessage;
 import network.NetworkMessage;
-import network.ResultMessage;
-
 import session.SessionController;
 import userInterface.LoginWindow;
+
+import common.ClientGlobalVariables;
+import common.User;
 
 public class Main {
     public static void main(String[] args) {

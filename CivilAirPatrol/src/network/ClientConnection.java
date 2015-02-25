@@ -6,6 +6,7 @@
 package network;
 
 import java.io.IOException;
+import common.HourAndMin;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -66,14 +67,24 @@ public class ClientConnection extends Thread {
                 try {
                     // missionNo can't be changed while this block executes
                     synchronized (this) {
-                        List<DBPushParams> clPushParams = sqlServer.SelectFromCommLogWithMissionNum(missionNo);
-                        HashMap<String,Long> assetTimes = new HashMap<String,Long>();//TODO : JOHNNY WORKING HERE
+                        List<DBPushParams> clPushParams = sqlServer
+                                .SelectFromCommLogWithMissionNum(missionNo);
+                        HashMap<String, String> assetTimes = new HashMap<String, String>();
                         for (DBPushParams clPushParam : clPushParams) {
-                            CommunicationsLog cl = gson.fromJson(clPushParam.json, DataContainers.CommunicationsLog.class);
+                            CommunicationsLog cl = gson.fromJson(
+                                    clPushParam.json,
+                                    DataContainers.CommunicationsLog.class);
                             for (int i = 0; i < cl.entries.length; i++) {
-//                                if (cl.entries[i].) {
-//                                    
-//                                }
+                                String timeStr = cl.entries[i].time.trim();
+                                String call = cl.entries[i].call.trim();
+                                HourAndMin time = HourAndMin
+                                        .sanitizeTimeColumnFieldToInts(timeStr);
+                                // If we have valid time field and nonempty call
+                                if (time != null && !call.isEmpty()) {
+                                    if (assetTimes.containsKey(call)) {
+                                        //TODO: Johnny working here
+                                    }
+                                }
                             }
                         }
                     }
