@@ -52,7 +52,7 @@ public class TestClient {
         try {
             TestClient client = new TestClient(address, port);
             client.startListener();
-            client.sendMessage(new LoginMessage("Robert", "password"));
+            client.sendMessage(new LoginMessage("Robert", "password", null));
             client.sendMessage(new ChatMessage("This is only a test", "USER"));
             int count = 1;
             while(run){

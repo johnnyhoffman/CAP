@@ -19,6 +19,8 @@ import network.NetworkMessage;
 import network.UserType;
 
 import common.AppPreferences;
+import common.User;
+import java.io.IOException;
 
 /**
  *
@@ -45,7 +47,13 @@ public class Server extends Thread {
     private UserType validate(NetworkMessage attempt) {
         if (attempt.getType() == MessageType.LOGIN) {
             // TODO check against the DB information
-            return UserType.READER;
+            User user = database.sqlServer.SelectFromUsersWithUserName(((LoginMessage)attempt).getUser());
+            if (user != null && user.getPass().equals(((LoginMessage)attempt).getPass())){
+                return user.getType();
+            }else{
+                return UserType.NONE;
+            }
+            
         }
         return UserType.NONE;
     }
@@ -75,14 +83,16 @@ public class Server extends Thread {
 
                 if ((type = validate(loginattempt)) != UserType.NONE) {
                     // create the client connection
-
+                    output.writeObject(new LoginMessage(((LoginMessage)loginattempt).getUser(),"",type));
                     client = new ClientConnection(input, output, server,
                             ((LoginMessage) loginattempt).getUser(), type);
+
                     allClients.add(client);
                     client.start();
                     System.out.println("Accepted client connection.");
                 } else {
                     // Did not have correct credentials, drop them
+                    output.writeObject(new LoginMessage("Did not provide correct credentials.","",UserType.NONE)); // send a message back with login type none if there was an error
                     input.close();
                     output.close();
                     server.close();
@@ -90,13 +100,14 @@ public class Server extends Thread {
 
             }
             socket.close();
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.err.println(e.toString());
         }
     }
 
     public static void main(String argv[]) {
         database.sqlServer.CreateDatabase();
+        database.sqlServer.InsertUser("Robert", "testpass", "WRITER");
         Server server = new Server(AppPreferences.getPort());
         server.start();
     }

@@ -12,5 +12,34 @@ package network;
 public enum UserType {
     READER,
     WRITER,
-    NONE
+    NONE;
+    
+    
+    @Override
+    public String toString(){
+        switch(this){
+            case READER:
+                return "READER";
+            case WRITER:
+                return "WRITER";
+            case NONE:
+                return "NONE";
+            default:
+                return null;
+        }        
+    }
+    public static UserType getType(String type){
+        switch (type){
+            case "READER":
+                return READER;
+            case "WRITER":
+                return WRITER;
+            case "NONE":
+                return NONE;
+            default:
+                return null;
+        }
+    }
 }
+
+

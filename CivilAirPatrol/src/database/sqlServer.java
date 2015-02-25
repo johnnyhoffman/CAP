@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import common.DBPushParams;
+import common.User;
 import forms.ScheduledPushModelAbstraction.FormType;
+import network.UserType;
 
 public class sqlServer {
     private static Connection c = null;
@@ -64,6 +66,16 @@ public class sqlServer {
                     + "JSONDATA      TEXT            NOT NULL)");
 
             System.out.println("Created radiomess table successfully.");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS USERS" // create
+                                                                      // the
+                                                                      // users
+                                                                      // table
+                    + "(USERNAME     TEXT PRIMARY KEY  NOT NULL,"
+                    + "PASSWORD      TEXT              NOT NULL,"
+                    + "USERTYPE      TEXT              NOT NULL)");
+
+            System.out.println("Created users table successfully.");
+            
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS GLOBALS"
                     + "(TYPE          TEXT PRIMARY KEY NOT NULL,"
                     + "ID            INT              NOT NULL)");
@@ -161,7 +173,20 @@ public class sqlServer {
      */
     // when inserting a Form, need to make sure that a mission exists for the
     // form
-
+    public static void InsertUser(String userName, String password, String userType){
+        try {
+            PreparedStatement stmt = c
+                    .prepareStatement("INSERT into USERS (USERNAME,PASSWORD,USERTYPE) "
+                            + "VALUES(?,?,?)");
+            stmt.setString(1, userName);
+            stmt.setString(2, password);
+            stmt.setString(3, userType);
+            stmt.execute();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+    }
+    
     public static void InsertCommLog(String json, int commid,
             String missionnum, long date) {
         try {
@@ -210,19 +235,7 @@ public class sqlServer {
         }
     }
 
-    public static void InsertMission(String name, String missionNum) {
-        try {
-            PreparedStatement stmt = c
-                    .prepareStatement("INSERT into MISSION (MISSIONNUMBER, MISSIONNAME) "
-                            + "VALUES(?,?)");
-            stmt.setString(1, missionNum);
-            stmt.setString(2, name);
-            stmt.execute();
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-        }
-
-    }
+    
 
     /*
      * --------------------------------------------------------------------------
@@ -230,6 +243,29 @@ public class sqlServer {
      */
     /* The following are selects */
 
+    public static User SelectFromUsersWithUserName(String userName){
+        try {
+            ResultSet resultSet;
+            PreparedStatement stmt = c
+                    .prepareStatement("SELECT * FROM USERS WHERE USERNAME = ?");
+            stmt.setString(1, userName);
+            resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                return new User(
+                        resultSet.getString("USERNAME"),
+                        resultSet.getString("PASSWORD"),
+                        UserType.getType(resultSet.getString("USERTYPE")));
+            } else {
+                System.err.println("No value found for userName " + userName);
+                return null;
+            }
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+                
+    }
+    
     /* for querying comlog table with just uid */
     public static DBPushParams SelectFromCommLogWithID(int id) {
         try {
