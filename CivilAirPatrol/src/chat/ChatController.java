@@ -1,7 +1,5 @@
 package chat;
 
-import common.GlobalConstants;
-import common.ClientGlobalVariables;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +10,8 @@ import java.util.logging.Logger;
 import mvcCommon.IController;
 import network.ChatMessage;
 import network.ClientSocket;
+
+import common.ClientGlobalVariables;
 
 /* Placeholder for demonstrating Session MVC */
 public class ChatController implements IController {

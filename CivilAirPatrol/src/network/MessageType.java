@@ -10,5 +10,5 @@ package network;
  * @author Robert
  */
 public enum MessageType {
-    GUI, CHAT, LOGIN, GET, GET_SINGLE, RESULT, NEW_FORM
+    GUI, CHAT, LOGIN, GET, GET_SINGLE, RESULT, NEW_FORM, REGISTER_MISSION_NO, ASSET_UPDATE
 }

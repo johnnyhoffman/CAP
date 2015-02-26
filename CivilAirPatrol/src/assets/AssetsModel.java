@@ -1,6 +1,10 @@
 package assets;
 
+import java.io.IOException;
 import java.util.List;
+
+import network.ClientSocket;
+import network.RegisterMissionNoMessage;
 
 /* Placeholder for demonstrating Session MVC */
 public class AssetsModel {
@@ -20,11 +24,23 @@ public class AssetsModel {
     public void setIncomingAssetDataListener(IncomingAssetDataListener l) {
         incomingAssetDataListener = l;
     }
+    
+    public void setLists(List<String> overdue,
+                    List<String> underdue) {
+        if (incomingAssetDataListener != null) {
+            incomingAssetDataListener.onIncomingAssetData(overdue, underdue);
+        }
+    }
 
     public void setNewMissionNo(String missionNo) {
         if (this.missionNo == null || ! this.missionNo.equals(missionNo)) {
             this.missionNo = missionNo;
-            //TODO: Register missionNo with server.
+            try {
+                ClientSocket.getInstance().output.writeObject(new RegisterMissionNoMessage(missionNo));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
 

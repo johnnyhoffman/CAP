@@ -21,14 +21,11 @@ public class Main {
         final JFrame f = new JFrame();
         LoginWindow loginWindow = new LoginWindow(f);
         final User user = loginWindow.showOptions();
-        
-        System.out.println("User: " + user.getUser()+ " pass: " + user.getPass());
         if (user != null){
             ClientSocket sock = ClientSocket.getInstance();
             try {
                 sock.output.writeObject(new LoginMessage(
                         user.getUser(), user.getPass(), null));
-                
                 //want to block for a response so dont really need to set up a listener here
                 NetworkMessage message = (NetworkMessage)sock.input.readObject();  
                 LoginMessage loginMessage = (LoginMessage)message;
@@ -44,10 +41,13 @@ public class Main {
                         break;
                 }
                 
-            } catch (IOException | ClassNotFoundException ex) {
+            } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 //TODO This is a fatal error....
-            }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                //TODO This is a fatal error....
+			}
         
             new SessionController();
         }

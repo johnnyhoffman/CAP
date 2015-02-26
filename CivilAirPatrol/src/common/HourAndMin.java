@@ -1,5 +1,8 @@
 package common;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class HourAndMin {
     public int hour;
     public int min;
@@ -37,9 +40,18 @@ public class HourAndMin {
         }
         return null;
     }
-    
+
     @Override
     public String toString() {
         return String.format("%02d:%02d", hour, min);
+    }
+
+    public boolean IsPastByXMinutes(int x) {
+        Calendar currentTime = Calendar.getInstance();
+        int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int currentMin = currentTime.get(Calendar.MINUTE);
+        int currentTotal = 60 * currentHour + currentMin;
+        int thisTotal = 60 * hour + min;
+        return currentTotal < (thisTotal + x);
     }
 }

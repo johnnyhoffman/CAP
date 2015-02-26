@@ -40,7 +40,11 @@ public class AssetsController implements IController {
         return view;
     }
 
-    public static void onClose() {
+    public void onClose() {
+    }
+
+    public void setLists(List<String> overdue, List<String> underdue) {
+        model.setLists(overdue, underdue);
     }
 
 }

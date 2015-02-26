@@ -6,17 +6,16 @@
 package network;
 
 import java.io.IOException;
-import common.HourAndMin;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import applications.Server;
+import assets.AssetTrackerServerSide;
 
 import com.google.gson.Gson;
 import common.DBPushParams;
@@ -24,7 +23,6 @@ import common.DataContainers;
 import common.DataContainers.CommunicationsLog;
 import common.DataContainers.RadioMessage;
 import common.DataContainers.SearchAndRescue;
-import common.GlobalConstants;
 
 import database.sqlServer;
 
@@ -44,57 +42,7 @@ public class ClientConnection extends Thread {
     private String user;
     private UserType userType;
     private Gson gson;
-
-    public class AssetTracker extends Thread {
-        private OnAssetUpdateListener onAssetUpdateListener;
-        private String missionNo;
-        private Gson gson;
-
-        public AssetTracker(OnAssetUpdateListener onAssetUpdateListener) {
-            gson = new Gson();
-            this.onAssetUpdateListener = onAssetUpdateListener;
-        }
-
-        // MissionNo and loop that checks for updates to that assets with that
-        // mission no must not execute at the same time
-        public synchronized void setMissionNo(String missionNo) {
-            this.missionNo = missionNo;
-        }
-
-        @Override
-        public void run() {
-            while (true) {
-                try {
-                    // missionNo can't be changed while this block executes
-                    synchronized (this) {
-                        List<DBPushParams> clPushParams = sqlServer
-                                .SelectFromCommLogWithMissionNum(missionNo);
-                        HashMap<String, String> assetTimes = new HashMap<String, String>();
-                        for (DBPushParams clPushParam : clPushParams) {
-                            CommunicationsLog cl = gson.fromJson(
-                                    clPushParam.json,
-                                    DataContainers.CommunicationsLog.class);
-                            for (int i = 0; i < cl.entries.length; i++) {
-                                String timeStr = cl.entries[i].time.trim();
-                                String call = cl.entries[i].call.trim();
-                                HourAndMin time = HourAndMin
-                                        .sanitizeTimeColumnFieldToInts(timeStr);
-                                // If we have valid time field and nonempty call
-                                if (time != null && !call.isEmpty()) {
-                                    if (assetTimes.containsKey(call)) {
-                                        //TODO: Johnny working here
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    this.sleep(GlobalConstants.ASSET_TRACKER_PERIOD);
-                } catch (InterruptedException e) {
-                    System.out.println("Asset tracker sleeping interupted.");
-                }
-            }
-        }
-    }
+    private AssetTrackerServerSide assetTracker;
 
     public ClientConnection(ObjectInputStream in, ObjectOutputStream out,
             Socket socket, String user, UserType type) {
@@ -104,6 +52,20 @@ public class ClientConnection extends Thread {
         this.socket = socket;
         this.user = user;
         this.userType = type;
+        assetTracker = new AssetTrackerServerSide(new OnAssetUpdateListener() {
+            @Override
+            public void onAssetUpdate(List<String> overdue,
+                    List<String> underdue) {
+                try {
+                    output.writeObject(new AssetUpdateMessage(overdue,
+                            underdue));
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+        assetTracker.start();
     }
 
     public ObjectInputStream getInputStream() {
@@ -162,6 +124,9 @@ public class ClientConnection extends Thread {
                 case GET_SINGLE:
                     handleGetSingle(message);
                     break;
+                case REGISTER_MISSION_NO:
+                    handleRegisterMissionNo(message);
+                    break;
                 default:
                     break;
                 }
@@ -181,10 +146,6 @@ public class ClientConnection extends Thread {
         // TODO echo the message to all authenticated clients....
         for (ClientConnection c : Server.allClients) {
             try {
-                System.out.println("sending message to " + c.getUserName()); // For
-                // debug
-                // purposes
-                System.out.println(message);
                 c.output.writeObject(message);
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -192,7 +153,11 @@ public class ClientConnection extends Thread {
                         Level.SEVERE, ex.getMessage(), ex);
             }
         }
+    }
 
+    private void handleRegisterMissionNo(NetworkMessage message) {
+        assetTracker.setMissionNo(((RegisterMissionNoMessage) message)
+                .getMissionNo());
     }
 
     private void handleGuiPush(NetworkMessage message) {
@@ -202,11 +167,10 @@ public class ClientConnection extends Thread {
         // TODO TEST THIS?
         DBPushParams pushParams = ((GuiMessage) message).getParams();
         ((GuiMessage) message).setIsUpdate(true);
-        System.out.println(pushParams.json + "\n" + pushParams.id + "\n"
-                + pushParams.missionNo + "\n" + pushParams.date);
 
         switch (pushParams.type) {
         case CL:
+            assetTracker.checkForUpdates(pushParams.missionNo);
             database.sqlServer.UpdateCommLog(pushParams.json, pushParams.id,
                     pushParams.missionNo, pushParams.date);
             break;
@@ -220,12 +184,8 @@ public class ClientConnection extends Thread {
             break;
         }
 
-        // System.out.println(message);
         for (ClientConnection c : Server.allClients) {
             try {
-                System.out.println("sending message to " + c.getUserName()); // For
-                                                                             // debug
-                                                                             // purposes
                 if (c.userType != UserType.WRITER)
                     c.output.writeObject(message);
             } catch (IOException ex) {
@@ -287,7 +247,6 @@ public class ClientConnection extends Thread {
     }
 
     private void handleGetSingle(NetworkMessage message) {
-        System.out.println("AQUI");
         int id = ((GetSingleMessage) message).getUID();
         DBPushParams params = null;
         switch (((GetSingleMessage) message).getFormType()) {
@@ -301,7 +260,6 @@ public class ClientConnection extends Thread {
             params = database.sqlServer.SelectFromSARWithID(id);
             break;
         }
-        System.out.println("IN CLIENT CONNECTION, params = " + params);
         if (params != null) {
             try {
                 this.output.writeObject(new GuiMessage(params));
