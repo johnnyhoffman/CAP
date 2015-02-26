@@ -21,6 +21,7 @@ public class Main {
         final JFrame f = new JFrame();
         LoginWindow loginWindow = new LoginWindow(f);
         final User user = loginWindow.showOptions();
+        f.dispose();
         if (user != null){
             ClientSocket sock = ClientSocket.getInstance();
             try {

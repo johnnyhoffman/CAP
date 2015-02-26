@@ -67,6 +67,8 @@ public class CommLogView extends FormComponent {
         jScrollPane1 = new javax.swing.JScrollPane();
         // My oh-so-special table
         jTable1 = new javax.swing.JTable() {
+            private static final long serialVersionUID = 1908352458582348120L;
+
             @Override
             public Component prepareRenderer(TableCellRenderer renderer,
                     int row, int col) {
@@ -86,6 +88,8 @@ public class CommLogView extends FormComponent {
                 return comp;
             }
         };
+
+        jTable1.getTableHeader().setReorderingAllowed(false);
 
         jLabel1.setText("COMMUNICATIONS LOG");
 

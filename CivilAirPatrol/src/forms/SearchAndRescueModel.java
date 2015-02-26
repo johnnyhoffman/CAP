@@ -36,8 +36,6 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         data.header.missionNumber = missionNo;
         data.header.dateTime = date; //XXX: Will dateTime field be same format as date?
         gson = new Gson();
-        // for debugging, revert to creation method below
-        // gson = new GsonBuilder().setPrettyPrinting().create();
         try {
             ClientSocket.getInstance().output.writeObject(new GuiMessage(new DBPushParams(FormType.SAR, gson.toJson(data), id, missionNo, date)));
         } catch (IOException e) {
