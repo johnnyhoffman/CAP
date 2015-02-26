@@ -110,10 +110,10 @@ public class ClientConnection extends Thread {
                     handleChat(message);
                     break;
                 case GUI:
-                    handleGuiPush(message);
+                    if (userType == UserType.WRITER) handleGuiPush(message);
                     break;
                 case NEW_FORM:
-                    handleNewForm(message);
+                    if (userType == UserType.WRITER) handleNewForm(message);
                     break;
                 case LOGIN:
                     handleLogin(message);
