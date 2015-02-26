@@ -9,8 +9,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import network.ClientListenerThread.OnIncomingDataListener;
+import javax.swing.JOptionPane;
 
+import network.ClientListenerThread.OnIncomingDataListener;
 import common.AppPreferences;
 
 /**
@@ -28,14 +29,17 @@ public class ClientSocket {
 
     private ClientSocket() {
         try {
-            this.socket = new Socket(AppPreferences.getIP(),
-                    AppPreferences.getPort());
+            this.socket = new Socket(AppPreferences.getIP(), AppPreferences.getPort());
             this.output = new ObjectOutputStream(this.socket.getOutputStream());
             this.output.flush();
             this.input = new ObjectInputStream(this.socket.getInputStream());
             this.listener = new ClientListenerThread(input);
         } catch (Exception e) {
             System.err.println(e.toString());
+            JOptionPane.showMessageDialog(null, "Cannot connect to Server. This may be because the Server\n"
+                    + "application is not running, the IP Address or Port are incorrect,\n"
+                    + "or the network between the Client and Server applications is down.");
+
         }
     }
 
@@ -61,8 +65,7 @@ public class ClientSocket {
         private static final ClientSocket INSTANCE = new ClientSocket();
     }
 
-    public void setOnIncomingDataListener(
-            OnIncomingDataListener onIncomingDataListener) {
+    public void setOnIncomingDataListener(OnIncomingDataListener onIncomingDataListener) {
         listener.setOnIncomingDataListener(onIncomingDataListener);
     }
 }

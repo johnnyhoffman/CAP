@@ -33,7 +33,6 @@ public class Main {
                 switch(loginMessage.getUserType()){
                     case NONE:
                         JOptionPane.showMessageDialog(f, "Incorrect credentials provided.");
-                        f.dispose();
                         System.exit(0);
                         break;
                     default:

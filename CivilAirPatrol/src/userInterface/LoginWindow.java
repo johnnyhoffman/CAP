@@ -51,7 +51,7 @@ public class LoginWindow extends JPanel{
         userField.setText("");
         final JPasswordField passwordField = new JPasswordField(15);
         passwordField.setText("");
-        this.add(new JLabel("Server IP Adress: "), left);
+        this.add(new JLabel("Server IP Address: "), left);
         this.add(ipField, right);
         this.add(Box.createVerticalStrut(15), right); // a spacer
         this.add(new JLabel("Server Port Number: "), left);
