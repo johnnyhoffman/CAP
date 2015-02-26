@@ -106,15 +106,15 @@ public class SessionView extends JFrame {
 
         });
 
-        // Preference changing dialog
-        prefsDialog = new JMenuItem("Preferences");
-        fileMenu.add(prefsDialog);
-        prefsDialog.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new PrefsWindow(thisFrame);
-            }
-        });
+        // Preference changing dialog -- Commented out unless we decide we need it or something like it
+        // prefsDialog = new JMenuItem("Preferences");
+        // fileMenu.add(prefsDialog);
+        // prefsDialog.addActionListener(new ActionListener() {
+        // @Override
+        // public void actionPerformed(ActionEvent e) {
+        // new PrefsWindow(thisFrame);
+        // }
+        // });
 
         
         setJMenuBar(menuBar);

@@ -43,7 +43,7 @@ public class AssetsView extends JPanel {
             if (index < overdueCount) {
                 setForeground(Color.red);
             } else {
-                setForeground(Color.green);
+                setForeground(Color.blue);
             }
 
             return (this);
