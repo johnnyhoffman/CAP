@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -47,13 +49,14 @@ public class ServerWindow {
         mainFrame.setLayout(new GridLayout(3, 1));
         mainFrame.setBackground(new Color(230, 230, 230));
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
         JLabel tooltip = new JLabel(
                 "CAP Forms Database Server",
                 JLabel.CENTER);
         tooltip.setSize(100, 60);
 		mainFrame.add(tooltip);
-
-
+		
+		
         JPanel portTextPanel = new JPanel();
         JLabel portLabel = new JLabel("Port: ");
         portTextPanel.setPreferredSize(new Dimension(126, 24));
@@ -65,15 +68,13 @@ public class ServerWindow {
 		portTextPanel.add(portTextField);
 		mainFrame.add(portTextPanel);
 		
-		
         JPanel buttonPanel = new JPanel();
         goButton = new JButton("Start Server");
         goButton.addActionListener(new ServerGoButtonListener());
         buttonPanel.add(goButton);
         mainFrame.add(buttonPanel);
-		
 
-        mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setTitle("Civil Air Patrol Forms-Database Server");
         mainFrame.setPreferredSize(new Dimension(SERVER_VIEW_WIDTH, SERVER_VIEW_HEIGHT));
         mainFrame.pack();
@@ -82,6 +83,8 @@ public class ServerWindow {
         
         this.busy = false;
 	}
+	
+	
 	
 	private class ServerGoButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
@@ -93,5 +96,6 @@ public class ServerWindow {
         	}
         }
     }
+	
 
 }

@@ -47,8 +47,9 @@ public class Main {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 //TODO This is a fatal error....
-			}
-        
+
+            }
+
             new SessionController();
         }
     }

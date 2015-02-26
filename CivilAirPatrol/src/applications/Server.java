@@ -18,6 +18,8 @@ import network.MessageType;
 import network.NetworkMessage;
 import network.UserType;
 
+import security.BCrypt;
+
 import common.AppPreferences;
 import common.User;
 import java.io.IOException;
@@ -33,17 +35,17 @@ public class Server extends Thread {
     private ServerSocket socket;
     boolean run = true;
     public static List<ClientConnection> allClients;
-    
+
     ServerWindow serverWindow;
 
     public Server(int p) {
-    	//activateServer(p);
-    	serverWindow = new ServerWindow(this,p);
+        // activateServer(p);
+        serverWindow = new ServerWindow(this, p);
     }
-    
+
     public void activateServer(int p) {
 
-    	allClients = new ArrayList<ClientConnection>();
+        allClients = new ArrayList<ClientConnection>();
         try {
             this.socket = new ServerSocket(p);
             this.socket.setReuseAddress(true);
@@ -54,17 +56,25 @@ public class Server extends Thread {
         this.start();
     }
 
+    public void quit() {
+        run = false;
+    }
+
     // Function to check credentials against db
     private UserType validate(NetworkMessage attempt) {
         if (attempt.getType() == MessageType.LOGIN) {
             // TODO check against the DB information
-            User user = database.sqlServer.SelectFromUsersWithUserName(((LoginMessage)attempt).getUser());
-            if (user != null && user.getPass().equals(((LoginMessage)attempt).getPass())){
+            User user = database.sqlServer
+                    .SelectFromUsersWithUserName(((LoginMessage) attempt)
+                            .getUser());
+            if (user != null
+                    && BCrypt.checkpw(((LoginMessage) attempt).getPass(),
+                            user.getPass())) {
                 return user.getType();
-            }else{
+            } else {
                 return UserType.NONE;
             }
-            
+
         }
         return UserType.NONE;
     }
@@ -93,7 +103,8 @@ public class Server extends Thread {
 
                 if ((type = validate(loginattempt)) != UserType.NONE) {
                     // create the client connection
-                    output.writeObject(new LoginMessage(((LoginMessage)loginattempt).getUser(),"",type));
+                    output.writeObject(new LoginMessage(
+                            ((LoginMessage) loginattempt).getUser(), "", type));
                     client = new ClientConnection(input, output, server,
                             ((LoginMessage) loginattempt).getUser(), type);
 
@@ -102,23 +113,30 @@ public class Server extends Thread {
                     System.out.println("Accepted client connection.");
                 } else {
                     // Did not have correct credentials, drop them
-                    output.writeObject(new LoginMessage("Did not provide correct credentials.","",UserType.NONE)); // send a message back with login type none if there was an error
+                    output.writeObject(new LoginMessage(
+                            "Did not provide correct credentials.", "",
+                            UserType.NONE)); // send a message back with login
+                                             // type none if there was an error
                     input.close();
                     output.close();
                     server.close();
-                
-            	}
+
+                }
             }
             socket.close();
         } catch (IOException e) {
             System.err.println(e.toString());
         } catch (ClassNotFoundException e) {
         }
+        System.exit(0);
     }
 
     public static void main(String argv[]) {
         database.sqlServer.CreateDatabase();
-        database.sqlServer.InsertUser("Robert", "testpass", "WRITER");
+        database.sqlServer.InsertUser("Robert",
+                BCrypt.hashpw("testpass", BCrypt.gensalt()), "WRITER");
+        database.sqlServer.InsertUser("Reader",
+                BCrypt.hashpw("passs", BCrypt.gensalt()), "READER");
         Server server = new Server(AppPreferences.getPort());
     }
 
