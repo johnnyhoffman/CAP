@@ -1,5 +1,6 @@
 package common;
 
+import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -8,10 +9,11 @@ import java.util.GregorianCalendar;
 
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JSpinner.DateEditor;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.SpinnerDateModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 
 public class DateTimePicker extends JPanel {
 
@@ -121,6 +123,13 @@ public class DateTimePicker extends JPanel {
         if (changeListener != null) {
             changeListener.onChange();
         }
+    }
+
+    public void setUneditable() {
+        timeSpinner.setEnabled(false);
+        daySpinner.setEnabled(false);
+        monthSpinner.setEnabled(false);
+        yearSpinner.setEnabled(false);
     }
 
 }

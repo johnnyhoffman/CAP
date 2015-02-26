@@ -7,8 +7,11 @@ import java.util.Arrays;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import network.UserType;
 
 import com.google.gson.JsonObject;
+
+import common.ClientGlobalVariables;
 import common.DateTimePicker;
 import common.DateTimePicker.DateTimePickerChangeListener;
 import forms.FormComponent.OnCloseListener;
@@ -24,6 +27,9 @@ public class SearchAndRescueController implements IFormController {
         view = new SearchAndRescueView();
         view.setName(json.get("name").getAsString());
         model = new SearchAndRescueModel(id, json);
+        if (ClientGlobalVariables.USERTYPE != UserType.WRITER) {
+            view.setUneditable();
+        }
         setListeners();
         refreshViewFromModel();
     }
@@ -33,6 +39,9 @@ public class SearchAndRescueController implements IFormController {
         view = new SearchAndRescueView();
         view.setName(name);
         model = new SearchAndRescueModel(id, name, missionNo, date);
+        if (ClientGlobalVariables.USERTYPE != UserType.WRITER) {
+            view.setUneditable();
+        }
         setListeners();
         refreshViewFromModel();
     }

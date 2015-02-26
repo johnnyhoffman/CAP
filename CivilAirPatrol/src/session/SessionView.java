@@ -18,8 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
+import network.UserType;
 import userInterface.PrefsWindow;
-
+import common.ClientGlobalVariables;
 import common.DateTimePicker;
 
 public class SessionView extends JFrame {
@@ -52,12 +53,14 @@ public class SessionView extends JFrame {
 
         // New Forms
         newDialog = new JMenuItem("New Form");
-        fileMenu.add(newDialog);
+        // Only writers have the option to add a new form
+        if (ClientGlobalVariables.USERTYPE == UserType.WRITER) {
+            fileMenu.add(newDialog);
+        }
         newDialog.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] formNames = { "Communication Log",
-                        "Search And Rescue", "Radio Message" };
+                String[] formNames = { "Communication Log", "Search And Rescue", "Radio Message" };
                 JComboBox formTypeCombobox = new JComboBox(formNames);
                 JTextField missionNoField = new JTextField(5);
                 DateTimePicker dateTimePicker = new DateTimePicker();
@@ -80,9 +83,8 @@ public class SessionView extends JFrame {
 
                 dialogPanel.add(dateTimePicker, right);
 
-                int result = JOptionPane.showOptionDialog(thisFrame,
-                        dialogPanel, "New Form", JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE, null, new String[] {
+                int result = JOptionPane.showOptionDialog(thisFrame, dialogPanel, "New Form",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[] {
                                 "Create Form", "Cancel" }, "default");
 
                 if (result == JOptionPane.OK_OPTION) {
@@ -106,7 +108,8 @@ public class SessionView extends JFrame {
 
         });
 
-        // Preference changing dialog -- Commented out unless we decide we need it or something like it
+        // Preference changing dialog -- Commented out unless we decide we need
+        // it or something like it
         // prefsDialog = new JMenuItem("Preferences");
         // fileMenu.add(prefsDialog);
         // prefsDialog.addActionListener(new ActionListener() {
@@ -116,7 +119,6 @@ public class SessionView extends JFrame {
         // }
         // });
 
-        
         setJMenuBar(menuBar);
 
         // Split window into sections

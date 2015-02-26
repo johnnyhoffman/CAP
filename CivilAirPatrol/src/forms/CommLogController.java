@@ -3,17 +3,14 @@ package forms;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import network.UserType;
 
 import com.google.gson.JsonObject;
-
-import common.DataContainers;
-import common.DateTimePicker;
-import common.GlobalConstants;
-import common.DataContainers.CommunicationsLog;
+import common.ClientGlobalVariables;
 import common.DataContainers.CommunicationsLog.ComLogEntry;
 import common.DateTimePicker.DateTimePickerChangeListener;
-import forms.FormComponent.OnCloseListener;
-import forms.ScheduledPushAndCheckModelAbstraction.OnIntervalListener;
+import common.GlobalConstants;
+
 import forms.ScheduledPushModelAbstraction.OnModelLoadListener;
 
 /* Placeholder for demonstrating Session MVC */
@@ -27,6 +24,9 @@ public class CommLogController implements IFormController {
         view = new CommLogView();
         view.setName(name);
         model = new CommLogModel(id, name, missionNo, date);
+        if (ClientGlobalVariables.USERTYPE != UserType.WRITER) {
+            view.setUneditable();
+        }
         setListeners();
         refreshViewFromModel();
     }
@@ -35,6 +35,9 @@ public class CommLogController implements IFormController {
         view = new CommLogView();
         view.setName(json.get("name").getAsString());
         model = new CommLogModel(id, json);
+        if (ClientGlobalVariables.USERTYPE != UserType.WRITER) {
+            view.setUneditable();
+        }
         setListeners();
         refreshViewFromModel();
     }
