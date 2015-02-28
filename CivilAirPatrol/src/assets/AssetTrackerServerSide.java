@@ -24,6 +24,7 @@ public class AssetTrackerServerSide extends Thread {
     private String missionNo;
     private boolean newUpdates;
     private Gson gson;
+    public boolean run = true;
 
     public AssetTrackerServerSide(OnAssetUpdateListener onAssetUpdateListener) {
         gson = new Gson();
@@ -54,7 +55,7 @@ public class AssetTrackerServerSide extends Thread {
     @Override
     public void run() {
         long lastUpdate = 0;
-        while (true) {
+        while (run) {
             // missionNo can't be changed while this block executes
             synchronized (this) {
                 long timeUntilUpdate = getTimeUntilUpdate(lastUpdate);

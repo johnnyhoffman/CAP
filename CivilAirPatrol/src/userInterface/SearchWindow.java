@@ -204,7 +204,7 @@ public class SearchWindow {
             resultsListModel.addElement(p.missionNo
                     + " ; "
                     + new SimpleDateFormat(GlobalConstants.DATETIME_FORMAT)
-                            .format(new Date(p.date)) + " ; " + type);
+                            .format(new Date(p.date)) + " ; " + type + " " + p.id);
 
         }
 

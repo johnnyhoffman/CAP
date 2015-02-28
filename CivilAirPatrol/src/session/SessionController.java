@@ -60,8 +60,20 @@ public class SessionController {
                 case ASSET_UPDATE:
                     AssetUpdateMessage assetUpdateMessage = (AssetUpdateMessage) networkMessage;
                     assetsController.setLists(assetUpdateMessage.getOverdue(), assetUpdateMessage.getUnderdue());
-                default:
-                    System.out.println("Unhandled message type");
+                case GET:
+                    System.out.println("Unhandled message type \"GET\"");
+                    break;
+                case GET_SINGLE:
+                    System.out.println("Unhandled message type \"GET_SINGLE\"");
+                    break;
+                case LOGIN:
+                    System.out.println("Unhandled message type \"LOGIN\"");
+                    break;
+                case NEW_FORM:
+                    System.out.println("Unhandled message type \"NEW_FORM\"");
+                    break;
+                case REGISTER_MISSION_NO:
+                    System.out.println("Unhandled message type \"REGISTER_MISSION_NO\"");
                     break;
                 }
             }

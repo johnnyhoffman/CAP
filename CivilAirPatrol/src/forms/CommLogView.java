@@ -150,7 +150,7 @@ public class CommLogView extends FormComponent {
                 { null, null, null, null }, { null, null, null, null },
                 { null, null, null, null }, { null, null, null, null },
                 { null, null, null, null }, { null, null, null, null } },
-                new String[] { "TIME", "CALL", "CH REF", "REMARKS" }));
+                new String[] { "TIME (HH:mm)", "CALL", "CH REF", "REMARKS" }));
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);

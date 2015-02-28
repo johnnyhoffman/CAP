@@ -38,6 +38,7 @@ public class ClientConnection extends Thread {
     private UserType userType;
     private Gson gson;
     private AssetTrackerServerSide assetTracker;
+    private boolean run = true;
 
     public ClientConnection(ObjectInputStream in, ObjectOutputStream out,
             Socket socket, String user, UserType type) {
@@ -54,8 +55,7 @@ public class ClientConnection extends Thread {
                 try {
                     output.writeObject(new AssetUpdateMessage(overdue, underdue));
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    System.out.println("no longer connected");
                 }
             }
         });
@@ -80,10 +80,12 @@ public class ClientConnection extends Thread {
 
     public boolean closeConnection() {
         try {
+            run = false;
+            assetTracker.run = false;
+            Server.allClients.remove(this);
             this.input.close();
             this.output.close();
             this.socket.close();
-            Server.allClients.remove(this);
             return true;
         } catch (Exception e) {
             System.err.println(e.toString());
@@ -94,7 +96,6 @@ public class ClientConnection extends Thread {
     @Override
     public void run() {
         NetworkMessage message;
-        boolean run = true;
         while (run) {
             try {
                 message = (NetworkMessage) this.input.readObject();

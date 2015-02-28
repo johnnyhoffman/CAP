@@ -19,7 +19,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
 import network.UserType;
-import userInterface.PrefsWindow;
+
 import common.ClientGlobalVariables;
 import common.DateTimePicker;
 

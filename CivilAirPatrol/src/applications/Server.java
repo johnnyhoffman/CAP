@@ -27,7 +27,7 @@ import java.io.IOException;
 import userInterface.ServerWindow;
 
 /**
- *
+ * 
  * @author Robert
  */
 public class Server extends Thread {
@@ -89,6 +89,10 @@ public class Server extends Thread {
         UserType type;
         try {
             while (run) {
+                for (ClientConnection cc : allClients) {
+                    // TODO: Make sure user is not a duplicate and there is only
+                    // one writer
+                }
                 Socket server = socket.accept();
                 output = new ObjectOutputStream(server.getOutputStream());
                 output.flush();
