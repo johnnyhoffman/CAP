@@ -78,6 +78,11 @@ public class SessionController {
                 case REGISTER_MISSION_NO:
                     System.out.println("Unhandled message type \"REGISTER_MISSION_NO\"");
                     break;
+                case ERROR:
+                    System.out.println("Unhandled message type \"ERROR\"");
+                    break;
+                default:
+                    break;
                 }
             }
         });

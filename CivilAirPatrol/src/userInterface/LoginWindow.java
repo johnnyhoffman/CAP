@@ -20,7 +20,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import network.UserType;
-
 import common.AppPreferences;
 import common.GlobalConstants;
 import common.User;
@@ -52,9 +51,11 @@ public class LoginWindow extends JPanel {
         final JTextField portField = new JTextField(15);
         portField.setText(AppPreferences.getPort() + "");
         final JTextField userField = new JTextField(15);
+        userField.setDocument(new TextDocumentForLimitedTextFields(GlobalConstants.USERNAME_MAX_LEN, 1));
         userField.setText("");
         final JPasswordField passwordField = new JPasswordField(15);
         passwordField.setText("");
+        passwordField.setDocument(new TextDocumentForLimitedTextFields(GlobalConstants.PASSWORD_MAX_LEN, 1));
         this.add(new JLabel("Server IP Address: "), left);
         this.add(ipField, right);
         this.add(Box.createVerticalStrut(15), right); // a spacer

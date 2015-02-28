@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import common.GlobalConstants;
+
 public class AddUserDialogue {
     private JFrame frame;
 
@@ -40,7 +42,7 @@ public class AddUserDialogue {
         JLabel portLabel = new JLabel("User Name: ");
         userNamePanel.setPreferredSize(new Dimension(126, 24));
         userNameField = new JTextField(15);
-        userNameField.setDocument(new TextDocumentForLimitedTextFields(16, 1));
+        userNameField.setDocument(new TextDocumentForLimitedTextFields(GlobalConstants.USERNAME_MAX_LEN, 1));
         userNameField.setText("");
         userNameField.setSize(120, 20);
         userNamePanel.add(portLabel);
@@ -55,7 +57,7 @@ public class AddUserDialogue {
             JLabel passwordLabel1 = new JLabel("enter password: ");
             userPasswordField1 = new JTextField(15);
             userPasswordField1
-                    .setDocument(new TextDocumentForLimitedTextFields(8, 1));
+                    .setDocument(new TextDocumentForLimitedTextFields(GlobalConstants.PASSWORD_MAX_LEN, 1));
             userPasswordField1.setText("");
             userPasswordField1.setSize(120, 20);
             passwordPanel.add(passwordLabel1);

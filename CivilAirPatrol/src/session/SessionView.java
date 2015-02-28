@@ -90,7 +90,7 @@ public class SessionView extends JFrame {
                                 "Create Form", "Cancel" }, "default");
 
                 if (result == JOptionPane.OK_OPTION) {
-                    String missionNo = missionNoField.getText();
+                    String missionNo = missionNoField.getText().trim();
                     long date = dateTimePicker.getDateLong();
                     switch (formTypeCombobox.getSelectedIndex()) {
                     case (0):

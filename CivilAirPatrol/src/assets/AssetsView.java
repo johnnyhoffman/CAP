@@ -113,6 +113,6 @@ public class AssetsView extends JPanel {
     }
 
     public String getMissionNo() {
-        return missionNoTF.getText();
+        return missionNoTF.getText().trim();
     }
 }

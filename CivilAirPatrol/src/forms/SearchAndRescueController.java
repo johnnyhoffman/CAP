@@ -63,7 +63,7 @@ public class SearchAndRescueController implements IFormController {
             @Override
             public void caretUpdate(CaretEvent e) {
                 model.updateHeaderMissionNumber(view
-                        .getHeaderMissionNumberText());
+                        .getHeaderMissionNumberText().trim());
             }
         });
         view.addHeaderActivityForDateOfChangeListener(new CaretListener() {

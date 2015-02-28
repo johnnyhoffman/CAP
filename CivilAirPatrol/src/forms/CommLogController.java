@@ -54,7 +54,7 @@ public class CommLogController implements IFormController {
         view.addMissionNumChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateMissionNum(view.getMissionNumText());
+                model.updateMissionNum(view.getMissionNumText().trim());
             }
         });
         view.addStationFunctionalDesignatorChangeListener(new CaretListener() {

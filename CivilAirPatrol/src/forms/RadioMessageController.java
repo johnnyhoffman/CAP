@@ -53,7 +53,7 @@ public class RadioMessageController implements IFormController {
         view.addHeaderMissionNoChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateHeaderMissionNo(view.getHeaderMissionNoText());
+                model.updateHeaderMissionNo(view.getHeaderMissionNoText().trim());
             }
         });
         view.addHeaderMsgNumChangeListener(new CaretListener() {
