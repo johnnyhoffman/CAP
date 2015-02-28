@@ -70,7 +70,7 @@ public class RadioMessageController implements IFormController {
         view.addHeaderDtgChangeListener(new DateTimePickerChangeListener() {
             @Override
             public void onChange() {
-                model.updateHeaderDtg(view.getHeaderDtgText());
+                model.updateHeaderDtg(view.getHeaderDtgLong());
             }
         });
         view.addHeaderFromChangeListener(new CaretListener() {

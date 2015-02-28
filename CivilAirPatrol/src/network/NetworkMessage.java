@@ -7,8 +7,6 @@ package network;
 
 import java.io.Serializable;
 
-import common.DBPushParams;
-
 /**
  *
  * @author Robert
@@ -26,5 +24,4 @@ public abstract class NetworkMessage implements Serializable {
     public MessageType getType(){
         return this.type;
     }
-    //public abstract String getMessage();
 }

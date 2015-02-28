@@ -6,7 +6,8 @@ import java.util.concurrent.ScheduledFuture;
 
 import common.GlobalConstants;
 
-public abstract class ScheduledPushAndCheckModelAbstraction extends ScheduledPushModelAbstraction {
+public abstract class ScheduledPushAndCheckModelAbstraction extends
+        ScheduledPushModelAbstraction {
 
     public interface OnIntervalListener {
         public void onInterval();
@@ -28,8 +29,9 @@ public abstract class ScheduledPushAndCheckModelAbstraction extends ScheduledPus
                 }
             }
         };
-        checkerHandle = scheduler.scheduleAtFixedRate(checker, GlobalConstants.CHECK_DELAY,
-                GlobalConstants.CHECK_DELAY, GlobalConstants.CHECK_DELAY_UNITS);
+        checkerHandle = scheduler.scheduleAtFixedRate(checker,
+                GlobalConstants.CHECK_DELAY, GlobalConstants.CHECK_DELAY,
+                GlobalConstants.CHECK_DELAY_UNITS);
     }
 
     public void setOnIntervalListener(OnIntervalListener l) {

@@ -11,6 +11,7 @@ package network;
  */
 public class GetMessage extends NetworkMessage{
     
+    private static final long serialVersionUID = -3641656218757595654L;
     private DBRequest request;
    
     public GetMessage(DBRequest request){

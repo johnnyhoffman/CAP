@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * 
  * @author Robert
  */
 public class ClientListenerThread extends Thread {
@@ -46,13 +46,11 @@ public class ClientListenerThread extends Thread {
             }
         } catch (IOException ex) {
             this.run = false;
-            TestClient.run = false;
             ex.printStackTrace();
             Logger.getLogger(ClientListenerThread.class.getName()).log(
                     Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             this.run = false;
-            TestClient.run = false;
             ex.printStackTrace();
             Logger.getLogger(ClientListenerThread.class.getName()).log(
                     Level.SEVERE, null, ex);

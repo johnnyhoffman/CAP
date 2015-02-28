@@ -9,21 +9,21 @@ import common.DBPushParams;
 import java.util.List;
 
 /**
- *
+ * 
  * @author Robert
  */
-public class ResultMessage extends NetworkMessage{
-    
+public class ResultMessage extends NetworkMessage {
+    private static final long serialVersionUID = -7754252435400212783L;
     private List<DBPushParams> results;
     boolean hasJSON;
-    
-    public ResultMessage(List<DBPushParams> results, boolean hasJSON){
+
+    public ResultMessage(List<DBPushParams> results, boolean hasJSON) {
         super(MessageType.RESULT);
         this.results = results;
         this.hasJSON = hasJSON;
     };
-    
-    public List<DBPushParams> getResults(){
+
+    public List<DBPushParams> getResults() {
         return this.results;
     }
 }

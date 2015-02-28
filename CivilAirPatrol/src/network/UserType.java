@@ -6,39 +6,35 @@
 package network;
 
 /**
- *
+ * 
  * @author Robert
  */
 public enum UserType {
-    READER,
-    WRITER,
-    NONE;
-    
-    
+    READER, WRITER, NONE;
+
     @Override
-    public String toString(){
-        switch(this){
-            case READER:
-                return "READER";
-            case WRITER:
-                return "WRITER";
-            case NONE:
-                return "NONE";
-            default:
-                return null;
-        }        
+    public String toString() {
+        switch (this) {
+        case READER:
+            return "READER";
+        case WRITER:
+            return "WRITER";
+        case NONE:
+            return "NONE";
+        default:
+            return null;
+        }
     }
-    public static UserType getType(String type){
-    	if (type.equals("READER")) {
-    		return READER;
-    	} else if (type.equals("WRITER")) {
-    		return WRITER;
-    	} else if (type.equals("NONE")) {
-    		return NONE;
-    	} else {
-    		return null;
-    	}
+
+    public static UserType getType(String type) {
+        if (type.equals("READER")) {
+            return READER;
+        } else if (type.equals("WRITER")) {
+            return WRITER;
+        } else if (type.equals("NONE")) {
+            return NONE;
+        } else {
+            return null;
+        }
     }
 }
-
-

@@ -1,6 +1,5 @@
 package forms;
 
-
 import java.io.IOException;
 
 import network.ClientSocket;
@@ -8,11 +7,8 @@ import network.GuiMessage;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import common.DBPushParams;
 import common.DataContainers;
-import common.DataContainers.RadioMessage;
-import forms.ScheduledPushModelAbstraction.FormType;
 
 public class RadioMessageModel extends ScheduledPushModelAbstraction {
 
@@ -25,8 +21,6 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
     public RadioMessageModel(int id, JsonObject json) {
         this.id = id;
         gson = new Gson();
-        // for debugging revert to creation method below
-        // gson = new GsonBuilder().setPrettyPrinting().create();
         jsonDeserialize(json);
     }
 
@@ -36,10 +30,10 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
         data.header.missionNo = missionNo;
         data.header.dtg = date;
         gson = new Gson();
-        // for debugging revert to creation method below
-        // gson = new GsonBuilder().setPrettyPrinting().create();
         try {
-            ClientSocket.getInstance().output.writeObject(new GuiMessage(new DBPushParams(FormType.RM, gson.toJson(data), id, missionNo, date)));
+            ClientSocket.getInstance().output.writeObject(new GuiMessage(
+                    new DBPushParams(FormType.RM, gson.toJson(data), id,
+                            missionNo, date)));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -202,6 +196,7 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
     @Override
     public DBPushParams prepareForPush() {
         String json = gson.toJson(data);
-        return new DBPushParams(FormType.RM, json, id, data.header.missionNo, data.header.dtg);
+        return new DBPushParams(FormType.RM, json, id, data.header.missionNo,
+                data.header.dtg);
     }
 }

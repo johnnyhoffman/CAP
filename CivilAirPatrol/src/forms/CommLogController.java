@@ -67,7 +67,7 @@ public class CommLogController implements IFormController {
         view.addDateChangeListener(new DateTimePickerChangeListener() {
             @Override
             public void onChange() {
-                model.updateDate(view.getDateText());
+                model.updateDate(view.getDateLong());
             }
         });
         view.addAChangeListener(new CaretListener() {

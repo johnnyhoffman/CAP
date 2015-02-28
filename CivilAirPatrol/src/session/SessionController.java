@@ -47,12 +47,8 @@ public class SessionController {
                     chatController
                             .processChatMessage((ChatMessage) networkMessage);
                     break;
-                case GET:
-                    break;
                 case GUI:
                     formsController.fromDBPushParams(((GuiMessage)networkMessage).getParams(), ((GuiMessage)networkMessage).getIsUpdate());
-                    break;
-                case LOGIN:
                     break;
                 case RESULT:
                     if (searchWindow != null) {
@@ -64,6 +60,9 @@ public class SessionController {
                 case ASSET_UPDATE:
                     AssetUpdateMessage assetUpdateMessage = (AssetUpdateMessage) networkMessage;
                     assetsController.setLists(assetUpdateMessage.getOverdue(), assetUpdateMessage.getUnderdue());
+                default:
+                    System.out.println("Unhandled message type");
+                    break;
                 }
             }
         });

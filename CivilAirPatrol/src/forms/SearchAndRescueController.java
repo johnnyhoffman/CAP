@@ -10,12 +10,9 @@ import javax.swing.event.CaretListener;
 import network.UserType;
 
 import com.google.gson.JsonObject;
-
 import common.ClientGlobalVariables;
-import common.DateTimePicker;
 import common.DateTimePicker.DateTimePickerChangeListener;
-import forms.FormComponent.OnCloseListener;
-import forms.ScheduledPushAndCheckModelAbstraction.OnIntervalListener;
+
 import forms.ScheduledPushModelAbstraction.OnModelLoadListener;
 
 public class SearchAndRescueController implements IFormController {
@@ -84,7 +81,7 @@ public class SearchAndRescueController implements IFormController {
         view.addHeaderDateTimeChangeListener(new DateTimePickerChangeListener() {
             @Override
             public void onChange() {
-                model.updateHeaderDateTime(view.getHeaderDateTimeText());
+                model.updateHeaderDateTime(view.getHeaderDateTimeLong());
             }
         });
         view.addAlphaNameOfSearchOrg1ChangeListener(new CaretListener() {

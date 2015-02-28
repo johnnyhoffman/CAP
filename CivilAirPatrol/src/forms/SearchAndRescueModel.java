@@ -8,11 +8,8 @@ import network.GuiMessage;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import common.DBPushParams;
 import common.DataContainers;
-import common.DataContainers.SearchAndRescue;
-import forms.ScheduledPushModelAbstraction.FormType;
 
 public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction {
 
@@ -24,8 +21,6 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         super();
         this.id = id;
         gson = new Gson();
-        // for debugging revert to creation method below
-        // gson = new GsonBuilder().setPrettyPrinting().create();
         jsonDeserialize(json);
     }
 
@@ -34,7 +29,7 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         this.id = id;
         data = new DataContainers.SearchAndRescue(name);
         data.header.missionNumber = missionNo;
-        data.header.dateTime = date; //XXX: Will dateTime field be same format as date?
+        data.header.dateTime = date;
         gson = new Gson();
         try {
             ClientSocket.getInstance().output.writeObject(new GuiMessage(new DBPushParams(FormType.SAR, gson.toJson(data), id, missionNo, date)));

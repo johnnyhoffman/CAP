@@ -6,27 +6,31 @@
 package network;
 
 /**
- *
+ * 
  * @author Robert
  */
-public class LoginMessage extends NetworkMessage{
+public class LoginMessage extends NetworkMessage {
+    private static final long serialVersionUID = -5306948658256122873L;
     private String user;
     private String pass;
-    private UserType userType; 
-    public LoginMessage(String user, String password, UserType userType){
+    private UserType userType;
+
+    public LoginMessage(String user, String password, UserType userType) {
         super(MessageType.LOGIN);
         this.user = user;
         this.pass = password;
         this.userType = userType;
     }
-    
-    public String getUser(){
+
+    public String getUser() {
         return this.user;
     }
-    public String getPass(){
+
+    public String getPass() {
         return this.pass;
     }
-    public UserType getUserType(){
+
+    public UserType getUserType() {
         return this.userType;
     }
 }

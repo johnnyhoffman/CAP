@@ -46,8 +46,8 @@ public abstract class ScheduledPushModelAbstraction {
     public void push() {
         DBPushParams pushParams = prepareForPush();
         try {
-            ClientSocket.getInstance().output
-                    .writeObject(new GuiMessage(pushParams));
+            ClientSocket.getInstance().output.writeObject(new GuiMessage(
+                    pushParams));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

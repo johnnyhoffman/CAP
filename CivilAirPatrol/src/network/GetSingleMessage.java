@@ -8,6 +8,7 @@ import forms.ScheduledPushModelAbstraction.FormType;
  */
 public class GetSingleMessage extends NetworkMessage {
 
+    private static final long serialVersionUID = 9034689547424270973L;
     private int uid;
     private FormType formType;
 

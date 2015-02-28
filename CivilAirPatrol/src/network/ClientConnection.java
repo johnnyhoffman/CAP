@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package network;
 
 import java.io.IOException;
@@ -309,10 +304,6 @@ public class ClientConnection extends Thread {
             }
         }
 
-        // send the results back to the client
-        // TODO RESULTS MESSAGE TO BUNDLE THE RESULTS BACK UP, distinguish
-        // between a search result and actual forms coming back, 1 has json 1
-        // doesnt //// XXX: Can we delete this TODO? It seems like it is no longer necessary but im not entirely sure
         ResultMessage result = new ResultMessage(resultsList, false);
         try {
             this.output.writeObject(result);

@@ -34,7 +34,7 @@ public class SessionView extends JFrame {
     private JSplitPane hSplitPane;
     private JSplitPane vSplitPane;
     private JMenuItem newDialog;
-    private JMenuItem prefsDialog;
+    // private JMenuItem prefsDialog;
     private JMenuItem searchDatabaseMenuItem;
     private JFrame thisFrame;
     private NewFormListener newComLogMenuListener;
@@ -60,7 +60,8 @@ public class SessionView extends JFrame {
         newDialog.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[] formNames = { "Communication Log", "Search And Rescue", "Radio Message" };
+                String[] formNames = { "Communication Log",
+                        "Search And Rescue", "Radio Message" };
                 JComboBox formTypeCombobox = new JComboBox(formNames);
                 JTextField missionNoField = new JTextField(5);
                 DateTimePicker dateTimePicker = new DateTimePicker();
@@ -83,8 +84,9 @@ public class SessionView extends JFrame {
 
                 dialogPanel.add(dateTimePicker, right);
 
-                int result = JOptionPane.showOptionDialog(thisFrame, dialogPanel, "New Form",
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[] {
+                int result = JOptionPane.showOptionDialog(thisFrame,
+                        dialogPanel, "New Form", JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE, null, new String[] {
                                 "Create Form", "Cancel" }, "default");
 
                 if (result == JOptionPane.OK_OPTION) {

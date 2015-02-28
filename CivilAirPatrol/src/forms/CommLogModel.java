@@ -1,14 +1,12 @@
 package forms;
 
 import java.io.IOException;
-import java.util.List;
 
 import network.ClientSocket;
 import network.GuiMessage;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import common.DBPushParams;
 import common.DataContainers;
 import common.DataContainers.CommunicationsLog.ComLogEntry;
