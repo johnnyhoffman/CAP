@@ -47,10 +47,9 @@ public class AssetsView extends JPanel {
 
     AssetsView() {
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[] { 172, 0, 105, 0 };
+        gridBagLayout.columnWidths = new int[] {0, 50, 50, 0 };
         gridBagLayout.rowHeights = new int[] { 15, 0, 0, 0 };
-        gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 1.0,
-                Double.MIN_VALUE };
+        gridBagLayout.columnWeights = new double[] { 10.0, 1.0, 1.0, 0.0 };
         gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0,
                 Double.MIN_VALUE };
         setLayout(gridBagLayout);
