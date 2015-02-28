@@ -12,4 +12,8 @@ This project makes use of the following 3rd party software:
 * SQLite JDBC Driver
   * SQLite JDBC, developed by Taro L. Saito, is a library for accessing and creating SQLite database files in Java.
   * https://bitbucket.org/xerial/sqlite-jdbc
-  * Apache 2.0 (see licenses directory)
+  * Apache 2.0 (see licenses directory) 
+* jBCrypt 
+  * jBCrypt is a Java implementation of OpenBSD-style Blowfish password hashing using the scheme described in "A Future-Adaptable Password Scheme" by Niels Provos and David Mazieres
+  * http://www.mindrot.org/projects/jBCrypt/
+  * See jBCrypt-LICENSE.txt in licenses directory
