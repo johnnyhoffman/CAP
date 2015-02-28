@@ -1,6 +1,5 @@
 package common;
 
-import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,13 +8,13 @@ import java.util.GregorianCalendar;
 
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import javax.swing.JSpinner.DateEditor;
-import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.SpinnerDateModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class DateTimePicker extends JPanel {
+
+    private static final long serialVersionUID = 570919382584756887L;
 
     public interface DateTimePickerChangeListener {
         public void onChange();
@@ -42,10 +41,14 @@ public class DateTimePicker extends JPanel {
         monthSpinner = new JSpinner(new SpinnerDateModel());
         yearSpinner = new JSpinner(new SpinnerDateModel());
         timeSpinner = new JSpinner(new SpinnerDateModel());
-        JSpinner.DateEditor dayEditor = new JSpinner.DateEditor(daySpinner, GlobalConstants.DAY_FORMAT);
-        JSpinner.DateEditor monthEditor = new JSpinner.DateEditor(monthSpinner, GlobalConstants.MONTH_FORMAT);
-        JSpinner.DateEditor yearEditor = new JSpinner.DateEditor(yearSpinner, GlobalConstants.YEAR_FORMAT);
-        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, GlobalConstants.TIME_FORMAT);
+        JSpinner.DateEditor dayEditor = new JSpinner.DateEditor(daySpinner,
+                GlobalConstants.DAY_FORMAT);
+        JSpinner.DateEditor monthEditor = new JSpinner.DateEditor(monthSpinner,
+                GlobalConstants.MONTH_FORMAT);
+        JSpinner.DateEditor yearEditor = new JSpinner.DateEditor(yearSpinner,
+                GlobalConstants.YEAR_FORMAT);
+        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner,
+                GlobalConstants.TIME_FORMAT);
         daySpinner.setEditor(dayEditor);
         monthSpinner.setEditor(monthEditor);
         yearSpinner.setEditor(yearEditor);
@@ -77,7 +80,8 @@ public class DateTimePicker extends JPanel {
 
     public void setDate(String dateString) {
         try {
-            Date date = new SimpleDateFormat(GlobalConstants.DATETIME_FORMAT).parse(dateString);
+            Date date = new SimpleDateFormat(GlobalConstants.DATETIME_FORMAT)
+                    .parse(dateString);
             setDate(date);
         } catch (ParseException e) {
             // TODO: Maybe better error handling in case database sends wrongly

@@ -20,21 +20,9 @@ public class sqlServer {
         // Connection c = null;
         try {
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:CAPFormTracker.db"); // create
-                                                                              // DB
-            // if it
-            // does not
-            // exist,
-            // otherwise
-            // get
-            // connection
+            c = DriverManager.getConnection("jdbc:sqlite:CAPFormTracker.db");
+            // create DB if it does not exist, otherwise get connection
             Statement stmt = c.createStatement();
-            // stmt.executeUpdate("CREATE TABLE IF NOT EXISTS MISSION "
-            // + "(MISSIONNUMBER INT PRIMARY KEY NOT NULL,"
-            // + "MISSIONNAME   TEXT            NOT NULL)");//create the Mission
-            // table
-
-            // System.out.println("Created Mission table successfully.");
 
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS COMMLOG" // create
                                                                     // the
@@ -67,15 +55,15 @@ public class sqlServer {
 
             System.out.println("Created radiomess table successfully.");
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS USERS" // create
-                                                                      // the
-                                                                      // users
-                                                                      // table
+                                                                  // the
+                                                                  // users
+                                                                  // table
                     + "(USERNAME     TEXT PRIMARY KEY  NOT NULL,"
                     + "PASSWORD      TEXT              NOT NULL,"
                     + "USERTYPE      TEXT              NOT NULL)");
 
             System.out.println("Created users table successfully.");
-            
+
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS GLOBALS"
                     + "(TYPE          TEXT PRIMARY KEY NOT NULL,"
                     + "ID            INT              NOT NULL)");
@@ -103,7 +91,9 @@ public class sqlServer {
             stmt.setInt(2, 1);
             stmt.execute();
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.out
+                    .println("Did not set up globals (they probably already exist)"
+                            + ": " + e.getMessage());
         }
     }
 
@@ -173,7 +163,8 @@ public class sqlServer {
      */
     // when inserting a Form, need to make sure that a mission exists for the
     // form
-    public static void InsertUser(String userName, String password, String userType){
+    public static void InsertUser(String userName, String password,
+            String userType) {
         try {
             PreparedStatement stmt = c
                     .prepareStatement("INSERT into USERS (USERNAME,PASSWORD,USERTYPE) "
@@ -183,10 +174,12 @@ public class sqlServer {
             stmt.setString(3, userType);
             stmt.execute();
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.out.println("Did not insert user \"" + userName
+                    + "\" (they probably already exist)" + ": "
+                    + e.getMessage());
         }
     }
-    
+
     public static void InsertCommLog(String json, int commid,
             String missionnum, long date) {
         try {
@@ -235,15 +228,13 @@ public class sqlServer {
         }
     }
 
-    
-
     /*
      * --------------------------------------------------------------------------
      * ---------------
      */
     /* The following are selects */
 
-    public static User SelectFromUsersWithUserName(String userName){
+    public static User SelectFromUsersWithUserName(String userName) {
         try {
             ResultSet resultSet;
             PreparedStatement stmt = c
@@ -251,8 +242,7 @@ public class sqlServer {
             stmt.setString(1, userName);
             resultSet = stmt.executeQuery();
             if (resultSet.next()) {
-                return new User(
-                        resultSet.getString("USERNAME"),
+                return new User(resultSet.getString("USERNAME"),
                         resultSet.getString("PASSWORD"),
                         UserType.getType(resultSet.getString("USERTYPE")));
             } else {
@@ -263,9 +253,9 @@ public class sqlServer {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
         return null;
-                
+
     }
-    
+
     /* for querying comlog table with just uid */
     public static DBPushParams SelectFromCommLogWithID(int id) {
         try {
@@ -718,7 +708,6 @@ public class sqlServer {
      * ------------------------The following are
      * updates------------------------------------------
      */
-    // TODO implement the update methods for updating a form in progress.
     public static void UpdateCommLog(String json, int id, String missionnum,
             long date) {
         try {

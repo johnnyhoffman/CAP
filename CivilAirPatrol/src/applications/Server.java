@@ -137,7 +137,7 @@ public class Server extends Thread {
                 BCrypt.hashpw("testpass", BCrypt.gensalt()), "WRITER");
         database.sqlServer.InsertUser("Reader",
                 BCrypt.hashpw("passs", BCrypt.gensalt()), "READER");
-        Server server = new Server(AppPreferences.getPort());
+        new Server(AppPreferences.getPort());
     }
 
 }

@@ -1,13 +1,10 @@
 package assets;
 
-/* Placeholder for demonstrating Session MVC */
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
@@ -28,16 +25,14 @@ public class AssetsView extends JPanel {
 
     private class MyListRenderer extends DefaultListCellRenderer {
         private int overdueCount;
-        private int underdueCount;
 
         public MyListRenderer(int overdueCount) {
             super();
             this.overdueCount = overdueCount;
         }
 
-        public Component getListCellRendererComponent(JList list,
-                Object value, int index, boolean isSelected,
-                boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList list, Object value,
+                int index, boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, value, index, isSelected,
                     cellHasFocus);
             if (index < overdueCount) {
@@ -117,7 +112,7 @@ public class AssetsView extends JPanel {
         list.setModel(model);
         list.setCellRenderer(new MyListRenderer(overdue.size()));
     }
-    
+
     public String getMissionNo() {
         return missionNoTF.getText();
     }

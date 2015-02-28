@@ -9,7 +9,6 @@ import javax.swing.event.CaretListener;
 import mvcCommon.IController;
 import assets.AssetsModel.IncomingAssetDataListener;
 
-/* Placeholder for demonstrating Session MVC */
 public class AssetsController implements IController {
 
     private AssetsView view;

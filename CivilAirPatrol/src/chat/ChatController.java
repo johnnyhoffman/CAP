@@ -13,15 +13,12 @@ import network.ClientSocket;
 
 import common.ClientGlobalVariables;
 
-/* Placeholder for demonstrating Session MVC */
 public class ChatController implements IController {
 
     private ChatView view;
-    private ChatModel model;
 
     public ChatController() {
         this.view = new ChatView();
-        this.model = new ChatModel();
         view.setTextChatArea("");
         view.setTextChatEntry("");
         setListeners();
@@ -35,29 +32,26 @@ public class ChatController implements IController {
     public void setListeners() {
         view.addActionListenChatEntry(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                // What do i do when the user hits enter
-                // TODO this is where we need to send the chat message to server
-                // instead of just printing to the chatArea
-                
                 String textEntry = view.getTextChatEntry();
 
                 if (textEntry.isEmpty())
                     return;
-                ChatMessage message = new ChatMessage(textEntry, ClientGlobalVariables.USERNAME);
+                ChatMessage message = new ChatMessage(textEntry,
+                        ClientGlobalVariables.USERNAME);
 
                 try {
                     ClientSocket.getInstance().output.writeObject(message);
                 } catch (IOException ex) {
-                    Logger.getLogger(ChatController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ChatController.class.getName()).log(
+                            Level.SEVERE, null, ex);
                 }
-                view.setTextChatEntry(""); //Reset the chat entry line
+                view.setTextChatEntry(""); // Reset the chat entry line
             }
         });
     }
 
-    //provide access to write to the chat area
-    public void writeChat(String message){
-        //TODO write to the chat area of the client
+    // provide access to write to the chat area
+    public void writeChat(String message) {
         String textArea = view.getTextChatArea();
         int textTest = 1;
         if (textArea == "") {
@@ -72,7 +66,7 @@ public class ChatController implements IController {
             view.setTextChatArea(textArea + "\n" + message);
         }
     }
-    
+
     public void processChatMessage(ChatMessage m) {
         writeChat(m.getUser() + " : " + m.getMessage());
     }

@@ -6,7 +6,6 @@ import java.util.List;
 import network.ClientSocket;
 import network.RegisterMissionNoMessage;
 
-/* Placeholder for demonstrating Session MVC */
 public class AssetsModel {
 
     public interface IncomingAssetDataListener {

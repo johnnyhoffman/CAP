@@ -1,8 +1,5 @@
 package common;
 
-import com.google.gson.Gson;
-
-
 public class DataContainers {
 
     public static class CommunicationsLog {

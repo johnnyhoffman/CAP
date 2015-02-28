@@ -27,7 +27,7 @@ import common.DataContainers.SearchAndRescue;
 import database.sqlServer;
 
 /**
- *
+ * 
  * @author Robert
  */
 public class ClientConnection extends Thread {
@@ -57,8 +57,7 @@ public class ClientConnection extends Thread {
             public void onAssetUpdate(List<String> overdue,
                     List<String> underdue) {
                 try {
-                    output.writeObject(new AssetUpdateMessage(overdue,
-                            underdue));
+                    output.writeObject(new AssetUpdateMessage(overdue, underdue));
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -99,7 +98,6 @@ public class ClientConnection extends Thread {
 
     @Override
     public void run() {
-        // TODO this will be where i handle the input coming from the clients
         NetworkMessage message;
         boolean run = true;
         while (run) {
@@ -110,10 +108,12 @@ public class ClientConnection extends Thread {
                     handleChat(message);
                     break;
                 case GUI:
-                    if (userType == UserType.WRITER) handleGuiPush(message);
+                    if (userType == UserType.WRITER)
+                        handleGuiPush(message);
                     break;
                 case NEW_FORM:
-                    if (userType == UserType.WRITER) handleNewForm(message);
+                    if (userType == UserType.WRITER)
+                        handleNewForm(message);
                     break;
                 case LOGIN:
                     handleLogin(message);
@@ -143,7 +143,7 @@ public class ClientConnection extends Thread {
     }
 
     private void handleChat(NetworkMessage message) {
-        // TODO echo the message to all authenticated clients....
+        // echo the message to all authenticated clients....
         for (ClientConnection c : Server.allClients) {
             try {
                 c.output.writeObject(message);
@@ -161,10 +161,8 @@ public class ClientConnection extends Thread {
     }
 
     private void handleGuiPush(NetworkMessage message) {
-        // TODO echo the message to all non-radio officer connections...and
+        // echo the message to all non-radio officer connections...and
         // update db
-        // will start with just pushing to the db
-        // TODO TEST THIS?
         DBPushParams pushParams = ((GuiMessage) message).getParams();
         ((GuiMessage) message).setIsUpdate(true);
 
@@ -271,8 +269,7 @@ public class ClientConnection extends Thread {
     }
 
     private void handleGet(NetworkMessage message) {
-        // TODO this is where i will need to handle a request from the db and
-        // send back a response
+        // to handle a request from the db and send back a response
         // can just send it back out on socket...cause it came from this
         // connection =)
         DBRequest request = ((GetMessage) message).getRequest();
@@ -315,7 +312,7 @@ public class ClientConnection extends Thread {
         // send the results back to the client
         // TODO RESULTS MESSAGE TO BUNDLE THE RESULTS BACK UP, distinguish
         // between a search result and actual forms coming back, 1 has json 1
-        // doesnt
+        // doesnt //// XXX: Can we delete this TODO? It seems like it is no longer necessary but im not entirely sure
         ResultMessage result = new ResultMessage(resultsList, false);
         try {
             this.output.writeObject(result);
