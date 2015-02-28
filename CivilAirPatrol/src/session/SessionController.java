@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 import network.AssetUpdateMessage;
 import network.ChatMessage;
 import network.ClientListenerThread.OnIncomingDataListener;
+import network.GetMessage;
 import network.GuiMessage;
 import network.NetworkMessage;
 import network.ResultMessage;
@@ -60,6 +61,7 @@ public class SessionController {
                 case ASSET_UPDATE:
                     AssetUpdateMessage assetUpdateMessage = (AssetUpdateMessage) networkMessage;
                     assetsController.setLists(assetUpdateMessage.getOverdue(), assetUpdateMessage.getUnderdue());
+                    break;
                 case GET:
                     System.out.println("Unhandled message type \"GET\"");
                     break;
