@@ -15,6 +15,7 @@ import userInterface.LoginWindow;
 
 import common.ClientGlobalVariables;
 import common.User;
+import network.ErrorMessage;
 
 public class Main {
     public static void main(String[] args) {
@@ -29,15 +30,16 @@ public class Main {
                         user.getUser(), user.getPass(), null));
                 //want to block for a response so dont really need to set up a listener here
                 NetworkMessage message = (NetworkMessage)sock.input.readObject();  
-                LoginMessage loginMessage = (LoginMessage)message;
-                switch(loginMessage.getUserType()){
-                    case NONE:
-                        JOptionPane.showMessageDialog(f, "Incorrect credentials provided.");
+                //LoginMessage loginMessage = (LoginMessage)message;
+                switch(message.getType()){
+                    case ERROR:
+                        JOptionPane.showMessageDialog(f, ((ErrorMessage)message).getMessage());
                         System.exit(0);
                         break;
-                    default:
-                        ClientGlobalVariables.USERTYPE = loginMessage.getUserType();
-                        ClientGlobalVariables.USERNAME = loginMessage.getUser();
+                        
+                    case LOGIN:
+                        ClientGlobalVariables.USERTYPE = ((LoginMessage)message).getUserType();
+                        ClientGlobalVariables.USERNAME = ((LoginMessage)message).getUser();
                         break;
                 }
                 

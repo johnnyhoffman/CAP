@@ -10,7 +10,7 @@ package network;
  * @author Robert
  */
 public enum UserType {
-    READER, WRITER, NONE;
+    READER, WRITER, NONE, USERINUSE, WRITEINUSE;
 
     @Override
     public String toString() {
@@ -27,14 +27,15 @@ public enum UserType {
     }
 
     public static UserType getType(String type) {
-        if (type.equals("READER")) {
-            return READER;
-        } else if (type.equals("WRITER")) {
-            return WRITER;
-        } else if (type.equals("NONE")) {
-            return NONE;
-        } else {
-            return null;
+        switch (type) {
+            case "READER":
+                return READER;
+            case "WRITER":
+                return WRITER;
+            case "NONE":
+                return NONE;
+            default:
+                return null;
         }
     }
 }
