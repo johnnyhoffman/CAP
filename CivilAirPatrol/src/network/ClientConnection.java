@@ -73,6 +73,10 @@ public class ClientConnection extends Thread {
     public String getUserName() {
         return this.user;
     }
+    
+    public UserType getUserType(){
+        return this.userType;
+    }
 
     public Socket getSocket() {
         return this.socket;

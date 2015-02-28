@@ -23,6 +23,7 @@ import security.BCrypt;
 import common.AppPreferences;
 import common.User;
 import java.io.IOException;
+import network.ErrorMessage;
 
 import userInterface.ServerWindow;
 
@@ -59,6 +60,8 @@ public class Server extends Thread {
     public void quit() {
         run = false;
     }
+    
+    
 
     // Function to check credentials against db
     private UserType validate(NetworkMessage attempt) {
@@ -70,6 +73,16 @@ public class Server extends Thread {
             if (user != null
                     && BCrypt.checkpw(((LoginMessage) attempt).getPass(),
                             user.getPass())) {
+                for (ClientConnection cc : allClients) {
+                    // TODO: Make sure user is not a duplicate and there is only
+                    // one writer
+                    if (user.getUser().equals(cc.getUserName())){
+                        return UserType.USERINUSE;
+                    }else if((user.getType() == UserType.WRITER) && 
+                            (cc.getUserType() == UserType.WRITER)){
+                        return UserType.WRITEINUSE;
+                    }
+                }
                 return user.getType();
             } else {
                 return UserType.NONE;
@@ -89,10 +102,7 @@ public class Server extends Thread {
         UserType type;
         try {
             while (run) {
-                for (ClientConnection cc : allClients) {
-                    // TODO: Make sure user is not a duplicate and there is only
-                    // one writer
-                }
+                
                 Socket server = socket.accept();
                 output = new ObjectOutputStream(server.getOutputStream());
                 output.flush();
@@ -104,8 +114,8 @@ public class Server extends Thread {
                 // attempt.
                 NetworkMessage loginattempt = (NetworkMessage) input
                         .readObject();
-
-                if ((type = validate(loginattempt)) != UserType.NONE) {
+                type = validate(loginattempt);
+                if (type == UserType.READER || type == UserType.WRITER) {
                     // create the client connection
                     output.writeObject(new LoginMessage(
                             ((LoginMessage) loginattempt).getUser(), "", type));
@@ -117,9 +127,22 @@ public class Server extends Thread {
                     System.out.println("Accepted client connection.");
                 } else {
                     // Did not have correct credentials, drop them
-                    output.writeObject(new LoginMessage(
-                            "Did not provide correct credentials.", "",
-                            UserType.NONE)); // send a message back with login
+                    switch(type){
+                        case WRITEINUSE:
+                            output.writeObject(new ErrorMessage(
+                                "Already a writer logged in."));
+                            break;
+                        case USERINUSE:
+                            output.writeObject(new ErrorMessage(
+                                "User name already in use."));
+                            break;
+                        case NONE:
+                            output.writeObject(new LoginMessage(
+                                "Did not provide correct credentials.", "",
+                                UserType.NONE));
+                            break;
+                    }
+                     // send a message back with login
                                              // type none if there was an error
                     input.close();
                     output.close();
@@ -139,7 +162,15 @@ public class Server extends Thread {
         database.sqlServer.CreateDatabase();
         database.sqlServer.InsertUser("Robert",
                 BCrypt.hashpw("testpass", BCrypt.gensalt()), "WRITER");
+        database.sqlServer.InsertUser("Johnny",
+                BCrypt.hashpw("testpass", BCrypt.gensalt()), "WRITER");
+        database.sqlServer.InsertUser("Dana",
+                BCrypt.hashpw("testpass", BCrypt.gensalt()), "WRITER");
         database.sqlServer.InsertUser("Reader",
+                BCrypt.hashpw("passs", BCrypt.gensalt()), "READER");
+        database.sqlServer.InsertUser("Reader1",
+                BCrypt.hashpw("passs", BCrypt.gensalt()), "READER");
+        database.sqlServer.InsertUser("Reader2",
                 BCrypt.hashpw("passs", BCrypt.gensalt()), "READER");
         new Server(AppPreferences.getPort());
     }
