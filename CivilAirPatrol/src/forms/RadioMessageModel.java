@@ -35,8 +35,7 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
                     new DBPushParams(FormType.RM, gson.toJson(data), id,
                             missionNo, date)));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            onConnectionError();
         }
     }
 
@@ -199,4 +198,5 @@ public class RadioMessageModel extends ScheduledPushModelAbstraction {
         return new DBPushParams(FormType.RM, json, id, data.header.missionNo,
                 data.header.dtg);
     }
+
 }

@@ -124,7 +124,7 @@ public class SearchWindow {
         missionNoPanel.setBackground(new Color(230, 230, 230));
         JLabel formIDHeader = new JLabel("Mission Number: ", JLabel.CENTER);
         tMissionNo = new javax.swing.JTextField();
-        tMissionNo.setDocument(new TextDocumentForLimitedTextFields(18, 1));
+//        tMissionNo.setDocument(new TextDocumentForLimitedTextFields(18, 1));
         tMissionNo.setPreferredSize(new Dimension(96, 24));
         missionNoPanel.add(formIDHeader);
         missionNoPanel.add(tMissionNo);

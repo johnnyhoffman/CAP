@@ -1,6 +1,5 @@
 package forms;
 
-
 import java.io.IOException;
 
 import network.ClientSocket;
@@ -32,10 +31,11 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         data.header.dateTime = date;
         gson = new Gson();
         try {
-            ClientSocket.getInstance().output.writeObject(new GuiMessage(new DBPushParams(FormType.SAR, gson.toJson(data), id, missionNo, date)));
+            ClientSocket.getInstance().output.writeObject(new GuiMessage(
+                    new DBPushParams(FormType.SAR, gson.toJson(data), id,
+                            missionNo, date)));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            onConnectionError();
         }
     }
 
@@ -344,7 +344,8 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
         schedulePush();
     }
 
-    public void updateFoxtrotMissionClosedOrSuspended(boolean closed, boolean suspended) {
+    public void updateFoxtrotMissionClosedOrSuspended(boolean closed,
+            boolean suspended) {
         data.foxtrot.missionClosed = closed;
         data.foxtrot.missionSuspended = suspended;
         schedulePush();
@@ -619,7 +620,8 @@ public class SearchAndRescueModel extends ScheduledPushAndCheckModelAbstraction 
     @Override
     public DBPushParams prepareForPush() {
         String json = gson.toJson(data);
-        return new DBPushParams(FormType.SAR, json, id, data.header.missionNumber, data.header.dateTime);
+        return new DBPushParams(FormType.SAR, json, id,
+                data.header.missionNumber, data.header.dateTime);
     }
 
     public void jsonDeserialize(JsonObject json) {

@@ -4,18 +4,18 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import mvcCommon.IController;
 import network.ChatMessage;
 import network.ClientSocket;
 
 import common.ClientGlobalVariables;
+import common.OnConnectionErrorListener;
 
 public class ChatController implements IController {
 
     private ChatView view;
+    private OnConnectionErrorListener onConnectionErrorListener;
 
     public ChatController() {
         this.view = new ChatView();
@@ -42,8 +42,9 @@ public class ChatController implements IController {
                 try {
                     ClientSocket.getInstance().output.writeObject(message);
                 } catch (IOException ex) {
-                    Logger.getLogger(ChatController.class.getName()).log(
-                            Level.SEVERE, null, ex);
+                    if (onConnectionErrorListener != null) {
+                        onConnectionErrorListener.onConnectionError();
+                    }
                 }
                 view.setTextChatEntry(""); // Reset the chat entry line
             }
@@ -65,6 +66,10 @@ public class ChatController implements IController {
         default:
             view.setTextChatArea(textArea + "\n" + message);
         }
+    }
+
+    public void setOnConnectionErrorListener(OnConnectionErrorListener l) {
+        this.onConnectionErrorListener = l;
     }
 
     public void processChatMessage(ChatMessage m) {

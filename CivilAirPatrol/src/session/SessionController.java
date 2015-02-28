@@ -4,10 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+import common.OnConnectionErrorListener;
+
 import network.AssetUpdateMessage;
 import network.ChatMessage;
 import network.ClientListenerThread.OnIncomingDataListener;
-import network.GetMessage;
 import network.GuiMessage;
 import network.NetworkMessage;
 import network.ResultMessage;
@@ -118,6 +119,16 @@ public class SessionController {
                 onClose();
             }
         });
+
+        OnConnectionErrorListener onConnectionErrorListener = new OnConnectionErrorListener() {
+            @Override
+            public void onConnectionError() {
+                view.showConnectionErrorMessage();
+            }
+        };
+        formsController.setOnConnectionErrorListener(onConnectionErrorListener);
+        assetsController.setOnConnectionErrorListener(onConnectionErrorListener);
+        chatController.setOnConnectionErrorListener(onConnectionErrorListener);
     }
 
     public void onClose() {

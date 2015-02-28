@@ -6,9 +6,10 @@ import javax.swing.event.CaretListener;
 import network.UserType;
 
 import com.google.gson.JsonObject;
+
 import common.ClientGlobalVariables;
 import common.DateTimePicker.DateTimePickerChangeListener;
-
+import common.OnConnectionErrorListener;
 import forms.ScheduledPushModelAbstraction.OnModelLoadListener;
 
 /* Placeholder for demonstrating Session MVC */
@@ -190,5 +191,10 @@ public class RadioMessageController implements IFormController {
     @Override
     public void updateFromJson(JsonObject json) {
         model.jsonDeserialize(json);
+    }
+
+    @Override
+    public void setOnConnectionErrorListener(OnConnectionErrorListener l) {
+        model.setOnConnectionErrorListener(l);
     }
 }

@@ -42,8 +42,7 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
                     new DBPushParams(FormType.CL, gson.toJson(data), id,
                             missionNo, date)));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            onConnectionError();
         }
     }
 
@@ -161,5 +160,6 @@ public class CommLogModel extends ScheduledPushAndCheckModelAbstraction {
         data = gson.fromJson(json, DataContainers.CommunicationsLog.class);
         modelLoaded();
     }
+
 
 }

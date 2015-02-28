@@ -6,6 +6,8 @@ import java.util.List;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import common.OnConnectionErrorListener;
+
 import mvcCommon.IController;
 import assets.AssetsModel.IncomingAssetDataListener;
 
@@ -40,6 +42,10 @@ public class AssetsController implements IController {
     }
 
     public void onClose() {
+    }
+
+    public void setOnConnectionErrorListener(OnConnectionErrorListener l) {
+        model.setConnectionErrorListener(l);
     }
 
     public void setLists(List<String> overdue, List<String> underdue) {

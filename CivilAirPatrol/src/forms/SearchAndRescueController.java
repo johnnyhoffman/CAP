@@ -10,9 +10,10 @@ import javax.swing.event.CaretListener;
 import network.UserType;
 
 import com.google.gson.JsonObject;
-import common.ClientGlobalVariables;
-import common.DateTimePicker.DateTimePickerChangeListener;
 
+import common.ClientGlobalVariables;
+import common.OnConnectionErrorListener;
+import common.DateTimePicker.DateTimePickerChangeListener;
 import forms.ScheduledPushModelAbstraction.OnModelLoadListener;
 
 public class SearchAndRescueController implements IFormController {
@@ -628,6 +629,11 @@ public class SearchAndRescueController implements IFormController {
     @Override
     public void updateFromJson(JsonObject json) {
         model.jsonDeserialize(json);
+    }
+
+    @Override
+    public void setOnConnectionErrorListener(OnConnectionErrorListener l) {
+        model.setOnConnectionErrorListener(l);
     }
 
 }

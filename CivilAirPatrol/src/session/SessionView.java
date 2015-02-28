@@ -166,4 +166,11 @@ public class SessionView extends JFrame {
     public void addRetrieveFormsActionListener(ActionListener actionListener) {
         searchDatabaseMenuItem.addActionListener(actionListener);
     }
+
+    public void showConnectionErrorMessage() {
+        JOptionPane
+                .showMessageDialog(
+                        this,
+                        "Cannot send data to Server. Please close the application and start again, after ensuring that the Server application is running.");
+    }
 }

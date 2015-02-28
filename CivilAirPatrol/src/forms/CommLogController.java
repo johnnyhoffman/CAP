@@ -6,11 +6,12 @@ import javax.swing.event.CaretListener;
 import network.UserType;
 
 import com.google.gson.JsonObject;
+
 import common.ClientGlobalVariables;
 import common.DataContainers.CommunicationsLog.ComLogEntry;
 import common.DateTimePicker.DateTimePickerChangeListener;
 import common.GlobalConstants;
-
+import common.OnConnectionErrorListener;
 import forms.ScheduledPushModelAbstraction.OnModelLoadListener;
 
 /* Placeholder for demonstrating Session MVC */
@@ -18,7 +19,6 @@ public class CommLogController implements IFormController {
 
     private CommLogView view;
     private CommLogModel model;
-
 
     public CommLogController(int id, String name, String missionNo, long date) {
         view = new CommLogView();
@@ -171,5 +171,10 @@ public class CommLogController implements IFormController {
     @Override
     public void updateFromJson(JsonObject json) {
         model.jsonDeserialize(json);
+    }
+
+    @Override
+    public void setOnConnectionErrorListener(OnConnectionErrorListener l) {
+        model.setOnConnectionErrorListener(l);
     }
 }

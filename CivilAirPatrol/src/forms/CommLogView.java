@@ -44,7 +44,7 @@ public class CommLogView extends FormComponent {
         jTextField7.setEditable(false);
         jTextField8.setEditable(false);
         jTextField9.setEditable(false);
-        ((TableModelWithEditBlocking) jTable1.getModel()).setEditable(false);// TODO
+        ((TableModelWithEditBlocking) jTable1.getModel()).setEditable(false);
     }
 
     /**

@@ -9,8 +9,9 @@ import network.NewFormMessage;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import common.DBPushParams;
 
+import common.DBPushParams;
+import common.OnConnectionErrorListener;
 import forms.ScheduledPushModelAbstraction.FormType;
 
 /* Placeholder for demonstrating Session MVC */
@@ -18,6 +19,7 @@ public class FormsModel {
 
     private List<IFormController> formControllers;
     private JsonParser jsonParser;
+    private OnConnectionErrorListener onConnectionErrorListener;
 
     FormsModel() {
         jsonParser = new JsonParser();
@@ -55,8 +57,7 @@ public class FormsModel {
             ClientSocket.getInstance().output.writeObject(new NewFormMessage(
                     FormType.CL, missionNo, date));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            onConnectionError();
         }
     }
 
@@ -65,8 +66,7 @@ public class FormsModel {
             ClientSocket.getInstance().output.writeObject(new NewFormMessage(
                     FormType.SAR, missionNo, date));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            onConnectionError();
         }
     }
 
@@ -75,14 +75,14 @@ public class FormsModel {
             ClientSocket.getInstance().output.writeObject(new NewFormMessage(
                     FormType.RM, missionNo, date));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            onConnectionError();
         }
     }
 
     public RadioMessageController radioMessageFromJson(DBPushParams pushParams) {
         RadioMessageController radMesCont = new RadioMessageController(
                 pushParams.id, (JsonObject) jsonParser.parse(pushParams.json));
+        radMesCont.setOnConnectionErrorListener(onConnectionErrorListener);
         formControllers.add(radMesCont);
         return radMesCont;
     }
@@ -90,7 +90,7 @@ public class FormsModel {
     public CommLogController comLogFromJson(DBPushParams pushParams) {
         CommLogController comCont = new CommLogController(pushParams.id,
                 (JsonObject) jsonParser.parse(pushParams.json));
-
+        comCont.setOnConnectionErrorListener(onConnectionErrorListener);
         formControllers.add(comCont);
         return comCont;
     }
@@ -99,12 +99,26 @@ public class FormsModel {
             DBPushParams pushParams) {
         SearchAndRescueController searchRescCont = new SearchAndRescueController(
                 pushParams.id, (JsonObject) jsonParser.parse(pushParams.json));
+        searchRescCont.setOnConnectionErrorListener(onConnectionErrorListener);
         formControllers.add(searchRescCont);
         return searchRescCont;
     }
 
     public void remove(IFormController controller) {
         formControllers.remove(controller);
+    }
+
+    public void setOnConnectionErrorListener(OnConnectionErrorListener l) {
+        this.onConnectionErrorListener = l;
+        for (IFormController c : formControllers) {
+            c.setOnConnectionErrorListener(l);
+        }
+    }
+
+    private void onConnectionError() {
+        if (onConnectionErrorListener != null) {
+            onConnectionErrorListener.onConnectionError();
+        }
     }
 
 }

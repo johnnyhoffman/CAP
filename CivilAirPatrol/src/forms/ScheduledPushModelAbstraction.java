@@ -7,6 +7,7 @@ import network.ClientSocket;
 import network.GuiMessage;
 import common.DBPushParams;
 import common.GlobalConstants;
+import common.OnConnectionErrorListener;
 
 public abstract class ScheduledPushModelAbstraction {
 
@@ -22,6 +23,7 @@ public abstract class ScheduledPushModelAbstraction {
 
     private final ScheduledThreadPoolExecutor pushExecutor;
     private OnModelLoadListener onModelLoadListener;
+    protected OnConnectionErrorListener onConnectionErrorListener;
 
     protected ScheduledPushModelAbstraction() {
         pushExecutor = new ScheduledThreadPoolExecutor(1);
@@ -49,8 +51,7 @@ public abstract class ScheduledPushModelAbstraction {
             ClientSocket.getInstance().output.writeObject(new GuiMessage(
                     pushParams));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            onConnectionError();
         }
 
     }
@@ -62,6 +63,16 @@ public abstract class ScheduledPushModelAbstraction {
     protected void modelLoaded() {
         if (onModelLoadListener != null) {
             onModelLoadListener.onModelLoad();
+        }
+    }
+
+    public void setOnConnectionErrorListener(OnConnectionErrorListener l) {
+        this.onConnectionErrorListener = l;
+    }
+
+    protected void onConnectionError() {
+        if (onConnectionErrorListener != null) {
+            onConnectionErrorListener.onConnectionError();
         }
     }
 

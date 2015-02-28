@@ -15,7 +15,9 @@ import mvcCommon.IController;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import common.DBPushParams;
+import common.OnConnectionErrorListener;
 
 public class FormsController implements IController {
 
@@ -131,7 +133,10 @@ public class FormsController implements IController {
             component.onClose();
             formsController.removeTab(componentAsScrollPane, innerController);
         }
+    }
 
+    public void setOnConnectionErrorListener(OnConnectionErrorListener l) {
+        model.setOnConnectionErrorListener(l);
     }
 
     public void onClose() {
