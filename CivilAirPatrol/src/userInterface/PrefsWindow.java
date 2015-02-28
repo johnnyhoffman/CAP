@@ -17,6 +17,8 @@ import common.AppPreferences;
 import common.GlobalConstants;
 
 public class PrefsWindow extends JPanel {
+    private static final long serialVersionUID = 7166122540503963971L;
+
     public PrefsWindow(JFrame thisFrame) {
         this.setLayout(new GridBagLayout());
         GridBagConstraints left = new GridBagConstraints();
@@ -62,9 +64,8 @@ public class PrefsWindow extends JPanel {
                 portInt = Integer.parseInt(portStr);
                 AppPreferences.setPort(portInt);
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this,
-                        "Cannot set port to \"" + portStr
-                                + "\". Must be a number.");
+                JOptionPane.showMessageDialog(this, "Cannot set port to \""
+                        + portStr + "\". Must be a number.");
             }
         }
     }

@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,32 +22,26 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
 
 import network.ClientSocket;
 import network.DBRequest;
 import network.GetMessage;
 import network.GetSingleMessage;
+
 import common.DBPushParams;
 import common.DateTimePicker;
 import common.GlobalConstants;
-import database.sqlServer;
+
 import forms.FormsController;
 
 /**
  * Here we have a class that lets us search the database for forms
  * 
  * @author danavold
- *
+ * 
  */
 public class SearchWindow {
 
-    /**
-	 * 
-	 */
-    private static final long serialVersionUID = 7658371200547895945L;
     private static final int SEARCH_WIDTH = 480; // was 480
     private static final int SEARCH_HEIGHT = 240;
     private static final int RESULTS_WIDTH = 480;
@@ -60,21 +53,6 @@ public class SearchWindow {
     private static final String FORM_TYPE_RADIO_MSG = "Radio Message";
     private static final String FORM_TYPE_SAR = "S.A.R.";
 
-    private static final int FORM_TYPE_ID_COMM_LOG = 0;
-    private static final int FORM_TYPE_ID_RADIO_MSG = 1;
-    private static final int FORM_TYPE_ID_SAR = 2;
-
-    /*
-     * Dana, I left what you had but commented it out. to get the min and max
-     * date values just use min/maxDateTime.getDate() or .getDateString(). I
-     * also change SEARCH_WIDTH to 580 to fit it
-     */
-    // private JTextField minDay;
-    // private JTextField minMonth;
-    // private JTextField minYear;
-    // private JTextField maxDay;
-    // private JTextField maxMonth;
-    // private JTextField maxYear;
     private DateTimePicker minDateTime;
     private DateTimePicker maxDateTime;
 
@@ -90,8 +68,6 @@ public class SearchWindow {
 
     private SearchWindowJFrame mainFrame;
 
-    private FormsController formsController;
-
     // variables for displaying the results of a search
     JList resultsList;
     JScrollPane resultsListScroller;
@@ -102,7 +78,6 @@ public class SearchWindow {
         dead = true;
         statusLabel = new JLabel("");
         setSearchWindow();
-        this.formsController = formsController;
     }
 
     private void setSearchWindow() {
@@ -174,9 +149,9 @@ public class SearchWindow {
         goButton = new JButton("Search");
         buttonPanel.add(cancelButton);
         buttonPanel.add(goButton);
-        
+
         buttonPanel.add(statusLabel);
-        
+
         cancelButton.addActionListener(new CancelSearchListener());
         goButton.addActionListener(new StartSearchListener());
         mainFrame.add(buttonPanel);
@@ -209,9 +184,9 @@ public class SearchWindow {
         mainFrame.setSize(RESULTS_WIDTH, RESULTS_HEIGHT);
         mainFrame.setLayout(new GridLayout(2, 1));
         mainFrame.setBackground(new Color(230, 230, 230));
-        
+
         DefaultListModel resultsListModel = new DefaultListModel();
-        
+
         for (int i = 0; i < formPushParams.size(); i++) {
             DBPushParams p = formPushParams.get(i);
             String type = "";
@@ -303,26 +278,17 @@ public class SearchWindow {
             String missionNo = tMissionNo.getText();
             long startDate = minDateTime.getDateLong();
             long endDate = maxDateTime.getDateLong();
-
-            // TODO: JOHNNY WORKING HERE
-
-            // DANA: I'm replacing this are to contact the server instead of the
-            // database directly. Ive noticed that there is not yet
-            // functionality for getting results between dates. I'm not sure if
-            // that's in progress, but if it is, you'll have to move the logic
-            // to the server application;
-            GetMessage getMessage = new GetMessage(new DBRequest(
-                    searchAndRescueCheckbox.isSelected(),
-                    radioMessageCheckbox.isSelected(),
-                    commLogCheckbox.isSelected(), missionNo, startDate, endDate));
+            GetMessage getMessage = new GetMessage(
+                    new DBRequest(searchAndRescueCheckbox.isSelected(),
+                            radioMessageCheckbox.isSelected(),
+                            commLogCheckbox.isSelected(), missionNo, startDate,
+                            endDate));
             try {
                 ClientSocket.getInstance().output.writeObject(getMessage);
-                //Response will call setResultsWindow(...)
+                // Response will call setResultsWindow(...)
                 statusLabel.setText("Loading...");
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 statusLabel.setText("Error contacting server.");
-                e1.printStackTrace();
             }
         }
     }
@@ -332,7 +298,7 @@ public class SearchWindow {
      * results window.
      * 
      * @author danavold
-     *
+     * 
      */
     private class LoadFormsFromSearchListener implements ActionListener {
         private List<DBPushParams> formPushParams;
@@ -349,7 +315,10 @@ public class SearchWindow {
             for (int i = 0; i < indices.length; i++) {
                 DBPushParams currentPushParams = formPushParams.get(indices[i]);
                 try {
-                    ClientSocket.getInstance().output.writeObject(new GetSingleMessage(currentPushParams.id, currentPushParams.type));
+                    ClientSocket.getInstance().output
+                            .writeObject(new GetSingleMessage(
+                                    currentPushParams.id,
+                                    currentPushParams.type));
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -362,9 +331,6 @@ public class SearchWindow {
 
     private class SearchWindowJFrame extends JFrame {
 
-        /**
-		 * 
-		 */
         private static final long serialVersionUID = 5188445703046822084L;
 
         public void dispose() {
