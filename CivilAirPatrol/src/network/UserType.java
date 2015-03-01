@@ -27,15 +27,14 @@ public enum UserType {
     }
 
     public static UserType getType(String type) {
-        switch (type) {
-            case "READER":
-                return READER;
-            case "WRITER":
-                return WRITER;
-            case "NONE":
-                return NONE;
-            default:
-                return null;
-        }
+    	if (type.equals("READER")) {
+    		return READER;
+    	} else if (type.equals("WRITER")) {
+    		return WRITER;
+    	} else if (type.equals("NONE")) {
+    		return NONE;
+    	} else {
+    		return null;
+    	}
     }
 }

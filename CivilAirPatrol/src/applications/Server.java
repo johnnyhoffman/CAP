@@ -70,9 +70,17 @@ public class Server extends Thread {
             User user = database.sqlServer
                     .SelectFromUsersWithUserName(((LoginMessage) attempt)
                             .getUser());
-            if (user != null
-                    && BCrypt.checkpw(((LoginMessage) attempt).getPass(),
-                            user.getPass())) {
+            if (user == null) {
+            	return UserType.NONE;
+            }
+            
+            //TODO Dana here.  This next line consistently crashes for me, even when inputting 2 strings,
+            // so I've commented it out.
+            //boolean passMatch = BCrypt.checkpw(((LoginMessage) attempt).getPass(), user.getPass());
+            
+            // the following line is a temporary replacement for the previous line
+            boolean passMatch = user.getPass().equals(((LoginMessage) attempt).getPass());
+            if (user != null && passMatch) {
                 for (ClientConnection cc : allClients) {
                     // TODO: Make sure user is not a duplicate and there is only
                     // one writer
@@ -137,9 +145,11 @@ public class Server extends Thread {
                                 "User name already in use."));
                             break;
                         case NONE:
-                            output.writeObject(new LoginMessage(
-                                "Did not provide correct credentials.", "",
-                                UserType.NONE));
+                        	output.writeObject(new ErrorMessage(
+                                    "Did not provide correct credentials."));
+                            //output.writeObject(new LoginMessage(
+                            //    "Did not provide correct credentials.", "",
+                            //    UserType.NONE));
                             break;
                     }
                      // send a message back with login

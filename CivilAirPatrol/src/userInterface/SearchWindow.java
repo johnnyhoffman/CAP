@@ -209,8 +209,7 @@ public class SearchWindow {
         }
 
         resultsList = new JList(resultsListModel);
-        resultsList
-                .setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        resultsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         resultsList.setLayoutOrientation(JList.VERTICAL);
         resultsList.setVisibleRowCount(-1);
         resultsListScroller = new JScrollPane(resultsList);
@@ -315,10 +314,11 @@ public class SearchWindow {
             for (int i = 0; i < indices.length; i++) {
                 DBPushParams currentPushParams = formPushParams.get(indices[i]);
                 try {
-                    ClientSocket.getInstance().output
-                            .writeObject(new GetSingleMessage(
-                                    currentPushParams.id,
-                                    currentPushParams.type));
+                	System.out.println(currentPushParams.missionNo);
+                	System.out.println(currentPushParams.id);
+                	GetSingleMessage m = new GetSingleMessage(currentPushParams.id,currentPushParams.type);
+                	System.out.println("sending message for form "+m.getUID());
+                    ClientSocket.getInstance().output.writeObject(m);
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();

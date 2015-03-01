@@ -41,7 +41,7 @@ public class AssetTrackerServerSide extends Thread {
     }
 
     public synchronized void checkForUpdates(String no) {
-        if (no.equals(missionNo)) {
+        if (missionNo.equals(no)) {
             newUpdates = true;
         }
     }

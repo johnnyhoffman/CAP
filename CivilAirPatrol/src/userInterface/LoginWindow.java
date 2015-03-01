@@ -101,4 +101,14 @@ public class LoginWindow extends JPanel {
             return null;
         }
     }
+
+	public void setToQuitOnClose() {
+		thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+	}
+	
+	public void setToNotQuitOnClose() {
+		thisFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+	}
 }

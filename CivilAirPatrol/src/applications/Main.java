@@ -21,6 +21,7 @@ public class Main {
     public static void main(String[] args) {
         final JFrame f = new JFrame();
         LoginWindow loginWindow = new LoginWindow(f);
+        loginWindow.setToQuitOnClose();
         final User user = loginWindow.showOptions();
         f.dispose();
         if (user != null){
@@ -51,7 +52,7 @@ public class Main {
                 //TODO This is a fatal error....
 
             }
-
+            loginWindow.setToNotQuitOnClose();
             new SessionController();
         }
     }
