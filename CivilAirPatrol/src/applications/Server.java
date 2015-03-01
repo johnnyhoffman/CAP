@@ -122,6 +122,7 @@ public class Server extends Thread {
                         .readObject();
                 type = validate(loginattempt);
                 // Did not have correct credentials, drop them
+                String mess;
                 switch (type) {
                 case READER:
                     // Follow through to same code block as writer, so no break
@@ -137,23 +138,19 @@ public class Server extends Thread {
                     System.out.println("Accepted client connection.");
                     break;
                 case WRITEINUSE:
-                    output.writeObject(new ErrorMessage(
-                            "Already a writer logged in."));
-                    break;
+                    mess = "Already a writer logged in.";
                 case USERINUSE:
-                    output.writeObject(new ErrorMessage(
-                            "User name already in use."));
-                    break;
+                    mess = "User name already in use.";
                 case NONE:
-                    output.writeObject(new ErrorMessage(
-                            "Did not provide correct credentials."));
+                    mess = "Did not provide correct credentials.";
+                    output.writeObject(new ErrorMessage(mess));
+                    // send a message back with login
+                    // type none if there was an error
+                    input.close();
+                    output.close();
+                    server.close();
                     break;
                 }
-                // send a message back with login
-                // type none if there was an error
-                input.close();
-                output.close();
-                server.close();
             }
 
             socket.close();
