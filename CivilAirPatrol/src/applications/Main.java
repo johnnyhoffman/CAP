@@ -20,6 +20,13 @@ import network.ErrorMessage;
 public class Main {
     public static void main(String[] args) {
         final JFrame f = new JFrame();
+        //Making it a large window, otherwise you can just lose the frame...
+        f.setSize(400, 500); // Must set some size, even though it starts
+                                // maximized. Else, un-maximizizing the window
+                                // may make it ~1 pixel wide
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setExtendedState(f.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        f.setVisible(true);
         LoginWindow loginWindow = new LoginWindow(f);
         loginWindow.setToQuitOnClose();
         final User user = loginWindow.showOptions();
@@ -31,26 +38,26 @@ public class Main {
                         user.getUser(), user.getPass(), null));
                 //want to block for a response so dont really need to set up a listener here
                 NetworkMessage message = (NetworkMessage)sock.input.readObject();  
-                //LoginMessage loginMessage = (LoginMessage)message;
                 switch(message.getType()){
                     case ERROR:
                         JOptionPane.showMessageDialog(f, ((ErrorMessage)message).getMessage());
                         System.exit(0);
                         break;
-                        
                     case LOGIN:
                         ClientGlobalVariables.USERTYPE = ((LoginMessage)message).getUserType();
                         ClientGlobalVariables.USERNAME = ((LoginMessage)message).getUser();
                         break;
+                default:
+                    JOptionPane.showMessageDialog(f, "Encountered invalid message from server");
+                    System.exit(1);;
                 }
                 
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                //TODO This is a fatal error....
+                JOptionPane.showMessageDialog(f, "Fatal: " + ex.getMessage());
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                //TODO This is a fatal error....
-
+                JOptionPane.showMessageDialog(f, "Fatal: " + ex.getMessage());
             }
             loginWindow.setToNotQuitOnClose();
             new SessionController();

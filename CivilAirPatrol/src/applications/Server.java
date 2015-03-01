@@ -104,7 +104,6 @@ public class Server extends Thread {
         UserType type;
         try {
             while (run) {
-
                 Socket server = socket.accept();
                 output = new ObjectOutputStream(server.getOutputStream());
                 output.flush();
@@ -117,7 +116,11 @@ public class Server extends Thread {
                 NetworkMessage loginattempt = (NetworkMessage) input
                         .readObject();
                 type = validate(loginattempt);
-                if (type == UserType.READER || type == UserType.WRITER) {
+                // Did not have correct credentials, drop them
+                switch (type) {
+                case READER:
+                    // Follow through to same code block as writer, so no break
+                case WRITER:
                     // create the client connection
                     output.writeObject(new LoginMessage(
                             ((LoginMessage) loginattempt).getUser(), "", type));
@@ -127,33 +130,27 @@ public class Server extends Thread {
                     allClients.add(client);
                     client.start();
                     System.out.println("Accepted client connection.");
-                } else {
-                    // Did not have correct credentials, drop them
-                    switch (type) {
-                    case WRITEINUSE:
-                        output.writeObject(new ErrorMessage(
-                                "Already a writer logged in."));
-                        break;
-                    case USERINUSE:
-                        output.writeObject(new ErrorMessage(
-                                "User name already in use."));
-                        break;
-                    case NONE:
-                        output.writeObject(new ErrorMessage(
-                                "Did not provide correct credentials."));
-                        // output.writeObject(new LoginMessage(
-                        // "Did not provide correct credentials.", "",
-                        // UserType.NONE));
-                        break;
-                    }
-                    // send a message back with login
-                    // type none if there was an error
-                    input.close();
-                    output.close();
-                    server.close();
-
+                    break;
+                case WRITEINUSE:
+                    output.writeObject(new ErrorMessage(
+                            "Already a writer logged in."));
+                    break;
+                case USERINUSE:
+                    output.writeObject(new ErrorMessage(
+                            "User name already in use."));
+                    break;
+                case NONE:
+                    output.writeObject(new ErrorMessage(
+                            "Did not provide correct credentials."));
+                    break;
                 }
+                // send a message back with login
+                // type none if there was an error
+                input.close();
+                output.close();
+                server.close();
             }
+
             socket.close();
         } catch (IOException e) {
             System.err.println(e.toString());
@@ -164,18 +161,6 @@ public class Server extends Thread {
 
     public static void main(String argv[]) {
         database.sqlServer.CreateDatabase();
-        database.sqlServer.InsertUser("Robert",
-                BCrypt.hashpw("testpass", BCrypt.gensalt()), "WRITER");
-        database.sqlServer.InsertUser("Johnny",
-                BCrypt.hashpw("testpass", BCrypt.gensalt()), "WRITER");
-        database.sqlServer.InsertUser("Dana",
-                BCrypt.hashpw("testpass", BCrypt.gensalt()), "WRITER");
-        database.sqlServer.InsertUser("Reader",
-                BCrypt.hashpw("passs", BCrypt.gensalt()), "READER");
-        database.sqlServer.InsertUser("Reader1",
-                BCrypt.hashpw("passs", BCrypt.gensalt()), "READER");
-        database.sqlServer.InsertUser("Reader2",
-                BCrypt.hashpw("passs", BCrypt.gensalt()), "READER");
         new Server(AppPreferences.getPort());
     }
 

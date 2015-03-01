@@ -124,7 +124,7 @@ public class SearchWindow {
         missionNoPanel.setBackground(new Color(230, 230, 230));
         JLabel formIDHeader = new JLabel("Mission Number: ", JLabel.CENTER);
         tMissionNo = new javax.swing.JTextField();
-//        tMissionNo.setDocument(new TextDocumentForLimitedTextFields(18, 1));
+        // tMissionNo.setDocument(new TextDocumentForLimitedTextFields(18, 1));
         tMissionNo.setPreferredSize(new Dimension(96, 24));
         missionNoPanel.add(formIDHeader);
         missionNoPanel.add(tMissionNo);
@@ -204,12 +204,14 @@ public class SearchWindow {
             resultsListModel.addElement(p.missionNo
                     + " ; "
                     + new SimpleDateFormat(GlobalConstants.DATETIME_FORMAT)
-                            .format(new Date(p.date)) + " ; " + type + " " + p.id);
+                            .format(new Date(p.date)) + " ; " + type + " "
+                    + p.id);
 
         }
 
         resultsList = new JList(resultsListModel);
-        resultsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        resultsList
+                .setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         resultsList.setLayoutOrientation(JList.VERTICAL);
         resultsList.setVisibleRowCount(-1);
         resultsListScroller = new JScrollPane(resultsList);
@@ -314,10 +316,12 @@ public class SearchWindow {
             for (int i = 0; i < indices.length; i++) {
                 DBPushParams currentPushParams = formPushParams.get(indices[i]);
                 try {
-                	System.out.println(currentPushParams.missionNo);
-                	System.out.println(currentPushParams.id);
-                	GetSingleMessage m = new GetSingleMessage(currentPushParams.id,currentPushParams.type);
-                	System.out.println("sending message for form "+m.getUID());
+                    System.out.println(currentPushParams.missionNo);
+                    System.out.println(currentPushParams.id);
+                    GetSingleMessage m = new GetSingleMessage(
+                            currentPushParams.id, currentPushParams.type);
+                    System.out
+                            .println("sending message for form " + m.getUID());
                     ClientSocket.getInstance().output.writeObject(m);
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block

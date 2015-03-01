@@ -50,7 +50,9 @@ public class SessionController {
                             .processChatMessage((ChatMessage) networkMessage);
                     break;
                 case GUI:
-                    formsController.fromDBPushParams(((GuiMessage)networkMessage).getParams(), ((GuiMessage)networkMessage).getIsUpdate());
+                    formsController.fromDBPushParams(
+                            ((GuiMessage) networkMessage).getParams(),
+                            ((GuiMessage) networkMessage).getIsUpdate());
                     break;
                 case RESULT:
                     if (searchWindow != null) {
@@ -61,7 +63,8 @@ public class SessionController {
                     break;
                 case ASSET_UPDATE:
                     AssetUpdateMessage assetUpdateMessage = (AssetUpdateMessage) networkMessage;
-                    assetsController.setLists(assetUpdateMessage.getOverdue(), assetUpdateMessage.getUnderdue());
+                    assetsController.setLists(assetUpdateMessage.getOverdue(),
+                            assetUpdateMessage.getUnderdue());
                     break;
                 case GET:
                     System.out.println("Unhandled message type \"GET\"");
@@ -76,7 +79,8 @@ public class SessionController {
                     System.out.println("Unhandled message type \"NEW_FORM\"");
                     break;
                 case REGISTER_MISSION_NO:
-                    System.out.println("Unhandled message type \"REGISTER_MISSION_NO\"");
+                    System.out
+                            .println("Unhandled message type \"REGISTER_MISSION_NO\"");
                     break;
                 case ERROR:
                     System.out.println("Unhandled message type \"ERROR\"");
@@ -132,7 +136,8 @@ public class SessionController {
             }
         };
         formsController.setOnConnectionErrorListener(onConnectionErrorListener);
-        assetsController.setOnConnectionErrorListener(onConnectionErrorListener);
+        assetsController
+                .setOnConnectionErrorListener(onConnectionErrorListener);
         chatController.setOnConnectionErrorListener(onConnectionErrorListener);
     }
 
