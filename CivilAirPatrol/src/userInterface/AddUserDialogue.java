@@ -7,12 +7,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.tools.JavaFileObject;
 
 import common.GlobalConstants;
+import common.User;
+import database.sqlServer;
 
 public class AddUserDialogue {
     private JFrame frame;
@@ -21,8 +26,10 @@ public class AddUserDialogue {
     private JButton cancelButton;
 
     JTextField userNameField;
-    JTextField userPasswordField1;
-    JTextField userPasswordField2;
+    JPasswordField userPasswordField1;
+    JPasswordField userPasswordField2;
+    
+    JCheckBox writerCheckBox;
 
     private static final int USER_DIALOGUE_WIDTH = 520;
     private static final int USER_DIALOGUE_HEIGHT = 220;
@@ -51,29 +58,39 @@ public class AddUserDialogue {
 
         if (!deletion) {
 
+            JPanel passwordPanel1 = new JPanel();
+            passwordPanel1.setPreferredSize(new Dimension(126, 24));
+            JPanel passwordPanel2 = new JPanel();
+            passwordPanel2.setPreferredSize(new Dimension(126, 24));
+
             JPanel passwordPanel = new JPanel();
             passwordPanel.setPreferredSize(new Dimension(126, 24));
+            writerCheckBox = new JCheckBox("New user can write files");
+            passwordPanel.add(writerCheckBox);
+            frame.add(passwordPanel);
 
             JLabel passwordLabel1 = new JLabel("enter password: ");
-            userPasswordField1 = new JTextField(15);
+            userPasswordField1 = new JPasswordField(15);
             userPasswordField1
                     .setDocument(new TextDocumentForLimitedTextFields(GlobalConstants.PASSWORD_MAX_LEN, 1));
             userPasswordField1.setText("");
             userPasswordField1.setSize(120, 20);
-            passwordPanel.add(passwordLabel1);
-            passwordPanel.add(userPasswordField1);
+            passwordPanel1.add(passwordLabel1);
+            passwordPanel1.add(userPasswordField1);
 
             JLabel passwordLabel2 = new JLabel("confirm password: ");
-            userPasswordField2 = new JTextField(15);
+            userPasswordField2 = new JPasswordField(15);
             userPasswordField2
                     .setDocument(new TextDocumentForLimitedTextFields(8, 1));
             userPasswordField2.setText("");
             userPasswordField2.setSize(120, 20);
-            passwordPanel.add(passwordLabel2);
-            passwordPanel.add(userPasswordField2);
-            frame.add(passwordPanel);
-
+            passwordPanel2.add(passwordLabel2);
+            passwordPanel2.add(userPasswordField2);
+            frame.add(passwordPanel1);
+            frame.add(passwordPanel2);
+            
         }
+        
 
         JPanel buttonPanel = new JPanel();
         cancelButton = new JButton("Cancel");
@@ -85,6 +102,8 @@ public class AddUserDialogue {
             goButton = new JButton("add user to registry");
             goButton.addActionListener(new createUserListener());
         }
+        
+        
 
         buttonPanel.add(cancelButton);
         buttonPanel.add(goButton);
@@ -112,49 +131,39 @@ public class AddUserDialogue {
 
     private class createUserListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            // TODO this mostly works but I'm not sure so I'm commenting it out
-            /**
-             * String userName = userNameField.getText(); User user =
-             * sqlServer.SelectFromUsersWithUserName(userName); if (user !=
-             * null) { createWarningMessage(
-             * "User with that name already exists! Aborting."); } else if
-             * (userNameField.getText().length() == 0) {
-             * createWarningMessage("User name cannot be empty!"); } else if
-             * (userPasswordField1
-             * .getText().equals(userPasswordField2.getText())) {
-             * System.out.println(userNameField.getText().length());
-             * //sqlServer.InsertUser(userNameField.getText(),
-             * userPasswordField1.getText(), "WRITER"); frame.dispose(); } else
-             * { createWarningMessage("Passwords do not match!"); }
-             */
+			String userName = userNameField.getText(); 
+			String userPassword1 = new String(userPasswordField1.getPassword());
+			String userPassword2 = new String(userPasswordField1.getPassword());
+			User user = sqlServer.SelectFromUsersWithUserName(userName); 
+			
+			if (user != null) { 
+
+		        javax.swing.JOptionPane.showMessageDialog(frame, "User with that name already exists! Aborting.");
+			} else if (userNameField.getText().length() == 0) {
+		        javax.swing.JOptionPane.showMessageDialog(frame, "User name cannot be empty! Aborting.");
+			} else if (userPassword1.equals(userPassword2)) {
+				String writerStatus;
+				if (writerCheckBox.isSelected()) {
+					writerStatus = "WRITER";
+				} else {
+					writerStatus = "READER";
+				}
+				sqlServer.InsertUser(userName,userPassword1, writerStatus); 
+				frame.dispose(); 
+				javax.swing.JOptionPane.showMessageDialog(frame, "New user \""+userName+"\" created.");
+			} else { 
+		        javax.swing.JOptionPane.showMessageDialog(frame, "Passwords do not match! Aborting operation.");
+			}
+             
         }
     }
 
     private class deleteUserListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             // TODO make this delete a user
+        	String userName = userNameField.getText(); 
+        	javax.swing.JOptionPane.showMessageDialog(frame, "This feature is incomplete. Users cannot be deleted yet. This will be added soon.");
             frame.dispose();
         }
-    }
-
-    public void createWarningMessage(String s) {
-        JFrame f = new JFrame();
-        f.setSize(80, 40);
-        f.setLayout(new GridLayout(1, 1));
-        f.setBackground(new Color(235, 225, 225));
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        JLabel warning = new JLabel(s);
-        JPanel warningPanel = new JPanel();
-        warningPanel.add(warning);
-        f.add(warningPanel);
-
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setTitle("Warning");
-        f.setPreferredSize(new Dimension(USER_DIALOGUE_WIDTH,
-                USER_DIALOGUE_HEIGHT));
-        f.pack();
-        f.setResizable(false);
-        f.setVisible(true);
     }
 }
