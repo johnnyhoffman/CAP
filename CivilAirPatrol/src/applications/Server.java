@@ -60,8 +60,6 @@ public class Server extends Thread {
     public void quit() {
         run = false;
     }
-    
-    
 
     // Function to check credentials against db
     private UserType validate(NetworkMessage attempt) {
@@ -71,23 +69,19 @@ public class Server extends Thread {
                     .SelectFromUsersWithUserName(((LoginMessage) attempt)
                             .getUser());
             if (user == null) {
-            	return UserType.NONE;
+                return UserType.NONE;
             }
-            
-            //TODO Dana here.  This next line consistently crashes for me, even when inputting 2 strings,
-            // so I've commented it out.
-            //boolean passMatch = BCrypt.checkpw(((LoginMessage) attempt).getPass(), user.getPass());
-            
-            // the following line is a temporary replacement for the previous line
-            boolean passMatch = user.getPass().equals(((LoginMessage) attempt).getPass());
+
+            boolean passMatch = BCrypt.checkpw(
+                    ((LoginMessage) attempt).getPass(), user.getPass());
             if (user != null && passMatch) {
                 for (ClientConnection cc : allClients) {
                     // TODO: Make sure user is not a duplicate and there is only
                     // one writer
-                    if (user.getUser().equals(cc.getUserName())){
+                    if (user.getUser().equals(cc.getUserName())) {
                         return UserType.USERINUSE;
-                    }else if((user.getType() == UserType.WRITER) && 
-                            (cc.getUserType() == UserType.WRITER)){
+                    } else if ((user.getType() == UserType.WRITER)
+                            && (cc.getUserType() == UserType.WRITER)) {
                         return UserType.WRITEINUSE;
                     }
                 }
@@ -110,7 +104,7 @@ public class Server extends Thread {
         UserType type;
         try {
             while (run) {
-                
+
                 Socket server = socket.accept();
                 output = new ObjectOutputStream(server.getOutputStream());
                 output.flush();
@@ -135,25 +129,25 @@ public class Server extends Thread {
                     System.out.println("Accepted client connection.");
                 } else {
                     // Did not have correct credentials, drop them
-                    switch(type){
-                        case WRITEINUSE:
-                            output.writeObject(new ErrorMessage(
+                    switch (type) {
+                    case WRITEINUSE:
+                        output.writeObject(new ErrorMessage(
                                 "Already a writer logged in."));
-                            break;
-                        case USERINUSE:
-                            output.writeObject(new ErrorMessage(
+                        break;
+                    case USERINUSE:
+                        output.writeObject(new ErrorMessage(
                                 "User name already in use."));
-                            break;
-                        case NONE:
-                        	output.writeObject(new ErrorMessage(
-                                    "Did not provide correct credentials."));
-                            //output.writeObject(new LoginMessage(
-                            //    "Did not provide correct credentials.", "",
-                            //    UserType.NONE));
-                            break;
+                        break;
+                    case NONE:
+                        output.writeObject(new ErrorMessage(
+                                "Did not provide correct credentials."));
+                        // output.writeObject(new LoginMessage(
+                        // "Did not provide correct credentials.", "",
+                        // UserType.NONE));
+                        break;
                     }
-                     // send a message back with login
-                                             // type none if there was an error
+                    // send a message back with login
+                    // type none if there was an error
                     input.close();
                     output.close();
                     server.close();

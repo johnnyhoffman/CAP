@@ -13,10 +13,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.tools.JavaFileObject;
+
+import security.BCrypt;
 
 import common.GlobalConstants;
 import common.User;
+
 import database.sqlServer;
 
 public class AddUserDialogue {
@@ -28,7 +30,7 @@ public class AddUserDialogue {
     JTextField userNameField;
     JPasswordField userPasswordField1;
     JPasswordField userPasswordField2;
-    
+
     JCheckBox writerCheckBox;
 
     private static final int USER_DIALOGUE_WIDTH = 520;
@@ -49,7 +51,8 @@ public class AddUserDialogue {
         JLabel portLabel = new JLabel("User Name: ");
         userNamePanel.setPreferredSize(new Dimension(126, 24));
         userNameField = new JTextField(15);
-        userNameField.setDocument(new TextDocumentForLimitedTextFields(GlobalConstants.USERNAME_MAX_LEN, 1));
+        userNameField.setDocument(new TextDocumentForLimitedTextFields(
+                GlobalConstants.USERNAME_MAX_LEN, 1));
         userNameField.setText("");
         userNameField.setSize(120, 20);
         userNamePanel.add(portLabel);
@@ -72,7 +75,8 @@ public class AddUserDialogue {
             JLabel passwordLabel1 = new JLabel("enter password: ");
             userPasswordField1 = new JPasswordField(15);
             userPasswordField1
-                    .setDocument(new TextDocumentForLimitedTextFields(GlobalConstants.PASSWORD_MAX_LEN, 1));
+                    .setDocument(new TextDocumentForLimitedTextFields(
+                            GlobalConstants.PASSWORD_MAX_LEN, 1));
             userPasswordField1.setText("");
             userPasswordField1.setSize(120, 20);
             passwordPanel1.add(passwordLabel1);
@@ -88,9 +92,8 @@ public class AddUserDialogue {
             passwordPanel2.add(userPasswordField2);
             frame.add(passwordPanel1);
             frame.add(passwordPanel2);
-            
+
         }
-        
 
         JPanel buttonPanel = new JPanel();
         cancelButton = new JButton("Cancel");
@@ -102,8 +105,6 @@ public class AddUserDialogue {
             goButton = new JButton("add user to registry");
             goButton.addActionListener(new createUserListener());
         }
-        
-        
 
         buttonPanel.add(cancelButton);
         buttonPanel.add(goButton);
@@ -131,38 +132,47 @@ public class AddUserDialogue {
 
     private class createUserListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-			String userName = userNameField.getText(); 
-			String userPassword1 = new String(userPasswordField1.getPassword());
-			String userPassword2 = new String(userPasswordField1.getPassword());
-			User user = sqlServer.SelectFromUsersWithUserName(userName); 
-			
-			if (user != null) { 
+            String userName = userNameField.getText();
+            String userPassword1 = new String(userPasswordField1.getPassword());
+            String userPassword2 = new String(userPasswordField1.getPassword());
+            User user = sqlServer.SelectFromUsersWithUserName(userName);
 
-		        javax.swing.JOptionPane.showMessageDialog(frame, "User with that name already exists! Aborting.");
-			} else if (userNameField.getText().length() == 0) {
-		        javax.swing.JOptionPane.showMessageDialog(frame, "User name cannot be empty! Aborting.");
-			} else if (userPassword1.equals(userPassword2)) {
-				String writerStatus;
-				if (writerCheckBox.isSelected()) {
-					writerStatus = "WRITER";
-				} else {
-					writerStatus = "READER";
-				}
-				sqlServer.InsertUser(userName,userPassword1, writerStatus); 
-				frame.dispose(); 
-				javax.swing.JOptionPane.showMessageDialog(frame, "New user \""+userName+"\" created.");
-			} else { 
-		        javax.swing.JOptionPane.showMessageDialog(frame, "Passwords do not match! Aborting operation.");
-			}
-             
+            if (user != null) {
+
+                javax.swing.JOptionPane.showMessageDialog(frame,
+                        "User with that name already exists! Aborting.");
+            } else if (userNameField.getText().length() == 0) {
+                javax.swing.JOptionPane.showMessageDialog(frame,
+                        "User name cannot be empty! Aborting.");
+            } else if (userPassword1.equals(userPassword2)) {
+                String writerStatus;
+                if (writerCheckBox.isSelected()) {
+                    writerStatus = "WRITER";
+                } else {
+                    writerStatus = "READER";
+                }
+                sqlServer.InsertUser(userName,
+                        BCrypt.hashpw(userPassword1, BCrypt.gensalt()),
+                        writerStatus);
+                frame.dispose();
+                javax.swing.JOptionPane.showMessageDialog(frame, "New user \""
+                        + userName + "\" created.");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(frame,
+                        "Passwords do not match! Aborting operation.");
+            }
+
         }
     }
 
     private class deleteUserListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             // TODO make this delete a user
-        	String userName = userNameField.getText(); 
-        	javax.swing.JOptionPane.showMessageDialog(frame, "This feature is incomplete. Users cannot be deleted yet. This will be added soon.");
+            String userName = userNameField.getText();
+            javax.swing.JOptionPane
+                    .showMessageDialog(
+                            frame,
+                            "This feature is incomplete. Users cannot be deleted yet. This will be added soon.");
             frame.dispose();
         }
     }
