@@ -5,27 +5,26 @@
  */
 package applications;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 import network.ClientConnection;
+import network.ErrorMessage;
 import network.LoginMessage;
 import network.MessageType;
 import network.NetworkMessage;
 import network.UserType;
-
 import security.BCrypt;
+import userInterface.ServerWindow;
 
 import common.AppPreferences;
 import common.User;
-import java.io.IOException;
-import network.ErrorMessage;
-
-import userInterface.ServerWindow;
 
 /**
  * 
@@ -51,8 +50,14 @@ public class Server extends Thread {
             this.socket = new ServerSocket(p);
             this.socket.setReuseAddress(true);
             System.out.println("Server activated");
+        } catch (BindException e) {
+            serverWindow.showErrorMessage("Cannot start server: "
+                    + e.getMessage());
+            System.exit(0);
         } catch (Exception e) {
-            System.err.println(e.toString());
+            serverWindow.showErrorMessage("Unexpected fatal error: "
+                    + e.getMessage());
+            System.exit(0);
         }
         this.start();
     }
