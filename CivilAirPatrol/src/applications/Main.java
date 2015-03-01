@@ -21,6 +21,8 @@ public class Main {
     public static void main(String[] args) {
         final JFrame f = new JFrame();
         //Making it a large window, otherwise you can just lose the frame...
+        f.
+        setTitle("Civil Air Patrol Forms - Client Login");
         f.setSize(400, 500); // Must set some size, even though it starts
                                 // maximized. Else, un-maximizizing the window
                                 // may make it ~1 pixel wide

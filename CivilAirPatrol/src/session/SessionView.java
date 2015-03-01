@@ -44,6 +44,9 @@ public class SessionView extends JFrame {
     SessionView() {
         // Make Menu
         thisFrame = this; // For anonymous class referencing the JFrame
+
+        setTitle("Civil Air Patrol Forms - Client");
+
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);

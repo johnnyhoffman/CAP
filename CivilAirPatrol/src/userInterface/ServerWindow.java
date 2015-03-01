@@ -73,7 +73,7 @@ public class ServerWindow {
         mainFrame.add(buttonPanel);
 
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setTitle("Civil Air Patrol Forms-Database Server");
+        mainFrame.setTitle("Civil Air Patrol Forms - Database Server");
         mainFrame.setPreferredSize(new Dimension(SERVER_VIEW_WIDTH,
                 SERVER_VIEW_HEIGHT));
         mainFrame.pack();
