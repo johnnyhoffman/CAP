@@ -17,6 +17,7 @@ import userInterface.SearchWindow;
 import assets.AssetsController;
 import chat.ChatController;
 import forms.FormsController;
+import javax.swing.JTabbedPane;
 
 public class SessionController {
 
@@ -123,6 +124,15 @@ public class SessionController {
                 }
             }
         });
+        
+        /* set Print action listener */
+        view.setPrintMenuActionListener((new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                print.Print.saveComponentAsJPEG(((JTabbedPane)formsController.getViewComponent()).getSelectedComponent(), "TestPrint.jpg");
+            }}));
+        
+        
 
         // On window close
         view.addWindowListener(new java.awt.event.WindowAdapter() {
