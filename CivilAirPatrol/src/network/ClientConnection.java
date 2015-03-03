@@ -10,15 +10,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import applications.Server;
+import assets.AssetColorSingletonForServer;
+import assets.AssetStatus;
 import assets.AssetTrackerServerSide;
 
 import com.google.gson.Gson;
+
 import common.DBPushParams;
 import common.DataContainers;
 import common.DataContainers.CommunicationsLog;
 import common.DataContainers.RadioMessage;
 import common.DataContainers.SearchAndRescue;
-
 import database.sqlServer;
 
 /**
@@ -28,7 +30,8 @@ import database.sqlServer;
 public class ClientConnection extends Thread {
 
     public interface OnAssetUpdateListener {
-        public void onAssetUpdate(List<String> overdue, List<String> underdue);
+        public void onAssetUpdate(List<AssetStatus> overdue,
+                List<AssetStatus> underdue);
     }
 
     private ObjectInputStream input;
@@ -50,8 +53,8 @@ public class ClientConnection extends Thread {
         this.userType = type;
         assetTracker = new AssetTrackerServerSide(new OnAssetUpdateListener() {
             @Override
-            public void onAssetUpdate(List<String> overdue,
-                    List<String> underdue) {
+            public void onAssetUpdate(List<AssetStatus> overdue,
+                    List<AssetStatus> underdue) {
                 try {
                     output.writeObject(new AssetUpdateMessage(overdue, underdue));
                 } catch (IOException e) {
@@ -73,8 +76,8 @@ public class ClientConnection extends Thread {
     public String getUserName() {
         return this.user;
     }
-    
-    public UserType getUserType(){
+
+    public UserType getUserType() {
         return this.userType;
     }
 
@@ -127,7 +130,18 @@ public class ClientConnection extends Thread {
                 case REGISTER_MISSION_NO:
                     handleRegisterMissionNo(message);
                     break;
-                default:
+                case ASSET_COLOR_SET:
+                    handleAssetColorSet(message);
+                    break;
+                case ASSET_UPDATE:
+                    System.out
+                            .println("Unhandled message type \"ASSET_UPDATE\"");
+                    break;
+                case ERROR:
+                    System.out.println("Unhandled message type \"ERROR\"");
+                    break;
+                case RESULT:
+                    System.out.println("Unhandled message type \"RESULT\"");
                     break;
                 }
             } catch (IOException e) {
@@ -266,6 +280,13 @@ public class ClientConnection extends Thread {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void handleAssetColorSet(NetworkMessage message) {
+        AssetColorSetMessage colorSetMessage = ((AssetColorSetMessage) message);
+        System.out.println(colorSetMessage.getMissionNo() + colorSetMessage.getName() + colorSetMessage.getColor());
+        AssetColorSingletonForServer.getInstance().put(colorSetMessage.getMissionNo(), colorSetMessage.getName(), colorSetMessage.getColor());
+        AssetColorSingletonForServer.getInstance().touch();
     }
 
     private void handleGet(NetworkMessage message) {

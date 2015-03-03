@@ -1,18 +1,19 @@
 package assets;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
 
-import common.OnConnectionErrorListener;
-
+import network.AssetColorSetMessage;
 import network.ClientSocket;
 import network.RegisterMissionNoMessage;
+import common.OnConnectionErrorListener;
 
 public class AssetsModel {
 
     public interface IncomingAssetDataListener {
-        public void onIncomingAssetData(List<String> overdue,
-                List<String> underdue);
+        public void onIncomingAssetData(List<AssetStatus> overdue,
+                List<AssetStatus> underdue);
     }
 
     private IncomingAssetDataListener incomingAssetDataListener;
@@ -27,7 +28,7 @@ public class AssetsModel {
         incomingAssetDataListener = l;
     }
 
-    public void setLists(List<String> overdue, List<String> underdue) {
+    public void setLists(List<AssetStatus> overdue, List<AssetStatus> underdue) {
         if (incomingAssetDataListener != null) {
             incomingAssetDataListener.onIncomingAssetData(overdue, underdue);
         }
@@ -42,6 +43,15 @@ public class AssetsModel {
             } catch (IOException e) {
                 onConnectionError();
             }
+        }
+    }
+
+    public void setAssetColor(String missionNo, String asset, Color color) {
+        try {
+            ClientSocket.getInstance().output
+                    .writeObject(new AssetColorSetMessage(missionNo, asset, color));
+        } catch (IOException e) {
+            onConnectionError();
         }
     }
 

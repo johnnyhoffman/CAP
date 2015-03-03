@@ -85,7 +85,9 @@ public class SessionController {
                 case ERROR:
                     System.out.println("Unhandled message type \"ERROR\"");
                     break;
-                default:
+                case ASSET_COLOR_SET:
+                    System.out
+                            .println("Unhandled message type \"ASSET_COLOR_SET\"");
                     break;
                 }
             }

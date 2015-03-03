@@ -1,5 +1,6 @@
 package assets;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -59,14 +60,17 @@ public class AssetTrackerServerSide extends Thread {
             // missionNo can't be changed while this block executes
             synchronized (this) {
                 long timeUntilUpdate = getTimeUntilUpdate(lastUpdate);
-                if (newUpdates || timeUntilUpdate < 0) {
+                if (AssetColorSingletonForServer.getInstance().wasTouched()
+                        || newUpdates || timeUntilUpdate < 0) {
                     lastUpdate = Calendar.getInstance().getTimeInMillis();
-                    List<String> overdue = new ArrayList<String>();
-                    List<String> underdue = new ArrayList<String>();
+                    List<AssetStatus> overdue = new ArrayList<AssetStatus>();
+                    List<AssetStatus> underdue = new ArrayList<AssetStatus>();
                     newUpdates = false;
                     if (missionNo.isEmpty()) {
                         if (onAssetUpdateListener != null) {
-                            overdue.add("Empty Mission Number Field");
+                            overdue.add(new AssetStatus(
+                                    "Empty Mission Number Field", null,
+                                    Color.red));
                             onAssetUpdateListener.onAssetUpdate(overdue,
                                     underdue);
                         }
@@ -75,8 +79,9 @@ public class AssetTrackerServerSide extends Thread {
                                 .SelectFromCommLogWithMissionNum(missionNo);
                         HashMap<String, String> assetTimes = new HashMap<String, String>();
                         if (clPushParams.size() == 0) {
-                            overdue.add("No Communication Logs with Mission number '"
-                                    + missionNo + "'");
+                            overdue.add(new AssetStatus(
+                                    "No Communication Logs with Mission number '"
+                                            + missionNo + "'", null, Color.red));
                             onAssetUpdateListener.onAssetUpdate(overdue,
                                     underdue);
                         } else {
@@ -124,8 +129,9 @@ public class AssetTrackerServerSide extends Thread {
                                                     arg1.getValue());
                                         }
                                     });
-                            List<String> listToAddTo = overdue;
+                            List<AssetStatus> listToAddTo = overdue;
                             for (Entry<String, String> e : entries) {
+                                System.out.println("key: " + e.getKey());
                                 HourAndMin time = HourAndMin
                                         .sanitizeTimeColumnFieldToInts(e
                                                 .getValue());
@@ -134,9 +140,27 @@ public class AssetTrackerServerSide extends Thread {
                                 // to be replaced by a configurable value
                                 if (time.IsPastByXMinutes(GlobalConstants.ASSET_TRACKER_EXPIRATION_TIME)) {
                                     listToAddTo = underdue;
+                                    // no longer timed out should be set back to
+                                    // black
+                                    if (AssetColorSingletonForServer
+                                            .getInstance()
+                                            .get(missionNo, e.getKey())
+                                            .equals(Color.red)) {
+                                        AssetColorSingletonForServer
+                                                .getInstance()
+                                                .put(missionNo, e.getKey(),
+                                                        Color.black);
+                                    }
+                                } else { // set timed out to red
+                                    AssetColorSingletonForServer.getInstance()
+                                            .put(missionNo, e.getKey(),
+                                                    Color.red);
                                 }
-                                listToAddTo.add(e.getKey() + " - "
-                                        + e.getValue());
+                                listToAddTo.add(new AssetStatus(e.getKey(), e
+                                        .getValue(),
+                                        AssetColorSingletonForServer
+                                                .getInstance().get(missionNo,
+                                                        e.getKey())));
                             }
                             // Final send the lists
                             onAssetUpdateListener.onAssetUpdate(overdue,
@@ -148,7 +172,7 @@ public class AssetTrackerServerSide extends Thread {
             try {
                 sleep(GlobalConstants.ASSET_TRACKER_SLEEP);
             } catch (InterruptedException e) {
-                System.out.println("Asset Trracker sleep interupted.");
+                System.out.println("Asset Tracker sleep interupted.");
             }
         }
     }

@@ -36,7 +36,7 @@ public class GlobalConstants {
     public static final long ASSET_TRACKER_AUTOCHECK_PERIOD = 30000; // 30
                                                                      // seconds
     public static final long ASSET_TRACKER_SLEEP = 3000; // 3 seconds
-    public static final int ASSET_TRACKER_EXPIRATION_TIME = 10; // 10 seconds
+    public static final int ASSET_TRACKER_EXPIRATION_TIME = 30; // 10 minutes
     public static final int USERNAME_MAX_LEN = 16;
     public static final int PASSWORD_MAX_LEN = 8;
     public static String USERNAME = "DEFAULT USER";

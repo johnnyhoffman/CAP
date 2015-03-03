@@ -21,7 +21,7 @@ public class HourAndMin {
     public static HourAndMin sanitizeTimeColumnFieldToInts(String time) {
         // Remove surrounding whitespace
         String trimtime = time.trim();
-        // Must have either a colon or no 
+        // Must have either a colon or no
         if (trimtime.contains(":")) {
             String[] hm = trimtime.split(":");
             // split must result in only two strings
@@ -37,8 +37,8 @@ public class HourAndMin {
                 }
             }
         } else if (trimtime.length() == 4) {
-        	String hours = trimtime.substring(0, 2);
-        	String minutes = trimtime.substring(2, 4);
+            String hours = trimtime.substring(0, 2);
+            String minutes = trimtime.substring(2, 4);
             try {
                 int h = Integer.parseInt(hours);
                 int m = Integer.parseInt(minutes);
