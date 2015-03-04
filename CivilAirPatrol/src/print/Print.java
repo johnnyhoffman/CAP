@@ -5,8 +5,6 @@
  */
 package print;
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import forms.CommLogView;
 import forms.RadioMessageView;
 import java.awt.BorderLayout;
@@ -17,6 +15,8 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -49,7 +49,7 @@ public static void main(String[] args) {
 }
     
 public static void saveComponentAsJPEG(Component myComponent, String filename) {
-        
+        System.out.println("printing: "+filename);
         Dimension size = myComponent.getSize();
         System.out.println(size.toString());
         BufferedImage myImage = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
@@ -57,8 +57,7 @@ public static void saveComponentAsJPEG(Component myComponent, String filename) {
         myComponent.paint(g2);
         try {
             OutputStream out = new FileOutputStream(filename);
-            JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-            encoder.encode(myImage);
+            ImageIO.write(myImage, "jpeg", out);
             out.close();
         } catch (Exception e) {
             System.out.println(e);
