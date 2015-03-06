@@ -35,4 +35,8 @@ public class AssetStatus implements Serializable {
             return name + " - " + time;
         }
     }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }

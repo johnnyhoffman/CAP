@@ -21,8 +21,6 @@ public class AssetColorSingletonForServer {
     }
 
     public synchronized Color get(String missionNo, String asset) {
-        System.out.println(missionNo);
-        System.out.println(asset);
         if (missionNoToAssetToColor.containsKey(missionNo)) {
             HashMap<String, Color> assetToColor = missionNoToAssetToColor
                     .get(missionNo);
@@ -30,7 +28,6 @@ public class AssetColorSingletonForServer {
                 return assetToColor.get(asset);
             }
         }
-        System.out.println();
         return Color.black;
     }
 

@@ -2,12 +2,12 @@ package assets;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
@@ -21,6 +21,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.CaretListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import network.UserType;
+
+import common.ClientGlobalVariables;
 
 public class AssetsView extends JPanel {
 
@@ -28,6 +34,12 @@ public class AssetsView extends JPanel {
     private JTextField missionNoTF;
     JList list;
     private OnNewAssetColorListener onNewAssetColorListener;
+    private AssetStatus selectedAsset;
+    private JComboBox colorBox;
+    private List<AssetStatus> overdue;
+    private ColorComboBoxCellRenderer colorRenderer;
+    private Color[] colors;
+    private HashMap<Color, Integer> colorToIndex;
 
     public interface OnNewAssetColorListener {
         public void newAssetColor(String missionNo, String asset, Color color);
@@ -51,16 +63,27 @@ public class AssetsView extends JPanel {
                 int index, boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, value, index, isSelected,
                     cellHasFocus);
+            if (overdueCount == 0 && underdue.size() == 0) {
+                return this;
+            }
             if (index < overdueCount) {
                 setForeground(overdue.get(index).getColor());
             } else {
                 setForeground(underdue.get(index - overdueCount).getColor());
             }
-            return (this);
+            return this;
         }
     }
 
     AssetsView() {
+
+        selectedAsset = null;
+        colorToIndex = new HashMap<Color, Integer>();
+        colors = new Color[] { Color.black, Color.blue, new Color(25600),
+                Color.magenta };
+        for (int i = 0; i < colors.length; i++) {
+            colorToIndex.put(colors[i], i);
+        }
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[] { 0, 50, 50, 0 };
         gridBagLayout.rowHeights = new int[] { 15, 0, 0, 0 };
@@ -101,6 +124,21 @@ public class AssetsView extends JPanel {
         list.setLayoutOrientation(JList.VERTICAL);
         list.setVisibleRowCount(10);
 
+        list.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                AssetStatus selected = (AssetStatus) list.getSelectedValue();
+                if (selected != null) {
+                    if (selected.getColor().equals(Color.red)) {
+                        selectedAsset = null;
+                    } else {
+                        selectedAsset = selected;
+                    }
+                    setColorUpdateBar();
+                }
+            }
+        });
+
         JScrollPane scrollPane = new JScrollPane(list);
         GridBagConstraints gbc_scrollPane = new GridBagConstraints();
         gbc_scrollPane.gridwidth = 4;
@@ -109,52 +147,55 @@ public class AssetsView extends JPanel {
         gbc_scrollPane.gridy = 2;
         add(scrollPane, gbc_scrollPane);
 
-        JLabel lblUpdateAsset = new JLabel("Asset: ");
-        GridBagConstraints gbc_lblUpdateAsset = new GridBagConstraints();
-        gbc_lblUpdateAsset.anchor = GridBagConstraints.WEST;
-        gbc_lblUpdateAsset.insets = new Insets(0, 0, 5, 5);
-        gbc_lblUpdateAsset.gridx = 0;
-        gbc_lblUpdateAsset.gridy = 3;
-        add(lblUpdateAsset, gbc_lblUpdateAsset);
+        colorBox = new JComboBox(colors) {
+            @Override
+            public void setPopupVisible(boolean v) {
+                super.setPopupVisible(v);
+                if (!v) {
+                    // for when selectedAsset changes during this operation
+                    AssetStatus sa = selectedAsset;
+                    Color c = (Color) colorBox.getSelectedItem();
+                    if (sa != null && !c.equals(sa.getColor())) {
+                        sa.setColor(c);
+                        if (onNewAssetColorListener != null) {
+                            list.clearSelection();
+                            selectedAsset = null;
+                            setColorUpdateBar();
+                            onNewAssetColorListener.newAssetColor(
+                                    getMissionNo(), sa.getName(), c);
+                            list.updateUI();
+                        }
+                    }
+                }
+            }
+        };
 
-        final JTextField assetTF = new JTextField(8);
-        GridBagConstraints gbc_assetTF = new GridBagConstraints();
-        gbc_assetTF.anchor = GridBagConstraints.WEST;
-        gbc_assetTF.insets = new Insets(0, 0, 5, 5);
-        gbc_assetTF.gridx = 1;
-        gbc_assetTF.gridy = 3;
-        add(assetTF, gbc_assetTF);
-
-        Color[] colors = { Color.white, Color.red, Color.blue, Color.green };
-        final JComboBox colorBox = new JComboBox(colors);
         colorBox.setMaximumRowCount(5);
-        colorBox.setPreferredSize(new Dimension(50, 20));
-        colorBox.setRenderer(new ColorComboBoxCellRenderer());
+        colorRenderer = new ColorComboBoxCellRenderer();
+        colorBox.setRenderer(colorRenderer);
         GridBagConstraints gbc_colorBox = new GridBagConstraints();
         gbc_colorBox.anchor = GridBagConstraints.WEST;
         gbc_colorBox.insets = new Insets(0, 0, 5, 5);
-        gbc_colorBox.gridx = 2;
+        gbc_colorBox.gridx = 0;
+        gbc_colorBox.gridwidth = 4;
+        gbc_colorBox.fill = GridBagConstraints.HORIZONTAL;
         gbc_colorBox.gridy = 3;
         add(colorBox, gbc_colorBox);
 
-        JButton updateColorButton = new JButton("Update Color");
-        GridBagConstraints gbc_button = new GridBagConstraints();
-        gbc_button.anchor = GridBagConstraints.WEST;
-        gbc_button.insets = new Insets(0, 0, 5, 5);
-        gbc_button.gridx = 3;
-        gbc_button.gridy = 3;
-        updateColorButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                if (onNewAssetColorListener != null) {
-                    onNewAssetColorListener.newAssetColor(getMissionNo(),
-                            assetTF.getText().trim(),
-                            (Color) colorBox.getSelectedItem());
-                }
-            }
-        });
-        add(updateColorButton, gbc_button);
+        colorBox.setVisible(false);
+    }
 
+    public void setColorUpdateBar() {
+        colorBox.setVisible(false);
+        if (ClientGlobalVariables.USERTYPE == UserType.WRITER
+                && selectedAsset != null && !overdue.contains(selectedAsset)) {
+            colorRenderer.setAllText(selectedAsset.toString());
+            if (colorToIndex.containsKey(selectedAsset.getColor())) {
+                colorBox.setSelectedIndex(colorToIndex.get(selectedAsset
+                        .getColor()));
+            }
+            colorBox.setVisible(true);
+        }
     }
 
     public void setMissionChangedNoListener(CaretListener l) {
@@ -162,15 +203,19 @@ public class AssetsView extends JPanel {
     }
 
     public void setLists(List<AssetStatus> overdue, List<AssetStatus> underdue) {
+        this.overdue = overdue;
+        list.clearSelection();
+        selectedAsset = null;
+        setColorUpdateBar();
         DefaultListModel model = new DefaultListModel();
         for (AssetStatus s : overdue) {
-            model.addElement(s.toString());
+            model.addElement(s);
         }
         for (AssetStatus s : underdue) {
-            model.addElement(s.toString());
+            model.addElement(s);
         }
-        list.setModel(model);
         list.setCellRenderer(new AssetColoredListRenderer(overdue, underdue));
+        list.setModel(model);
     }
 
     public String getMissionNo() {

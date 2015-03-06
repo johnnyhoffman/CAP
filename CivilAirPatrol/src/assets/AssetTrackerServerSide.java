@@ -131,7 +131,6 @@ public class AssetTrackerServerSide extends Thread {
                                     });
                             List<AssetStatus> listToAddTo = overdue;
                             for (Entry<String, String> e : entries) {
-                                System.out.println("key: " + e.getKey());
                                 HourAndMin time = HourAndMin
                                         .sanitizeTimeColumnFieldToInts(e
                                                 .getValue());
