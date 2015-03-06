@@ -1,5 +1,7 @@
 package forms;
 
+import java.awt.KeyboardFocusManager;
+
 import javax.swing.GroupLayout;
 import javax.swing.event.CaretListener;
 
@@ -98,6 +100,11 @@ public class RadioMessageView extends FormComponent {
         jTextField12 = new javax.swing.JTextField();
         jTextField13 = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
+
+        jTextArea1.setFocusTraversalKeys(
+                KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+        jTextArea2.setFocusTraversalKeys(
+                KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
 
         jLabel1.setText("CAP RADIO MESSAGE FORM");
         jLabelMissionNo.setText("MISSION NO. :");
