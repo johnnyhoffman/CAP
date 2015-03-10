@@ -1,9 +1,10 @@
-CAP
-===
+Civil Air Patrol Form Tracker
+=============================
+The Civil Air Patrol Form Tracker is a software project for the Bellingham Civil Air Patrol to organize and efficiently create forms. 
 
-Civil Air Patrol CSCI 49X Project
+This project was a part of Western Washington University's CSCI 491, 492, 493 sequence. Created by Dana Vold, Johnny Hoffman, Robert Wassenaar, and Kasey Lynch (CSCI 491/493 only).
 
-This project is licensed under the Apache 2.0 License http://www.apache.org/licenses/LICENSE-2.0.
+This project is licensed under the Apache 2.0 License http://www.apache.org/licenses/LICENSE-2.0. The licenses directory also contains a copy of the Apach 2.0 License.
 
 This project makes use of the following 3rd party software:
 * Gson
