@@ -1,3 +1,19 @@
+/**
+ *  Copyright 2015 Dana Vold, Johnny Hoffman, Robert Wassenaar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 package forms;
 
 import javax.swing.event.CaretEvent;
@@ -6,10 +22,10 @@ import javax.swing.event.CaretListener;
 import network.UserType;
 
 import com.google.gson.JsonObject;
-
 import common.ClientGlobalVariables;
 import common.DateTimePicker.DateTimePickerChangeListener;
 import common.OnConnectionErrorListener;
+
 import forms.ScheduledPushModelAbstraction.OnModelLoadListener;
 
 /* Placeholder for demonstrating Session MVC */
@@ -18,7 +34,8 @@ public class RadioMessageController implements IFormController {
     private RadioMessageView view;
     private RadioMessageModel model;
 
-    public RadioMessageController(int id, String name, String missionNo, long date) {
+    public RadioMessageController(int id, String name, String missionNo,
+            long date) {
         view = new RadioMessageView();
         view.setName(name);
         model = new RadioMessageModel(id, name, missionNo, date);
@@ -53,7 +70,8 @@ public class RadioMessageController implements IFormController {
         view.addHeaderMissionNoChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateHeaderMissionNo(view.getHeaderMissionNoText().trim());
+                model.updateHeaderMissionNo(view.getHeaderMissionNoText()
+                        .trim());
             }
         });
         view.addHeaderMsgNumChangeListener(new CaretListener() {
@@ -113,7 +131,8 @@ public class RadioMessageController implements IFormController {
         view.addMessageRecievedFromChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateMessageRecievedFrom(view.getMessageRecievedFromText());
+                model.updateMessageRecievedFrom(view
+                        .getMessageRecievedFromText());
             }
         });
         view.addMessageRecievedDtgChangeListener(new CaretListener() {
@@ -144,7 +163,8 @@ public class RadioMessageController implements IFormController {
         view.addMessageSentSendingOperatorInitialsChangeListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                model.updateMessageSentSendingOperatorInitials(view.getMessageSentSendingOperatorInitialsText());
+                model.updateMessageSentSendingOperatorInitials(view
+                        .getMessageSentSendingOperatorInitialsText());
             }
         });
 
@@ -177,10 +197,12 @@ public class RadioMessageController implements IFormController {
         view.setMessageText(model.getMessage());
         view.setMessageRecievedFromText(model.getMessageRecievedFrom());
         view.setMessageRecievedDtgText(model.getMessageRecievedDtg());
-        view.setMessageRecievedRecievingOperatorInitialsText(model.getMessageRecievedRecievingOperatorInitials());
+        view.setMessageRecievedRecievingOperatorInitialsText(model
+                .getMessageRecievedRecievingOperatorInitials());
         view.setMessageSentToText(model.getMessageSentTo());
         view.setMessageSentDtgText(model.getMessageSentDtg());
-        view.setMessageSentSendingOperatorInitialsText(model.getMessageSentSendingOperatorInitials());
+        view.setMessageSentSendingOperatorInitialsText(model
+                .getMessageSentSendingOperatorInitials());
     }
 
     @Override

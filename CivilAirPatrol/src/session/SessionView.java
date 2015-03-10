@@ -1,3 +1,19 @@
+/**
+ *  Copyright 2015 Dana Vold, Johnny Hoffman, Robert Wassenaar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 package session;
 
 import java.awt.Component;
@@ -54,12 +70,11 @@ public class SessionView extends JFrame {
 
         searchDatabaseMenuItem = new JMenuItem("Search/Open Forms");
         fileMenu.add(searchDatabaseMenuItem);
-        
+
         /* testing printing */
         printMenu = new JMenuItem("Print");
         fileMenu.add(printMenu);
-        
-        
+
         // New Forms
         newDialog = new JMenuItem("New Form");
         // Only writers have the option to add a new form
@@ -182,7 +197,8 @@ public class SessionView extends JFrame {
                         this,
                         "Cannot send data to Server. Please close the application and start again, after ensuring that the Server application is running.");
     }
-    public void setPrintMenuActionListener(ActionListener actionListener){
+
+    public void setPrintMenuActionListener(ActionListener actionListener) {
         this.printMenu.addActionListener(actionListener);
     }
 }

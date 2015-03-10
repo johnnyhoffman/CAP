@@ -1,3 +1,19 @@
+/**
+ *  Copyright 2015 Dana Vold, Johnny Hoffman, Robert Wassenaar
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 package network;
 
 import java.io.IOException;
@@ -23,10 +39,6 @@ import common.DataContainers.RadioMessage;
 import common.DataContainers.SearchAndRescue;
 import database.sqlServer;
 
-/**
- * 
- * @author Robert
- */
 public class ClientConnection extends Thread {
 
     public interface OnAssetUpdateListener {
@@ -284,8 +296,11 @@ public class ClientConnection extends Thread {
 
     private void handleAssetColorSet(NetworkMessage message) {
         AssetColorSetMessage colorSetMessage = ((AssetColorSetMessage) message);
-        System.out.println(colorSetMessage.getMissionNo() + colorSetMessage.getName() + colorSetMessage.getColor());
-        AssetColorSingletonForServer.getInstance().put(colorSetMessage.getMissionNo(), colorSetMessage.getName(), colorSetMessage.getColor());
+        System.out.println(colorSetMessage.getMissionNo()
+                + colorSetMessage.getName() + colorSetMessage.getColor());
+        AssetColorSingletonForServer.getInstance().put(
+                colorSetMessage.getMissionNo(), colorSetMessage.getName(),
+                colorSetMessage.getColor());
         AssetColorSingletonForServer.getInstance().touch();
     }
 

@@ -3,6 +3,7 @@ CAP
 
 Civil Air Patrol CSCI 49X Project
 
+This project is licensed under the Apache 2.0 License http://www.apache.org/licenses/LICENSE-2.0.
 
 This project makes use of the following 3rd party software:
 * Gson
