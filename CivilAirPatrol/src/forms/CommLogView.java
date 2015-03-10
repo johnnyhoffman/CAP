@@ -150,23 +150,14 @@ public class CommLogView extends FormComponent {
 
         jLabel11.setText("F");
 
-        jTable1.setModel(new TableModelWithEditBlocking(new Object[][] {
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null },
-                { null, null, null, null }, { null, null, null, null } },
-                new String[] { "TIME (HH:mm)", "CALL", "CH REF", "REMARKS" }));
+        Object[][] tableModelStartingValues = new Object[GlobalConstants.COMLOG_ENTRY_COUNT][4];
+
+        for (int i = 0; i < GlobalConstants.COMLOG_ENTRY_COUNT; i++) {
+            tableModelStartingValues[i] = new Object[] { null, null, null, null };
+        }
+        jTable1.setModel(new TableModelWithEditBlocking(
+                tableModelStartingValues, new String[] { "TIME (HH:mm)",
+                        "CALL", "CH REF", "REMARKS" }));
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
