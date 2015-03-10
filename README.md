@@ -18,4 +18,4 @@ This project makes use of the following 3rd party software:
 * jBCrypt 
   * jBCrypt is a Java implementation of OpenBSD-style Blowfish password hashing using the scheme described in "A Future-Adaptable Password Scheme" by Niels Provos and David Mazieres
   * http://www.mindrot.org/projects/jBCrypt/
-  * <a href="licenses/jBCrypt-LICENSE.txt.txt">jBCrypt License</a>
+  * <a href="licenses/jBCrypt-LICENSE.txt">jBCrypt License</a>
