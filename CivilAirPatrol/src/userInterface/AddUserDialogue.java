@@ -10,15 +10,15 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import security.BCrypt;
-
+import common.AppPreferences;
 import common.GlobalConstants;
 import common.User;
-
 import database.sqlServer;
 
 public class AddUserDialogue {
@@ -167,13 +167,32 @@ public class AddUserDialogue {
 
     private class deleteUserListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            // TODO make this delete a user
-            String userName = userNameField.getText();
-            javax.swing.JOptionPane
-                    .showMessageDialog(
-                            frame,
-                            "This feature is incomplete. Users cannot be deleted yet. This will be added soon.");
-            frame.dispose();
+            String userName = userNameField.getText().trim();
+
+            // Custom button text
+            Object[] options = { "Yes", "No" };
+            int result = JOptionPane.showOptionDialog(frame,
+                    "Are you sure you would like to delete user \"" + userName
+                            + "\"", "Confirm Delete",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+            if (result == 0) {
+                if (sqlServer.SelectFromUsersWithUserName(userName) != null) {
+                    if (sqlServer.DeleteUser(userName)) {
+                        javax.swing.JOptionPane.showMessageDialog(frame,
+                                "User \"" + userName + "\" deleted.");
+                    } else {
+                        javax.swing.JOptionPane
+                                .showMessageDialog(frame,
+                                        "Cannot delete user, error connecting to database.");
+                    }
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(frame,
+                            "No user \"" + userName + "\".");
+                }
+                frame.dispose();
+            }
         }
     }
 }
