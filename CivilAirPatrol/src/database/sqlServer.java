@@ -754,6 +754,20 @@ public class sqlServer {
         }
     }
 
+    
+    public static boolean DeleteUser(String userName){
+        try {
+            PreparedStatement stmt = c
+                    .prepareStatement("DELETE from USERS where USERNAME = ?");
+            stmt.setString(1, userName);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+    
     public static void UpdateRADMESS(String json, int id, String missionnum,
             long date) {
         try {
