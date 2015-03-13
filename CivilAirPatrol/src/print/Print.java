@@ -18,33 +18,52 @@ package print;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.File;
+import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Print {
 
     public static void saveComponentAsJPEG(Component myComponent,
             String filename) {
-        System.out.println("printing: " + filename);
-        // myComponent = myComponent.getComponentAt(2,2);
-        Dimension size = myComponent.getComponentAt(2, 2).getComponentAt(2, 2)
-                .getSize();
-        System.out.println(size.toString());
-        BufferedImage myImage = new BufferedImage(size.width, size.height,
-                BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = myImage.createGraphics();
-        myComponent.getComponentAt(2, 2).getComponentAt(2, 2).paint(g2);
-        try {
-            OutputStream out = new FileOutputStream(filename);
-            ImageIO.write(myImage, "jpeg", out);
-            out.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+    	JFileChooser c = new JFileChooser();
+    	FileNameExtensionFilter filter = new FileNameExtensionFilter("JPEG image", new String[] {"jpg", "jpeg"});
+    	c.setFileFilter(filter);
+    	c.addChoosableFileFilter(filter);
+    	File workingDirectory = new File(System.getProperty("user.dir"));
+    	c.setCurrentDirectory(workingDirectory);
+    	c.setSelectedFile(new File("filename"));
+    	
+		int rVal = c.showSaveDialog(new JFrame());
+		if (rVal == JFileChooser.APPROVE_OPTION) {
+			String newFileLocation = c.getSelectedFile().toString();
+			// saving the file
+			Dimension size = myComponent.getComponentAt(2,2).getComponentAt(2,2).getSize();
+			System.out.println(size.toString());
+			BufferedImage myImage = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
+			Graphics2D g2 = myImage.createGraphics();
+			myComponent.getComponentAt(2,2).getComponentAt(2,2).paint(g2);
+			try {
+			    OutputStream out = new FileOutputStream(newFileLocation);
+			    ImageIO.write(myImage, "jpeg", out);
+			    out.close();
+	        } catch (Exception e) {
+	            System.out.println(e);
+	        }
+		}
     }
 
 }

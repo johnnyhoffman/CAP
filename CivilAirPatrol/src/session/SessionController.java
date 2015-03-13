@@ -142,7 +142,7 @@ public class SessionController {
         });
 
         /* set Print action listener */
-        view.setPrintMenuActionListener((new ActionListener() {
+        view.setJPEGExportMenuActionListener((new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 print.Print.saveComponentAsJPEG(((JTabbedPane) formsController

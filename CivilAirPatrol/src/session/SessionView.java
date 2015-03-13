@@ -50,7 +50,7 @@ public class SessionView extends JFrame {
     private JSplitPane hSplitPane;
     private JSplitPane vSplitPane;
     private JMenuItem newDialog;
-    private JMenuItem printMenu;
+    private JMenuItem jpegExportMenu;
     // private JMenuItem prefsDialog;
     private JMenuItem searchDatabaseMenuItem;
     private JFrame thisFrame;
@@ -72,8 +72,8 @@ public class SessionView extends JFrame {
         fileMenu.add(searchDatabaseMenuItem);
 
         /* testing printing */
-        printMenu = new JMenuItem("Print");
-        fileMenu.add(printMenu);
+        jpegExportMenu = new JMenuItem("Export as JPEG image");
+        fileMenu.add(jpegExportMenu);
 
         // New Forms
         newDialog = new JMenuItem("New Form");
@@ -198,7 +198,7 @@ public class SessionView extends JFrame {
                         "Cannot send data to Server. Please close the application and start again, after ensuring that the Server application is running.");
     }
 
-    public void setPrintMenuActionListener(ActionListener actionListener) {
-        this.printMenu.addActionListener(actionListener);
+    public void setJPEGExportMenuActionListener(ActionListener actionListener) {
+        this.jpegExportMenu.addActionListener(actionListener);
     }
 }
