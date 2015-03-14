@@ -51,6 +51,10 @@ public class FormsModel {
         return false;
     }
 
+    public int getID(int index) {
+        return formControllers.get(index).getID();
+    }
+
     public IFormController get(int id) {
         for (IFormController c : formControllers) {
             if (c.getID() == id) {

@@ -159,4 +159,8 @@ public class FormsController implements IController {
             c.onClose();
         }
     }
+    
+    public int getSelectedTabUID() {
+        return model.getID(view.getSelectedIndex());
+    }
 }

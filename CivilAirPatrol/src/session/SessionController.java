@@ -145,6 +145,7 @@ public class SessionController {
         view.setJPEGExportMenuActionListener((new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println(formsController.getSelectedTabUID());
                 print.Print.saveComponentAsJPEG(((JTabbedPane) formsController
                         .getViewComponent()).getSelectedComponent(),
                         "TestPrint.jpg");
