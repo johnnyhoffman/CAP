@@ -45,7 +45,7 @@ public class ClientConnection extends Thread {
         public void onAssetUpdate(List<AssetStatus> overdue,
                 List<AssetStatus> underdue);
     }
-
+    
     private ObjectInputStream input;
     private ObjectOutputStream output;
     private Socket socket;

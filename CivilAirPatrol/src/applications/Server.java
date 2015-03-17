@@ -53,7 +53,7 @@ public class Server extends Thread {
         // activateServer(p);
         serverWindow = new ServerWindow(this, p);
     }
-
+    
     public void activateServer(int p) {
 
         allClients = new ArrayList<ClientConnection>();
@@ -147,11 +147,26 @@ public class Server extends Thread {
                     allClients.add(client);
                     client.start();
                     System.out.println("Accepted client connection.");
+                    
                     break;
                 case WRITEINUSE:
                     mess = "Already a writer logged in.";
+                    output.writeObject(new ErrorMessage(mess));
+                    // send a message back with login
+                    // type none if there was an error
+                    input.close();
+                    output.close();
+                    server.close();
+                    break;
                 case USERINUSE:
                     mess = "User name already in use.";
+                    output.writeObject(new ErrorMessage(mess));
+                    // send a message back with login
+                    // type none if there was an error
+                    input.close();
+                    output.close();
+                    server.close();
+                    break;
                 case NONE:
                     mess = "Did not provide correct credentials.";
                     output.writeObject(new ErrorMessage(mess));

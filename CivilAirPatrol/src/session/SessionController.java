@@ -16,6 +16,7 @@
 
 package session;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -33,6 +34,8 @@ import userInterface.SearchWindow;
 import assets.AssetsController;
 import chat.ChatController;
 import forms.FormsController;
+
+import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 public class SessionController {
@@ -146,9 +149,17 @@ public class SessionController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //System.out.println(formsController.getSelectedTabName());
-                print.Print.saveComponentAsJPEG(((JTabbedPane) formsController
-                        .getViewComponent()).getSelectedComponent(),
-                        "TestPrint.jpg");
+
+            	Component componentToPrint = ((JTabbedPane) formsController
+                        .getViewComponent()).getSelectedComponent();
+
+            	if (componentToPrint == null) {
+                    javax.swing.JOptionPane.showMessageDialog(view,
+                    		"No form is open to save.  Please create or open a form.");
+            		return;
+            	}
+            	String filename = formsController.getSelectedTabName().replace(' ', '_')+".jpg";
+                print.Print.saveComponentAsJPEG(componentToPrint,filename);
             }
         }));
 

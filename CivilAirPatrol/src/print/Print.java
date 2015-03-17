@@ -45,12 +45,14 @@ public class Print {
     	c.addChoosableFileFilter(filter);
     	File workingDirectory = new File(System.getProperty("user.dir"));
     	c.setCurrentDirectory(workingDirectory);
-    	c.setSelectedFile(new File("filename"));
+    	c.setSelectedFile(new File(filename));
     	
 		int rVal = c.showSaveDialog(new JFrame());
 		if (rVal == JFileChooser.APPROVE_OPTION) {
 			String newFileLocation = c.getSelectedFile().toString();
 			// saving the file
+			myComponent.getComponentAt(2,2);
+			myComponent.getComponentAt(2,2).getComponentAt(2,2);
 			Dimension size = myComponent.getComponentAt(2,2).getComponentAt(2,2).getSize();
 			System.out.println(size.toString());
 			BufferedImage myImage = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
