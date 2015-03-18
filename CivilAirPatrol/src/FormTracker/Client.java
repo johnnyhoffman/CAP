@@ -14,7 +14,7 @@
  * limitations under the License. 
  */
 
-package applications;
+package FormTracker;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -33,7 +33,7 @@ import common.ClientGlobalVariables;
 import common.User;
 import network.ErrorMessage;
 
-public class Main {
+public class Client {
     public static void main(String[] args) {
         final JFrame f = new JFrame();
         // Making it a large window, otherwise you can just lose the frame...
@@ -50,11 +50,11 @@ public class Main {
         f.dispose();
         if (user != null) {
             ClientSocket sock = ClientSocket.getInstance();
-            try {
-                sock.output.writeObject(new LoginMessage(user.getUser(), user
+            try { 
+                sock.output.writeObject(new LoginMessage(user.getUser(), user 
                         .getPass(), null));
-                // want to block for a response so dont really need to set up a
-                // listener here
+                // want to block for a response so dont really need to set up a 
+                // listener here 
                 NetworkMessage message = (NetworkMessage) sock.input
                         .readObject();
                 switch (message.getType()) {
@@ -76,11 +76,11 @@ public class Main {
                 }
 
             } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null,
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null,
                         ex);
                 JOptionPane.showMessageDialog(f, "Fatal: " + ex.getMessage());
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null,
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null,
                         ex);
                 JOptionPane.showMessageDialog(f, "Fatal: " + ex.getMessage());
             }
