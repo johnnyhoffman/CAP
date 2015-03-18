@@ -29,7 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import applications.Server;
+import FormTracker.Server;
 
 public class ServerWindow {
 
